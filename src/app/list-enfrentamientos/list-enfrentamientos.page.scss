@@ -1,0 +1,122 @@
+.item-comp{
+  background-color: orange;
+  margin-top: 1rem;
+}
+
+.col-button{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 2rem;
+}
+
+.icon-sumar{
+  height: 26px;
+  width: 26px;
+}
+
+.icon-restar{
+  height: 30px;
+  width: 30px;
+}
+
+.size_texto {
+  font-size: 1.5rem;
+  color: var(--ion-color-primary);
+  border-bottom: 0.1rem solid var(--ion-color-primary-accent) !important;
+  font-family: 'Poppins-Regular', sans-serif;
+}
+
+.row-localia{
+}
+
+.text-localia{
+  padding-left: 3px;
+}
+
+.logo-equipo{
+  height: 15%;
+  width: 15%;
+  padding-right: 5px;
+}
+.col-puntaje{
+
+}
+
+.puntaje-obtenido{
+  text-align: center;
+  padding-top: 31px;
+}
+
+.text-resultado-culminado{
+  font-size: 1.3rem;
+  color: gray;
+  padding-top: 15px;
+  padding-right: 5px;
+  border-bottom: 0.1rem solid var(--ion-color-primary-accent) !important;
+  font-family: 'Poppins-Regular', sans-serif;
+}
+
+
+
+//de aca
+.unicaLinea{
+  white-space:nowrap;
+}
+
+.no-seguir{
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.row-nombre-equipo-local{
+  text-overflow: ellipsis;
+}
+
+.row-sumatorias-local{
+  text-overflow: ellipsis;
+}
+
+.largo-texto {
+  width: 9rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.text-carga{
+  text-align: center;
+}
+
+.item_gif_loading {
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  vertical-align: middle;
+}
+
+.barra-progreso{
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+ion-card {
+  max-height: 95%;
+  display: flex;
+  flex-direction: column;
+}
+
+ion-grid{
+  width: 100%;
+}
+
+.text-negrita{
+  font-size: 1rem;
+  font-weight: 850;
+}
+.text-normal{
+  font-size: 0.8rem
+}

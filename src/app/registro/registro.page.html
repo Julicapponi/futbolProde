@@ -1,0 +1,54 @@
+<ion-header no-border>
+  <ion-toolbar color="primary" style="-webkit-border-radius: 0px 0px 6px 6px">
+    <ion-buttons slot="start">
+      <ion-button (click)="volver()">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+
+  <form >
+    <div padding>
+      <ion-row>
+        <ion-col style="text-align: center" >
+          <ion-label class="label">Nombre: </ion-label>
+        </ion-col>
+        <ion-item>
+          <ion-input name="name" [(ngModel)]="user.name" type="text" class="form-control" placeholder="Julian" ngModel required></ion-input>
+        </ion-item>
+      </ion-row>
+      <ion-row>
+        <ion-col style="text-align: center" >
+          <ion-label class="label">Usuario: </ion-label>
+        </ion-col>
+        <ion-item>
+          <ion-input name="userName" [(ngModel)]="user.userName" type="text" class="form-control" placeholder="Juan56" ngModel required></ion-input>
+        </ion-item>
+      </ion-row>
+      <ion-row>
+        <ion-col style="text-align: center" >
+          <ion-label class="label">Email: </ion-label>
+        </ion-col>
+        <ion-item>
+          <ion-input name="email" [(ngModel)]="user.email"  type="email" class="form-control" placeholder="julicapponi@hotmail.com" ngModel required></ion-input>
+        </ion-item>
+      </ion-row>
+      <ion-row>
+        <ion-col style="text-align: center">
+          <ion-label class="label">Contraseña: </ion-label>
+        </ion-col>
+        <ion-item>
+          <ion-input name="password" [(ngModel)]="user.password" type="password" class="form-control" placeholder="Contraseña" ngModel required></ion-input>
+        </ion-item>
+      </ion-row>
+
+    </div>
+    <div padding>
+      <ion-button  size="large" (click)="signUp()" expand="block">Registrarme</ion-button>
+    </div>
+  </form>
+</ion-content>

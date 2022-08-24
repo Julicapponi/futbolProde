@@ -1,0 +1,96 @@
+<!-- MENU PRINCIPAL -->
+<ion-menu side="start" menuId="custom" contentId="main" class="my-custom-menu">
+  <ion-header>
+    <ion-toolbar color="tertiary">
+      <ion-title>Custom Menu</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <ion-item>Menu Item</ion-item>
+      <ion-item>Menu Item</ion-item>
+      <ion-item>Menu Item</ion-item>
+      <ion-item>Menu Item</ion-item>
+      <ion-item>Menu Item</ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<ion-menu side="end" type="push" contentId="main">
+  <ion-header>
+    <ion-toolbar color="danger">
+      <ion-title>End Menu</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <ion-item>Menu Item</ion-item>
+      <ion-item>Menu Item</ion-item>
+      <ion-item>Menu Item</ion-item>
+      <ion-item>Menu Item</ion-item>
+      <ion-item>Menu Item</ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<ion-item>
+  <ion-select [(ngModel)]="compActivas" (ngModelChange)="ngMode($event)"  placeholder="Selecciona una competencia">
+    <div *ngFor="let compActivas of competenciasActivas">
+      <ion-select-option [value]="compActivas"> {{compActivas.name}}</ion-select-option>
+    </div>
+  </ion-select>
+</ion-item>
+
+
+
+<ion-content>
+
+
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <div class="img-grid-resultado">
+          <div>
+            <img src="assets/img/resultados.png" (click)="altaPronosticos()">
+            <p class="text-grid-inicio">PRONOSTICOS</p>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <div class="img-grid-inicio" (click)="irAResultadosFootball()">
+          <img src="assets/img/competition.png">
+          <p class="text-grid-inicio">TORNEO DE AMIGOS</p>
+        </div>
+      </ion-col>
+      <ion-col>
+        <div class="img-grid-inicio">
+          <img src="assets/img/leaderboard.png">
+          <p class="text-grid-inicio">TABLA DE POSICIONES</p>
+        </div>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <div class="img-grid-inicio">
+          <img src="assets/img/soccer.png">
+          <p class="text-grid-inicio">FAVORITOS</p>
+        </div>
+      </ion-col>
+      <ion-col>
+        <div class="img-grid-inicio">
+          <img src="assets/img/trophy.png">
+          <p class="text-grid-inicio">CAMPEON</p>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-button (click)="irListaUsuarios()">Ir a lista de usuarios</ion-button>
+    </ion-row>
+
+  </ion-grid>
+
+</ion-content>
+<!-- TERMINA MENU -->

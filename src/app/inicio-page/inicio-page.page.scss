@@ -1,0 +1,381 @@
+.img-grid-inicio{
+  margin: 2rem;
+}
+
+.img-grid-resultado{
+  text-align: center;
+  height: 70%;
+  width: 70%;
+}
+
+.text-grid-inicio{
+  text-align: center;
+}
+
+.slides_banner_principal {
+  max-height: 30rem !important;
+  position: relative;
+  width: 100%;
+  z-index: 1;
+  display: flex;
+}
+
+.slide-image {
+  height: 8rem;
+  width: 8rem;
+}
+
+.container_articulo {
+  width: 100%;
+  max-width: 100%;
+  position: relative;
+  margin: 0 !important;
+
+  padding: 0.2rem;
+  line-height: normal;
+  border-radius: 2rem;
+  background: var(--ion-color-white);
+  border: 0.5rem solid #fafafa;
+  min-height: 4rem;
+  border-bottom: none;
+}
+
+
+.text-title-1lin.line-height3 {
+  line-height: 3rem;
+}
+
+.text-title-1lin.whitebackground {
+  background: white;
+}
+
+.text-title-1lin.redbackground {
+  background: var(--ion-color-danger-shade);
+}
+.text-title-1lin.primarybackground {
+  background: var(--ion-color-danger-shade);
+}
+.text-title-1lin.small4 {
+  font-size: 2.1rem;
+}
+.text-title-1lin.small3 {
+  font-size: 1.9rem;
+}
+.text-title-1lin.small2 {
+  font-size: 1.6rem;
+}
+
+.text-title-1lin.small1 {
+  font-size: 1.4rem;
+}
+
+.text-title-1lin.small {
+  font-size: 1.2rem;
+}
+
+.text-title-1lin.smallIos{
+  font-size: 0.9rem;
+}
+@supports (-webkit-touch-callout: none) {
+  //para IOS
+
+}
+
+@supports not (-webkit-touch-callout: none) {
+  //para otros como IOS
+
+}
+
+.text-title-1lin.big2 {
+  font-size: 2.3rem;
+}
+
+.text-title-1lin.big {
+  font-size: 2rem;
+}
+
+.text-title-1lin.weigh800 {
+  font-weight: 800;
+}
+
+.text-title-1lin.weigh600 {
+  font-weight: 600;
+}
+
+.text-title-1lin.weigh400 {
+  font-weight: 400;
+}
+
+.text-title-1lin.left {
+  text-align: left;
+}
+.text-title-1lin.right {
+  text-align: right;
+  justify-content: end;
+}
+.text-title-1lin.uderline{
+  text-decoration: underline;
+}
+
+.text-title-1lin.tachado{
+  text-decoration: line-through;
+}
+.text-title-1lin.center {
+  text-align: center;
+}
+
+.text-title-1lin.color666 {
+  color: #666;
+}
+.text-title-1lin.colorRed {
+  color: var(--ion-color-danger-shade);
+}
+
+
+.text-title-1lin.primary {
+  color: var(--ion-color-primary);
+}
+
+.text-title-1lin.gray {
+  color: var(--ion-color-dark-light-light);
+}
+
+.text-title-1lin.green {
+  color: var(--ion-color-success-shade);
+}
+.text-title-1lin.dark {
+  color: var(--ion-color-dark);
+}
+
+.text-title-1lin.azul {
+  color: var(--ion-color-dark);
+}
+
+.text-title-1lin.red {
+  color: var(--ion-color-danger-shade);
+}
+.text-title-1lin.under {
+  text-decoration: underline !important;
+}
+.text-title-1lin.white {
+  color: var(--ion-color-white) !important;
+}
+
+.text-title-1lin.displayflex{
+  display: flex;
+  justify-content: flex-start;
+  vertical-align: middle;
+  align-items: center;
+}
+
+.text-title-1lin.displayblock {
+  display: block;
+}
+.text-title-1lin.displaycontent {
+  display: contents;
+}
+.text-title-1lin.displayblock8rem {
+  display: block;
+  justify-content: center;
+  align-items: center;
+  width: 8rem !important;
+}
+
+.text-title-1lin.displayflex8rem {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 8rem !important;
+}
+.text-title-1lin.displaycontentfit{
+  width: fit-content;
+  display: contents;
+}
+.text-title-1lin.displayflex {
+  display: flex;
+}
+.text-title-1lin.borderprimary {
+  border: 1px solid var(--ion-color-primary);
+}
+.text-title-1lin.displaytoggle{
+  width: 4rem;
+  height: 1.5rem;
+  background: transparent;
+  line-height: normal;
+  padding: 0.3rem;
+}
+.text-title-1lin.displayflexcenter {
+  display: flex;
+  position: relative;
+  justify-content: center;
+}
+.text-title-1lin.displayflexlet {
+  display: flex;
+  position: relative;
+  justify-content: left;
+}
+
+.text-title-1lin.wrap2lines {
+  word-wrap: normal;
+  line-height: normal;
+  padding-left: 0.1rem;
+  padding-right: 0.2rem;
+  padding-top: 0.5rem;
+  display: flex;
+  vertical-align: middle;
+  text-align: center;
+  justify-content: normal;
+}
+
+.text-title-1lin.wrapforce {
+  word-break: normal;
+  text-overflow: ellipsis;
+  line-height: 2rem;
+  overflow-wrap: anywhere;
+}
+.text-title-1lin.wrap {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.text-title-2lin {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  line-height: initial;
+  max-height: 4.5rem;
+  text-align: left;
+  font-size: smaller;
+  white-space: pre-wrap;
+
+}
+.text-title-1lin.paddingtop {
+  padding-top: 1rem;
+}
+
+.text-title-1lin.padding {
+  padding: 0.5rem;
+}
+
+.text-title-1lin.paddingleft {
+  padding-left: 1rem;
+}
+.text-title-1lin.alignselfcenter {
+  align-self: center;
+}
+.text-title-1lin.widthauto {
+  width: auto;
+}
+
+.box_invitados_main{
+  border: 0.1rem solid var(--ion-color-primary);
+  border-radius: 1rem;
+}
+
+.box_invitados{
+  display: flex;
+  vertical-align: middle;
+  position: relative;
+  align-self: center;
+  justify-content: center;
+}
+
+
+.text-title-2lin.displayblock {
+  display: block;
+}
+
+.text-title-2lin.center {
+  text-align: center;
+}
+
+.text-title-2lin.dark {
+  color: var(--ion-color-dark-medium2);
+}
+
+.text-title-2lin.accent {
+  color: var(--ion-color-primary-accent);
+}
+
+.text-title-2lin.big16 {
+  font-size: 1.6rem;
+  font-weight: 900;
+  font-weight: 900;
+  /* line-height: 0rem; */
+  /* padding: 0; */
+  margin: 0
+}
+
+.text-title-2lin.big {
+  font-size: 1.8rem;
+  font-weight: 900;
+  font-size: 1.8rem;
+  font-weight: 900;
+  /* line-height: 0rem; */
+  /* padding: 0; */
+  margin: 0
+}
+
+.text-title-2lin.small {
+  max-height: 1.4rem;
+}
+
+.text-title-2lin.maxheight6 {
+  max-height: 6rem;
+}
+
+.text-title-2lin.maxheight8 {
+  max-height: 8rem;
+}
+
+.text-title-2lin.maxheight9 {
+  max-height: 9rem;
+}
+
+.text-title-2lin.primary {
+  color: var(--ion-color-primary);
+}
+
+.text-small-2lin {
+  overflow: hidden;
+  display: -webkit-box;
+  line-height: initial;
+  font-size: 1.4rem;
+  white-space: pre-wrap;
+  font-weight: 300;
+  margin: 0;
+  padding: 0;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 2;
+  font-family: 'Poppins-Regular', sans-serif;
+  max-height: 4.5rem;
+  text-align: left;
+  width: 100%;
+}
+
+.text-small-2lin.widthmarcas {
+  width: 17rem;
+}
+
+.text-title-2lin {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  line-height: initial;
+  max-height: 4.5rem;
+  text-align: left;
+  font-size: smaller;
+  white-space: pre-wrap;
+}
+
+.text-small-2lin.primary {
+  color: var(--ion-color-primary);
+}
+
+.text-small-2lin.secondary {
+  color: var(--ion-color-secondary);
+}
+
+
+

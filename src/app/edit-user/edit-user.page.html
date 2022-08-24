@@ -1,0 +1,61 @@
+<ion-header no-border>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="volver()">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-content fullscreen>
+    <ion-row style="padding-top: 1rem">
+      <ion-col style="text-align: center">
+          EDICION DE USUARIO
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-label>Nombre:</ion-label>
+          <ion-input [(ngModel)]="userEdit.name"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-label>Usuario:</ion-label>
+          <ion-input [(ngModel)]="userEdit.userName"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-label>Email:</ion-label>
+          <ion-input [(ngModel)]="userEdit.email"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-label>Password:</ion-label>
+          <ion-input type="password" name="password" id="password" [(ngModel)]="userEdit.password"></ion-input>
+          <button (click)="mostrarPass()">Mostrar contraseña</button>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col style="text-align: center">
+        <ion-button (click)="editarUser(userEdit)">
+          Editar
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
+  </ion-content>
+
+</ion-content>
