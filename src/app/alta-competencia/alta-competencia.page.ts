@@ -33,7 +33,7 @@ export class AltaCompetenciaPage implements OnInit {
         this.competencia = res;
       },
       err => {
-        console.log(err);
+        console.log('error',err);
       }
     );
   }
