@@ -46,6 +46,7 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy{
   partidosPronosticados = Array<Partido>();
   private pronostico: Partido;
   i: number;
+  partidosFiltrados: Comp[];
   constructor(private router: Router, private sharingService: SharingServiceService, private route: ActivatedRoute, private menuCtrl: MenuController,
               private authService: AuthService, private resultService: ResultsService,
               private competenciaService: CompetenciaService, public alertController: AlertController,
@@ -73,7 +74,10 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy{
   filtrarPartidosPorFecha( fecha: string) {
     console.log('Seleccionaste esta fecha:', fecha);
    if(fecha.includes('Quarter-finals')) {
-     this.partidos = this.partidos.filter(partido => partido.league.round.includes('Quarter'));
+     this.partidosFiltrados = this.partidos.filter(partido => partido.league.round.includes('Quarter'));
+     this.partidos = [];
+     this.partidos = this.partidosFiltrados;
+     this.cdr.detectChanges();
      console.log(this.partidos);
    } else if(fecha.includes('Semi-finals')) {
       this.partidos = this.partidos.filter(partido => partido.league.round.includes('Semi-finals'));

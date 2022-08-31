@@ -20,4 +20,8 @@ export class InicioAdministradorPage implements OnInit {
   competencias(){
     this.router.navigate(['/altaCompetencia']);
   }
+
+    listaDeCompetencias() {
+    this.router.navigate(['/list-competencias']);
+    }
 }

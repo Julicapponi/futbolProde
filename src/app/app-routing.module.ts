@@ -14,6 +14,7 @@ import {EditUserPage, NAVIGATE_EDITAR_USER} from './edit-user/edit-user.page';
 import {AltaCompetenciaPage} from './alta-competencia/alta-competencia.page';
 import {ListEnfrentamientosPage} from "./list-enfrentamientos/list-enfrentamientos.page";
 import {DetallePartidoPage} from "./detalle-partido/detalle-partido.page";
+import {ListCompetenciasPage} from "./list-competencias/list-competencias.page";
 
 
 const routes: Routes = [
@@ -35,6 +36,7 @@ const routes: Routes = [
   {path: 'altaCompetencia', component: AltaCompetenciaPage},
   //{path: 'listEnfrentamientos/:id/:anio', component: ListEnfrentamientosPage},
   {path: 'listEnfrentamientos', component: ListEnfrentamientosPage},
+  {path: 'list-competencias', component: ListCompetenciasPage},
   {path: 'detallePartido', component: DetallePartidoPage},
   {
     path: 'prueba',
@@ -84,6 +86,11 @@ const routes: Routes = [
     path: 'detalle-partido',
     loadChildren: () => import('./detalle-partido/detalle-partido.module').then( m => m.DetallePartidoPageModule)
   },
+  {
+    path: 'list-competencias',
+    loadChildren: () => import('./list-competencias/list-competencias.module').then( m => m.ListCompetenciasPageModule)
+  }
+
 
 ];
 

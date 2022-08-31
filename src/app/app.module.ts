@@ -15,6 +15,7 @@ import { far } from '@fortawesome/free-regular-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import {ErrorTailorModule} from '@ngneat/error-tailor';
 import {SQLite, SQLiteObject} from '@awesome-cordova-plugins/sqlite/ngx';
+import {Ng2SearchPipeModule} from "ng2-search-filter";
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -27,6 +28,7 @@ import {SQLite, SQLiteObject} from '@awesome-cordova-plugins/sqlite/ngx';
     FormsModule,
     HttpClientModule,
     FontAwesomeModule,
+    Ng2SearchPipeModule,
     ErrorTailorModule.forRoot({
       errors: {
         useValue: {

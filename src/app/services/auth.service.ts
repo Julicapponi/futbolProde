@@ -76,6 +76,8 @@ export class AuthService {
     localStorage.clear();
     this.router.navigate(['/home']);
   }
+  
+  
 
 
 }

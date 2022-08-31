@@ -3,6 +3,7 @@ export class Comp {
   name?: string;
   flag?: string;
   value: string;
+  country: string;
   data: Data;
   fixture: Fixture;
   league: League;

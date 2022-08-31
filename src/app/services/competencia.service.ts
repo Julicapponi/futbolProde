@@ -21,6 +21,10 @@ export class CompetenciaService {
   getCompetencias(){
     return this.http.get<any>(this._url + '/listCompetitions');
   }
+  
+  getLigas(){
+    return this.http.get<any>(this._url + '/obtener/ligas');
+  }
 
   editStateCompetition(idComp, activaComp){
     if(activaComp == false || !(activaComp == null) || !(activaComp == undefined)){
