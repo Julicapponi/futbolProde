@@ -3,43 +3,61 @@
     <ion-buttons slot="start">
       <ion-button (click)="volver()">
         <ion-icon name="arrow-back-outline"></ion-icon>
+        <ion-title class="text">Competencias</ion-title>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Lista de competencias disponibles</ion-title>
-  </ion-toolbar>
+<ion-header *ngIf="!isCargando">
+    <ion-searchbar class="ion-no-margin ion-no-padding searchbar" placeholder="Buscar..." [(ngModel)]="filterTerm"
+                   animated="true"></ion-searchbar>
 </ion-header>
 
+
 <ion-content [fullscreen]="true">
-  <ion-searchbar placeholder="Buscar por nombre de competencia" [(ngModel)]="filterTerm" animated="true"></ion-searchbar>
-  <ion-list>
-    <ion-row style="background-color: var(--ion-color-primary)">
-      <ion-col  [size]="2">
-        
-      </ion-col>
-      <ion-col [size]="2">
-        <h4>ID</h4>
-      </ion-col>
-      <ion-col [size]="8">
-        <h4>Nombre</h4>
-      </ion-col>
-    </ion-row>
-    <ion-item *ngFor="let competencia of listCompetitions | filter:filterTerm">
-      <ion-row>
-        <ion-col class='my-thin-col' [size]="2">
-          <img src="{{competencia.league.logo}}">
-        </ion-col>
-        <ion-col class='my-thin-col' [size]="2">
-          <ion-label>{{competencia.league.id}}</ion-label>
-        </ion-col>
-        <ion-col class='my-thin-col' [size]="8">
-          <ion-label>{{competencia.league.name}}</ion-label>
-        </ion-col>
-      </ion-row>
-    </ion-item>
-  </ion-list>
+  <ion-row>
+    <ion-col [size]="12" *ngIf="isCargando">
+      <app-animation-progress></app-animation-progress>
+      <app-animation-progress></app-animation-progress>
+      <app-animation-progress></app-animation-progress>
+      <app-animation-progress></app-animation-progress>
+      <app-animation-progress></app-animation-progress>
+      <app-animation-progress></app-animation-progress>
+      <app-animation-progress></app-animation-progress>
+    </ion-col>
+  </ion-row>
+
+  <ion-row *ngIf="!isCargando">
+    <p class="ion-no-margin text-aclaracion">* Todas las competencias corresponden al año actual</p>
+    <ion-col [size]="12">
+      
+      <ion-list>
+        <ion-row class="header-table-row">
+          <ion-col [size]="2">
+
+          </ion-col>
+          <ion-col [size]="2">
+            <h4 class="text-header-table ion-no-margin">ID</h4>
+          </ion-col>
+          <ion-col [size]="8">
+            <h4 class="text-header-table ion-no-margin">Nombre</h4>
+          </ion-col>
+        </ion-row>
+        <ion-item *ngFor="let competencia of listCompetitions | filter:filterTerm">
+          <ion-row class="row-list">
+            <ion-col class='col-grid ion-no-margin ion-no-padding' [size]="2">
+              <img class="logo-competencia" src="{{competencia.league.logo}}">
+            </ion-col>
+            <ion-col class='col-grid ion-no-margin ion-no-padding' [size]="2">
+              <ion-label class="text-competencias">{{competencia.league.id}}</ion-label>
+            </ion-col>
+            <ion-col class='col-grid ion-no-margin ion-no-padding' [size]="8">
+              <ion-label class="text-competencias">{{competencia.league.name}}</ion-label>
+            </ion-col>
+          </ion-row>
+        </ion-item>
+      </ion-list>
+    </ion-col>
+  </ion-row>
 </ion-content>

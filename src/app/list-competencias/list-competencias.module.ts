@@ -8,6 +8,7 @@ import { ListCompetenciasPageRoutingModule } from './list-competencias-routing.m
 
 import { ListCompetenciasPage } from './list-competencias.page';
 import {Ng2SearchPipeModule} from "ng2-search-filter";
+import {ListEnfrentamientosPageRoutingModule} from "../list-enfrentamientos/list-enfrentamientos-routing.module";
 
 @NgModule({
     imports: [
@@ -15,7 +16,8 @@ import {Ng2SearchPipeModule} from "ng2-search-filter";
         FormsModule,
         IonicModule,
         ListCompetenciasPageRoutingModule,
-        Ng2SearchPipeModule
+        Ng2SearchPipeModule,
+        ListEnfrentamientosPageRoutingModule
     ],
   declarations: [ListCompetenciasPage]
 })

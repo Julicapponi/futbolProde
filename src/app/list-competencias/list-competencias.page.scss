@@ -1,9 +1,50 @@
-.logo-equipo{
+.text-aclaracion{
+  padding-top: 5px;
+  font-family: Vegur, 'PT Sans', Verdana, sans-serif;
+}
+
+.searchbar{
+  padding-top: 5px;
+}
+
+.row-list{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.text-header-table{
+  padding: 5px;
+}
+
+.header-table-row{
+  background-color: var(--ion-color-primary);
+  border-radius: 5px;
+}
+
+.text-competencias{
+  text-transform: uppercase;
+  font-family: Vegur, 'PT Sans', Verdana, sans-serif;
+}
+
+.logo-competencia{
   height: 80%;
-  width: 70%;
+  width: 60%;
 }
 
 ion-col.my-thin-col {
   flex: 0 0 0 0;
   padding:0 0 0 0;
+}
+
+.col-grid{
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+}
+
+.col-grid ion-img{
+  width: 100%;
+  height: auto;
 }

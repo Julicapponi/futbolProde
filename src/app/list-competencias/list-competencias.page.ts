@@ -13,6 +13,7 @@ import {Competencia} from "../class/Competencia";
 export class ListCompetenciasPage implements OnInit {
     private listCompetitions: Competencia[];
     filterTerm: string;
+    isCargando: boolean;
   constructor(private activatedRoute: ActivatedRoute, private router: Router, private menuCtrl: MenuController, private authService: AuthService, public alertController: AlertController, private competitionsService: CompetenciaService) { 
     this.listarCompetenciasPorId();
   }
@@ -21,10 +22,12 @@ export class ListCompetenciasPage implements OnInit {
   }
 
   listarCompetenciasPorId(){
+      this.isCargando = true;
     this.competitionsService.getLigas().subscribe(
         data => {
           this.listCompetitions = data.response;
           console.log('Lista de competencias', JSON.stringify(this.listCompetitions));
+          this.isCargando = false;
         },
         err => {
           console.log(err);
@@ -32,4 +35,8 @@ export class ListCompetenciasPage implements OnInit {
         }
     );
   }
+
+    volver() {
+        this.router.navigate(['/inicio-administrador']);
+    }
 }
