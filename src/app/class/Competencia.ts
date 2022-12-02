@@ -1,10 +1,9 @@
 export class Competencia {
-  country: Country[];
-  league: League[];
-  seasons: Season[];
+  country: Country;
+  league: League;
+  seasons: Season;
   fixture: string;
   logo: string;
-  _id: string;
   id: string;
   name: string;
   code: string;

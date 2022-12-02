@@ -1,11 +1,33 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>partidos</ion-title>
-  </ion-toolbar>
+<ion-header no-border>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-button (click)="volver()">
+                <ion-icon name="arrow-back-outline"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
 </ion-header>
 
-<ion-content>
-    <ion-button (click)="getMatchs()">
+<ion-row>
+    <ion-col [size]="1"></ion-col>
+    <ion-col [size]="10">
+        <p class="text-carga" *ngIf="isCargandoTorneo"> Cargando torneos, aguarde por favor... </p>
+        <ion-progress-bar color="primary" class="barra-progreso"  *ngIf="isCargandoTorneo" type="indeterminate"></ion-progress-bar>
+    </ion-col>
+    <ion-col [size]="1"></ion-col>
+</ion-row>
 
-    </ion-button>
+<ion-content>
+    <ion-row>
+        <ion-col [size]="6">
+            <ion-button>
+                <p>BUSCAR GRUPO</p>
+            </ion-button>
+        </ion-col>
+        <ion-col [size]="6">
+            <ion-button (click)="crearGrupo()">
+                <p> + CREAR GRUPO</p>
+            </ion-button>
+        </ion-col>
+    </ion-row>
 </ion-content>

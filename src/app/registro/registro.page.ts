@@ -4,6 +4,7 @@ import { AuthService } from '../services/auth.service';
 import {AlertController, ToastController } from '@ionic/angular';
 import {NAVIGATE_LOGIN} from '../logueo/logueo.page';
 import {NAVIGATE_LIST_USER} from '../list-users/list-users.page';
+import {User} from "../class/User";
 
 export const NAVIGATE_REGISTRO = 'RegistroPage';
 
@@ -16,13 +17,13 @@ export const NAVIGATE_REGISTRO = 'RegistroPage';
 
 export class RegistroPage implements OnInit {
   datos: any[];
-
-  user = {
-    name: '',
-    userName: '',
-    email: '',
-    password: '',
-    admin: '0' // USUARIO NORMAL: 0 , USUARIO ADMINISTRADOR: 1
+  user: User = {
+    iduser: null,
+    name: "",
+    userName: "",
+    email: "",
+    password: "",
+    admin: "0"
   };
 
   constructor(private router: Router, private authService: AuthService, public alertController: AlertController) { }
@@ -30,13 +31,14 @@ export class RegistroPage implements OnInit {
   ngOnInit() {
   }
 
-  signUp(){
+  signUp(user: User){
+    this.user = user;
     this.authService.signUp(this.user).subscribe(
       res => {
         //guardamos el token
         console.log(this.user);
         console.log(res);
-        localStorage.setItem('token', res.token);
+       // localStorage.setItem('token', res.token);
         this.dialogSucess('Registrado con éxito!!' );
       },
       err => {
@@ -47,7 +49,7 @@ export class RegistroPage implements OnInit {
   }
 
   volver(){
-    this.router.navigate(['/logueoPage']);
+    this.router.navigate(['/inicio-administrador']);
   }
 
   async dialogError(message: string) {

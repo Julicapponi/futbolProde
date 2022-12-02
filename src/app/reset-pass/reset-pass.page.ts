@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
+import {NAVIGATE_LOGIN} from "../logueo/logueo.page";
 
 @Component({
   selector: 'app-reset-pass',
@@ -19,7 +20,7 @@ export class ResetPassPage implements OnInit {
   }
 
   volver(){
-    this.router.navigate(['/login']);
+    this.router.navigate([NAVIGATE_LOGIN]);
   }
 
 }

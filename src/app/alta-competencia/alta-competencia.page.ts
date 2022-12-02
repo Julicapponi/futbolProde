@@ -37,7 +37,7 @@ export class AltaCompetenciaPage implements OnInit {
       }
     );
   }
-
+/*
   buscarCompetencia() {
     console.log('busqueda de competencia');
     this.competenciaService.getCompetencias().subscribe(
@@ -50,7 +50,8 @@ export class AltaCompetenciaPage implements OnInit {
       }
     );
   }
-
+*/
+  
   changeCheckout(e, comp: Competencia) {
     if (e.target.checked) {
       if (e.target.checked) {
@@ -64,9 +65,8 @@ export class AltaCompetenciaPage implements OnInit {
   }
 
   activarCompetencia(comp: Competencia) {
-    const idComp = comp._id;
     const activaComp = comp.activa;
-    this.competenciaService.editStateCompetition(idComp, activaComp).subscribe(
+    this.competenciaService.editStateCompetition(comp, activaComp).subscribe(
       res => {
         console.log(res);
       },

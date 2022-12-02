@@ -6,7 +6,7 @@ import {HttpClient} from "@angular/common/http";
   providedIn: 'root'
 })
 export class ResultsService {
-  _url = 'http://localhost:4000/api';
+  _url = 'http://localhost:5000/api';
   constructor(private router: Router, private http: HttpClient) {
 
   }
@@ -14,10 +14,7 @@ export class ResultsService {
   altaResultado(resultado){
     return this.http.post<any>(this._url + '/altaResultado', resultado);
   }
-
-  getMatchs(){
-    return this.http.get<any>(this._url + '/football');
-  }
+  
 
 
 }

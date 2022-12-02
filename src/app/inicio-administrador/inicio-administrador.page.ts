@@ -24,4 +24,17 @@ export class InicioAdministradorPage implements OnInit {
     listaDeCompetencias() {
     this.router.navigate(['/list-competencias']);
     }
+
+  miListaDeCompetencias() {
+    this.router.navigate(['/list-competencias-admin']);
+  }
+
+  irRegistro() {
+    this.router.navigate(['/registroPage']);
+  }
+
+
+  irEditEnfrentamientos() {
+    this.router.navigate(['/modificar-enfrentamientos']);
+  }
 }

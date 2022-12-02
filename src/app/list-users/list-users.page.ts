@@ -1,12 +1,12 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
-import {AlertController, MenuController} from '@ionic/angular';
+import {AlertController, MenuController, ModalController} from '@ionic/angular';
 import { AuthService } from '../services/auth.service';
 import {User} from '../class/User';
 import {faCoffee} from '@fortawesome/free-solid-svg-icons';
 import {NAVIGATE_LOGIN} from '../logueo/logueo.page';
-import {NAVIGATE_EDITAR_USER} from '../edit-user/edit-user.page';
-export const NAVIGATE_LIST_USER = 'logueoPage';
+import {EditUserPage, NAVIGATE_EDITAR_USER} from '../edit-user/edit-user.page';
+export const NAVIGATE_LIST_USER = 'list-users';
 @Component({
   selector: 'app-list-users',
   templateUrl: './list-users.page.html',
@@ -18,7 +18,9 @@ export class ListUsersPage implements OnInit {
   id = '';
   faCoffee = faCoffee;
   listUsers: User[];
-  constructor(private activatedRoute: ActivatedRoute, private router: Router, private menuCtrl: MenuController, private authService: AuthService, public alertController: AlertController) {
+  isCargando: boolean;
+  filterTerm: string;
+  constructor(private activatedRoute: ActivatedRoute, private modalCtrl: ModalController, private router: Router, private menuCtrl: MenuController, private authService: AuthService, public alertController: AlertController) {
     this.listarUsuarios();
   }
 
@@ -30,8 +32,10 @@ export class ListUsersPage implements OnInit {
   }
 
   listarUsuarios(){
+    this.isCargando = true;
     this.authService.getUsers().subscribe(
       res => {
+        this.isCargando = false;
         console.log(res);
         this.listUsers = res;
         console.log('Lista de usuarios', this.listUsers);
@@ -43,31 +47,60 @@ export class ListUsersPage implements OnInit {
     );
   }
 
-  editarUser(user: User){
-    const idUser = user._id;
-    localStorage.setItem('userIdEdit', idUser.toString());
-    this.router.navigate([NAVIGATE_EDITAR_USER]);
-  }
-
-  borrarUser(user: User){
-    const idUser = user._id;
-    idUser.toString();
-    console.log('Usuario a eliminar con id: ' +idUser);
-    this.authService.deleteUser(idUser).subscribe(
-      res => {
-        console.log(res);
-        this.listarUsuarios();
-        this.dialogSucess('Eliminado con éxito!!' );
-
+  async editarUser(user: User){
+    const profileModal = await this.modalCtrl.create({
+      component: EditUserPage,
+      cssClass: 'modal_popup',
+      showBackdrop: true,
+      backdropDismiss: false,
+      componentProps: {
+        user: user,
       },
-      err => {
-        console.log(err);
-        this.dialogError('No se ha podido eliminar este usuario');
-      }
-
-    );
+    });
+    profileModal.present();
   }
 
+  async borrarUser(user: User) {
+    console.log(user.iduser);
+    const idUser = user.iduser;
+    await this.alertController.create({
+      header: 'Eliminar usuario',
+      // subHeader: 'Ocurrió ',
+      message: 'Estás seguro de eliminar el usuario?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {
+
+          }
+        },
+        {
+          text: 'Aceptar',
+          role: 'accept',
+          handler: () => {
+            console.log('Usuario a eliminar con ID: ' + idUser);
+            this.authService.deleteUser(idUser).subscribe(
+                res => {
+                  console.log(res);
+                  this.dialogSucess('Eliminado con éxito!!');
+                  this.listarUsuarios();
+
+                },
+                err => {
+                  console.log(err);
+                  this.dialogError('No se ha podido eliminar este usuario');
+                }
+            );
+          }
+        }
+      ]
+    }).then(alert => {
+      alert.present();
+    });
+  }
+
+  
   async dialogError(message: string) {
     await this.alertController.create({
       header: 'Ups!',
@@ -94,7 +127,7 @@ export class ListUsersPage implements OnInit {
       buttons: [
         {
           text: 'Aceptar',
-          role: 'Cancelar',
+          role: 'accept',
           handler: () => {
             this.router.navigate([NAVIGATE_LIST_USER], { replaceUrl: true });
           }

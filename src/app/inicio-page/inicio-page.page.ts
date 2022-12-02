@@ -32,18 +32,18 @@ export class InicioPagePage implements OnInit {
   constructor(private route: ActivatedRoute, private sharingService: SharingServiceService,
               private router: Router, private menuCtrl: MenuController, private competenciaService: CompetenciaService, public alertController: AlertController, private comparteDatosService: ComparteDatosService ) {
     this.menuCtrl.enable(true);
-    this.competenciaService.getCompetenciasActivas().subscribe(
-      res => {
-        console.log(res);
-        this.competenciasActivas = res;
-      },
-      err => {
-        console.log(err);
-      }
-    );
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.competenciaService.getCompetenciasActivas().subscribe(res => {
+          console.log(res);
+          this.competenciasActivas = res;
+        },
+        err => {
+          console.log(err);
+        }
+    );
+  }
 
   //accion desplegar menu
   toggleMenu(){
@@ -74,7 +74,7 @@ export class InicioPagePage implements OnInit {
   }
 
   ngMode($event){
-    this.idCompetenciaSeleccionada = $event.id;
+    this.idCompetenciaSeleccionada = $event.idcompetition;
     this.anioCompetenciaSeleccionada = $event.anio;
     this.buscarCompetencias(this.idCompetenciaSeleccionada, this.anioCompetenciaSeleccionada);
     console.log('Competencia seleccionada por el usuario:'+this.idCompetenciaSeleccionada + 'con el anio' + this.anioCompetenciaSeleccionada);

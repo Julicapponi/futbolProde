@@ -3,7 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import {NAVIGATE_LOGIN} from '../logueo/logueo.page';
 import {NAVIGATE_LIST_USER} from '../list-users/list-users.page';
-import {AlertController} from '@ionic/angular';
+import {AlertController, ModalController, NavParams} from '@ionic/angular';
 import {User} from '../class/User';
 export const NAVIGATE_EDITAR_USER = 'EditUserPage';
 @Component({
@@ -13,22 +13,12 @@ export const NAVIGATE_EDITAR_USER = 'EditUserPage';
 })
 export class EditUserPage implements OnInit {
   userEdit: User;
+  user: User;
 
-  id = '';
-
-  constructor(private activatedRoute: ActivatedRoute, private router: Router, private authService: AuthService, public alertController: AlertController ) {
-     const idUser = localStorage.getItem('userIdEdit');
-     this.userEdit = new User();
-     this.authService.getUserId(idUser).subscribe(
-     res => {
-        this.userEdit = res;
-        console.log('USUARIO QUE SE VA A EDITAR:', res);
-      },
-     err => {
-        console.log(err);
-        alert(err.error);
-      }
-     );
+  constructor(private activatedRoute: ActivatedRoute, private modalCtrl: ModalController, private params: NavParams, private router: Router, private authService: AuthService, public alertController: AlertController ) {
+    if(params != null && params.get('user') != null) {
+      this.userEdit = <User>params.get('user');
+    }
   }
 
   ngOnInit() {
@@ -38,11 +28,13 @@ export class EditUserPage implements OnInit {
 
 
 
-  volver(){
-    this.router.navigate(['/list-users']);
+  async volver(){
+    await this.modalCtrl.dismiss();
+
   }
 
   editarUser(userEdit: User) {
+    console.log('usuario a editar:', userEdit)
     this.authService.editUser(userEdit).subscribe(
       res => {
         console.log(res);

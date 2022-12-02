@@ -9,19 +9,17 @@ import { ResultsService } from '../services/results.service';
   styleUrls: ['./partidos.page.scss'],
 })
 export class PartidosPage implements OnInit {
-
+  isCargandoTorneo = true;
   constructor(private router: Router, private authService: AuthService, private resultService: ResultsService) { }
 
   ngOnInit() {
   }
 
-  getMatchs(){
-    this.resultService.getMatchs().subscribe(
-      res => {
-        console.log(res);
-      },
-      err => console.log(err)
-    );
+  volver() {
+    this.router.navigate(['/inicioPage']);
   }
 
+  crearGrupo() {
+    
+  }
 }

@@ -15,6 +15,8 @@ import {AltaCompetenciaPage} from './alta-competencia/alta-competencia.page';
 import {ListEnfrentamientosPage} from "./list-enfrentamientos/list-enfrentamientos.page";
 import {DetallePartidoPage} from "./detalle-partido/detalle-partido.page";
 import {ListCompetenciasPage} from "./list-competencias/list-competencias.page";
+import {ListCompetenciasAdminPage} from "./list-competencias-admin/list-competencias-admin.page";
+import {ModificarEnfrentamientosPage} from "./modificar-enfrentamientos/modificar-enfrentamientos.page";
 
 
 const routes: Routes = [
@@ -24,7 +26,7 @@ const routes: Routes = [
   {path: 'registroPage', component: RegistroPage},
   { path: NAVIGATE_LOGIN, component: LogueoPage, pathMatch: 'full'},
   {path: 'logueoPage', component: LogueoPage},
-  {path: 'inicioPage', component: InicioPagePage, canActivate: [AuthGuard]},
+  {path: 'inicioPage', component: InicioPagePage},
   {path: 'resetPassPage', component: ResetPassPage},
   {path: 'inicio-administrador', component: InicioAdministradorPage},
   {path: 'list-users', component: ListUsersPage},
@@ -38,6 +40,9 @@ const routes: Routes = [
   {path: 'listEnfrentamientos', component: ListEnfrentamientosPage},
   {path: 'list-competencias', component: ListCompetenciasPage},
   {path: 'detallePartido', component: DetallePartidoPage},
+  {path: 'list-competencias-admin', component: ListCompetenciasAdminPage},
+  {path: 'modificar-enfrentamientos', component: ModificarEnfrentamientosPage},
+  
   {
     path: 'prueba',
     loadChildren: () => import('./prueba/prueba.module').then( m => m.PruebaPageModule)
@@ -89,7 +94,17 @@ const routes: Routes = [
   {
     path: 'list-competencias',
     loadChildren: () => import('./list-competencias/list-competencias.module').then( m => m.ListCompetenciasPageModule)
+  },
+  {
+    path: 'list-competencias-admin',
+    loadChildren: () => import('./list-competencias-admin/list-competencias-admin.module').then( m => m.ListCompetenciasAdminPageModule)
+  },
+  {
+    path: 'modificar-enfrentamientos',
+    loadChildren: () => import('./modificar-enfrentamientos/modificar-enfrentamientos.module').then( m => m.ModificarEnfrentamientosPageModule)
   }
+
+
 
 
 ];

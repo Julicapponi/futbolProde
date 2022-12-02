@@ -3,46 +3,65 @@
     <ion-buttons slot="start">
       <ion-button (click)="volver()">
         <ion-icon name="arrow-back-outline"></ion-icon>
+        <ion-title class="text">Lista de usuarios</ion-title>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-header>
-  <ion-toolbar>
-    <ion-title>listUsers</ion-title>
-  </ion-toolbar>
+
+<ion-header *ngIf="!isCargando">
+  <ion-searchbar class="ion-no-margin ion-no-padding searchbar" placeholder="Buscar..." [(ngModel)]="filterTerm"
+                 animated="true"></ion-searchbar>
 </ion-header>
 
-<ion-content>
+<ion-content [fullscreen]="true">
+  <ion-row>
+    <ion-col [size]="12" *ngIf="isCargando">
+      <app-animation-progress></app-animation-progress>
+      <app-animation-progress></app-animation-progress>
+      <app-animation-progress></app-animation-progress>
+      <app-animation-progress></app-animation-progress>
+      <app-animation-progress></app-animation-progress>
+      <app-animation-progress></app-animation-progress>
+      <app-animation-progress></app-animation-progress>
+    </ion-col>
+  </ion-row>
 
-  <ion-list>
-    <ion-list-header> Lista de usuarios registrados </ion-list-header>
-    <ion-item *ngFor="let user of listUsers">
-      <ion-row>
-        <ion-col>
-          <ion-avatar slot="start">
-            <img src="./avatar-finn.png" />
-          </ion-avatar>
-        </ion-col>
-        <ion-col >
-          <ion-label style="text-align: center">
-            <h2>{{user.name}}</h2>
-            <h3>{{user.email}}</h3>
-          </ion-label>
-        </ion-col>
-
-          <ion-col style="position: relative; text-align: center">
-            <ion-button style="text-align: center" (click)="editarUser(user)">
-              <p>EDITAR</p>
-            </ion-button>
-            <ion-button style="text-align: center" (click)="borrarUser(user)">
-              <p>ELIMINAR</p>
-            </ion-button>
+  <ion-row *ngIf="!isCargando">
+    <ion-col [size]="12">
+      <ion-list>
+        <ion-row class="header-table-row">
+          <ion-col [size]="4">
+            <h4 class="text-header-table ion-no-margin">Nombre</h4>
           </ion-col>
-      </ion-row>
-    </ion-item>
-  </ion-list>
-
-
+          <ion-col [size]="4">
+            <h4 class="text-header-table ion-no-margin">Email</h4>
+          </ion-col>
+          <ion-col [size]="4">
+            <h4 class="text-header-table ion-no-margin">Acciones</h4>
+          </ion-col>
+        </ion-row>
+        
+          <ion-row *ngFor="let user of listUsers | filter:filterTerm" class="row-list">
+            <ion-col class='col-grid ion-no-margin ion-no-padding' [size]="3">
+              <ion-label class="text-competencias">{{user.name}}</ion-label>
+            </ion-col>
+            <ion-col class='col-grid ion-no-margin ion-no-padding' [size]="5">
+              <ion-label class="text-competencias">{{user.email}}</ion-label>
+            </ion-col>
+            <ion-col class='col-grid ion-no-margin ion-no-padding' [size]="2">
+              <ion-button style="text-align: center" (click)="editarUser(user)">
+                <img src='assets/icon/edit.png'>
+              </ion-button>
+            </ion-col>
+            <ion-col class='col-grid ion-no-margin ion-no-padding' [size]="2">
+              <ion-button style="text-align: center" (click)="borrarUser(user)">
+                <img src='assets/icon/delete.png'>
+              </ion-button>
+            </ion-col>
+          </ion-row>
+      </ion-list>
+    </ion-col>
+  </ion-row>
 </ion-content>

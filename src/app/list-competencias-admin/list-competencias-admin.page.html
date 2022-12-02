@@ -3,19 +3,16 @@
     <ion-buttons slot="start">
       <ion-button (click)="volver()">
         <ion-icon name="arrow-back-outline"></ion-icon>
-        <ion-title class="text">Competencias</ion-title>
+        <ion-title class="text">Mi lista de competencias</ion-title>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-header *ngIf="!isCargando">
-    <ion-searchbar class="ion-no-margin ion-no-padding searchbar" placeholder="Buscar..." [(ngModel)]="filterTerm"
-                   animated="true"></ion-searchbar>
-  <p class="ion-no-margin text-aclaracion">Seleccione las competencias que desea sumar a su lista que luego va a activar para que el usuario pueda realizar sus pronosticos</p>
-  <ion-col>
-    <ion-button (click)="irListaComp()" color="primary" expand="block">Ir a mi lista</ion-button>
-  </ion-col>
+  <ion-searchbar class="ion-no-margin ion-no-padding searchbar" placeholder="Buscar..." [(ngModel)]="filterTerm"
+                 animated="true"></ion-searchbar>
+  <p class="ion-no-margin text-aclaracion">Lista activas visibles para los usuarios</p>
 </ion-header>
 
 
@@ -34,9 +31,9 @@
   </ion-row>
 
   <ion-row *ngIf="!isCargando">
-    
+
     <ion-col [size]="12">
-      
+
       <ion-list>
         <ion-row class="header-table-row">
           <ion-col [size]="2">
@@ -49,19 +46,16 @@
             <h4 class="text-header-table ion-no-margin">Nombre</h4>
           </ion-col>
         </ion-row>
-        <ion-item *ngFor="let competencia of listCompetitions | filter:filterTerm">
+        <ion-item *ngFor="let competencia of competenciasActivas | filter:filterTerm">
           <ion-row class="row-list">
             <ion-col class='col-grid ion-no-margin ion-no-padding' [size]="2">
-              <img class="logo-competencia" src="{{competencia.league.logo}}">
+              <ion-label class="text-competencias">{{competencia.idCompetition}}</ion-label>
             </ion-col>
             <ion-col class='col-grid ion-no-margin ion-no-padding' [size]="2">
-              <ion-label class="text-competencias">{{competencia.league.id}}</ion-label>
+              <ion-label class="text-competencias">{{competencia.name}}</ion-label>
             </ion-col>
-            <ion-col class='col-grid ion-no-margin ion-no-padding' [size]="7">
-              <ion-label class="text-competencias">{{competencia.league.name}}</ion-label>
-            </ion-col>
-            <ion-col class='col-grid ion-no-margin ion-no-padding' [size]="1">
-              <ion-checkbox value="option" (ionChange)="isChecked(competencia, $event)" name="option"></ion-checkbox>
+            <ion-col class='col-grid ion-no-margin ion-no-padding' [size]="8">
+              <ion-label class="text-competencias">{{competencia.anio}}</ion-label>
             </ion-col>
           </ion-row>
         </ion-item>

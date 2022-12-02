@@ -3,6 +3,7 @@ import {User} from '../class/User';
 import {Router} from '@angular/router';
 import {AlertController, MenuController} from '@ionic/angular';
 import { AuthService } from '../services/auth.service';
+import {NAVIGATE_REGISTRO} from "../registro/registro.page";
 
 export const NAVIGATE_LOGIN = 'logueoPage';
 
@@ -18,6 +19,8 @@ export class LogueoPage implements OnInit {
     email: '',
     password: ''
   };
+  usuario: User[];
+  isAdmin: string;
 
   constructor(private router: Router, private menuCtrl: MenuController, private authService: AuthService, public alertController: AlertController) {
 
@@ -27,19 +30,30 @@ export class LogueoPage implements OnInit {
     localStorage.clear();
   }
 
-  signIn(){
+  signIn(user){
+    this.user = user;
+    console.log('usuario a loguear', this.user);
     this.authService.signIn(this.user).subscribe(
       res => {
-        console.log(this.user);
-        console.log(res);
-        localStorage.setItem('token', res.token);
-        localStorage.setItem('userName', this.user.email);
-        if(res.user.admin == '1'){
-          this.router.navigate(['/inicio-administrador']);
+        if(res.message.includes('incorrectos')){
+          
         } else {
-          this.router.navigate(['/inicioPage']);
+          this.dialogSucess(res.message);;
+          this.usuario = res.user;
+          console.log('usuario logueado:', JSON.stringify(this.usuario));
+          localStorage.setItem('userName', this.user.email);
+          for (let usuario of this.usuario) {
+            console.log(usuario);
+            this.isAdmin = usuario.admin;
+          }
+          if(this.isAdmin == '1'){
+            this.router.navigate(['/inicio-administrador']);
+          } else {
+            this.router.navigate(['/inicioPage']);
+          }
         }
-
+        
+        
       },
       err => {
         console.log(err);
@@ -55,6 +69,15 @@ export class LogueoPage implements OnInit {
      */
   }
 
+  async dialogSucess(message: string) {
+    await this.alertController.create({
+      header: 'Genial!',
+      // subHeader: 'Ocurrió ',
+      message: message,
+    }).then(alert => {
+      alert.present();
+    });
+  }
 
 
   inicioSesion(){

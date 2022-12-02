@@ -6,7 +6,8 @@ import {Router} from "@angular/router";
 })
 export class AuthService {
   @Output() disparadorDeId: EventEmitter<any> = new EventEmitter<any>();
-  _url = 'http://localhost:4000/api';
+  _url = 'http://localhost:5000/api/users';
+  
   public headers: Headers;
   json: any = JSON;
   constructor(private router: Router, private http: HttpClient) {
@@ -15,40 +16,45 @@ export class AuthService {
 
   //crear cuenta
   signUp(user){
-    return this.http.post<any>(this._url + '/signup', user);
+    console.log('Usuario a registrar:', user);
+    return this.http.post<any>(this._url, user);
   }
 
   //iniciar sesion
   signIn(user){
-    return this.http.post<any>(this._url + '/signin', user);
+    console.log(user);
+    const requestOptions = {
+      headers: new HttpHeaders()
+    }
+    return this.http.post<any>(this._url + '/signin/user/', user , requestOptions);
   }
 
   getUsers(){
-    return this.http.get<any>(this._url + '/listUsers');
+    return this.http.get<any>(this._url + '/');
   }
 
   getUserId(id){
-    return this.http.get<any>(this._url + '/getUser/' +id);
+    return this.http.get<any>(this._url + '/' +id);
   }
 
   deleteUser(id){
-    return this.http.delete<any>(this._url + '/deleteUser/' +id );
+    return this.http.delete<any>(this._url + '/' +id );
   }
 
   editUser(userEdit){
     console.log(userEdit);
-    const id = userEdit._id;
+    const id = userEdit.iduser;
     const name = userEdit.name;
     const userName = userEdit.userName;
     const email = userEdit.email;
     const password = userEdit.password;
-    this.json = JSON.stringify({
+    this.json = {
       name: name,
       userName: userName,
       email: email,
       password: password
-    });
-    return this.http.post(this._url + '/editUser/' +id , this.json);
+    };
+    return this.http.put(this._url + '/' +id , this.json);
   }
 
   getMatch(){
