@@ -7,7 +7,6 @@ import { IonicModule } from '@ionic/angular';
 import { ListUsersPageRoutingModule } from './list-users-routing.module';
 
 import { ListUsersPage } from './list-users.page';
-import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {Ng2SearchPipeModule} from "ng2-search-filter";
 import {ListEnfrentamientosPageRoutingModule} from "../list-enfrentamientos/list-enfrentamientos-routing.module";
 @NgModule({
@@ -16,7 +15,6 @@ import {ListEnfrentamientosPageRoutingModule} from "../list-enfrentamientos/list
         FormsModule,
         IonicModule,
         ListUsersPageRoutingModule,
-        FontAwesomeModule,
         Ng2SearchPipeModule,
         ListEnfrentamientosPageRoutingModule
     ],

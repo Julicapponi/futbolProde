@@ -3,7 +3,6 @@ import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
 import {AlertController, MenuController, ModalController} from '@ionic/angular';
 import { AuthService } from '../services/auth.service';
 import {User} from '../class/User';
-import {faCoffee} from '@fortawesome/free-solid-svg-icons';
 import {NAVIGATE_LOGIN} from '../logueo/logueo.page';
 import {EditUserPage, NAVIGATE_EDITAR_USER} from '../edit-user/edit-user.page';
 export const NAVIGATE_LIST_USER = 'list-users';
@@ -16,7 +15,6 @@ export class ListUsersPage implements OnInit {
   @Output() disparadorId: EventEmitter<any> = new EventEmitter();
 
   id = '';
-  faCoffee = faCoffee;
   listUsers: User[];
   isCargando: boolean;
   filterTerm: string;

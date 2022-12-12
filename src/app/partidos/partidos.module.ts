@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { PartidosPageRoutingModule } from './partidos-routing.module';
 
 import { PartidosPage } from './partidos.page';
+import {ListEnfrentamientosPageRoutingModule} from "../list-enfrentamientos/list-enfrentamientos-routing.module";
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    PartidosPageRoutingModule
+    PartidosPageRoutingModule,
+    ListEnfrentamientosPageRoutingModule
   ],
   declarations: [PartidosPage]
 })

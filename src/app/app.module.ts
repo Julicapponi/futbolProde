@@ -9,10 +9,6 @@ import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import {CommonModule, DatePipe} from '@angular/common';
 import {AuthGuard } from './auth.guard';
 import {TokenInterceptorService } from './services/token-interceptor.service';
-import {FaIconLibrary, FontAwesomeModule} from '@fortawesome/angular-fontawesome';
-import { fas } from '@fortawesome/free-solid-svg-icons';
-import { far } from '@fortawesome/free-regular-svg-icons';
-import { fab } from '@fortawesome/free-brands-svg-icons';
 import {ErrorTailorModule} from '@ngneat/error-tailor';
 import {SQLite, SQLiteObject} from '@awesome-cordova-plugins/sqlite/ngx';
 import {Ng2SearchPipeModule} from "ng2-search-filter";
@@ -27,7 +23,6 @@ import {Ng2SearchPipeModule} from "ng2-search-filter";
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    FontAwesomeModule,
     Ng2SearchPipeModule,
     ErrorTailorModule.forRoot({
       errors: {
@@ -51,7 +46,6 @@ import {Ng2SearchPipeModule} from "ng2-search-filter";
   bootstrap: [AppComponent],
 })
 export class AppModule {
-  constructor(library: FaIconLibrary, private sqlite: SQLite) {
-    library.addIconPacks(fas, fab, far);
+  constructor( private sqlite: SQLite) {
   }
 }

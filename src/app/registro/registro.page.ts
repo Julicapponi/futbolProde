@@ -33,6 +33,7 @@ export class RegistroPage implements OnInit {
 
   signUp(user: User){
     this.user = user;
+    console.log(this.user);
     this.authService.signUp(this.user).subscribe(
       res => {
         //guardamos el token

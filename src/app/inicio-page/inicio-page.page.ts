@@ -138,4 +138,9 @@ export class InicioPagePage implements OnInit {
       alert.present();
     });
   }
+
+    cerrarSesion() {
+      localStorage.clear();
+      this.router.navigate(['/home']);
+    }
 }

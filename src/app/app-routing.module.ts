@@ -17,6 +17,8 @@ import {DetallePartidoPage} from "./detalle-partido/detalle-partido.page";
 import {ListCompetenciasPage} from "./list-competencias/list-competencias.page";
 import {ListCompetenciasAdminPage} from "./list-competencias-admin/list-competencias-admin.page";
 import {ModificarEnfrentamientosPage} from "./modificar-enfrentamientos/modificar-enfrentamientos.page";
+import {CreateGroupPage} from "./create-group/create-group.page";
+import {BuscarGroupPage} from "./buscar-group/buscar-group.page";
 
 
 const routes: Routes = [
@@ -42,7 +44,8 @@ const routes: Routes = [
   {path: 'detallePartido', component: DetallePartidoPage},
   {path: 'list-competencias-admin', component: ListCompetenciasAdminPage},
   {path: 'modificar-enfrentamientos', component: ModificarEnfrentamientosPage},
-  
+  {path: 'crear-grupo', component: CreateGroupPage},
+  {path: 'buscar-group', component: BuscarGroupPage},
   {
     path: 'prueba',
     loadChildren: () => import('./prueba/prueba.module').then( m => m.PruebaPageModule)
@@ -102,7 +105,17 @@ const routes: Routes = [
   {
     path: 'modificar-enfrentamientos',
     loadChildren: () => import('./modificar-enfrentamientos/modificar-enfrentamientos.module').then( m => m.ModificarEnfrentamientosPageModule)
+  },
+  {
+    path: 'create-group',
+    loadChildren: () => import('./create-group/create-group.module').then( m => m.CreateGroupPageModule)
+  },
+  {
+    path: 'buscar-group',
+    loadChildren: () => import('./buscar-group/buscar-group.module').then( m => m.BuscarGroupPageModule)
   }
+
+
 
 
 

@@ -41,6 +41,7 @@ export class LogueoPage implements OnInit {
           this.dialogSucess(res.message);;
           this.usuario = res.user;
           console.log('usuario logueado:', JSON.stringify(this.usuario));
+          localStorage.setItem('idUser', res.user[0].iduser);
           localStorage.setItem('userName', this.user.email);
           for (let usuario of this.usuario) {
             console.log(usuario);
