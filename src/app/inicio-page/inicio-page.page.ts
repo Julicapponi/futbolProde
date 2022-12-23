@@ -3,6 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {AlertController, MenuController} from '@ionic/angular';
 import { CompetenciaService } from '../services/competencia.service';
 import {Comp} from "../class/Comp";
+import {Enfrentamiento} from "../class/Enfrentamiento";
 import {NAVIGATE_LOGIN} from "../logueo/logueo.page";
 import {NAVIGATE_REGISTRO} from "../registro/registro.page";
 import {Competencia} from "../class/Competencia";
@@ -16,8 +17,8 @@ import { SharingServiceService } from '../services/sharing-service.service';
   styleUrls: ['./inicio-page.page.scss'],
 })
 export class InicioPagePage implements OnInit {
-  partidos: Comp[];
-  partidosComp: Comp ;
+  partidos: Enfrentamiento[];
+  partidosComp: Enfrentamiento;
   competenciasActivas: any;
   idCompetenciaSeleccionada: string;
   anioCompetenciaSeleccionada: string;
@@ -91,14 +92,17 @@ export class InicioPagePage implements OnInit {
         data => {
           console.log('PARTIDOS EN LA PAGINA PRINCIPAL: ');
           console.log(JSON.stringify(data));
-          this.partidosComp = data.response;
-          this.partidos = data.response;
+          this.partidosComp = data;
+          this.partidos = data;
           this.sharingService.setearPartidos = this.partidosComp;
           for (const part of this.partidos) {
+            /* VER FILTRO DE FECHAS YA QUE SE CAMBIO SE CONSUME DESDE LA BD, NO DE LA API
             const fechaComp = part.league.round.toString();
             if (!this.fechasCompetencia.includes(fechaComp)) {
               this.fechasCompetencia.push(fechaComp);
             }
+          
+             */
           }
           console.log(this.fechasCompetencia);
           this.isCargando = false;

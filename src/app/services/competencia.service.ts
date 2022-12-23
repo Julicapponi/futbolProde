@@ -90,23 +90,16 @@ export class CompetenciaService {
             }
         }
     }
+        
+    //obtengo los enfrentamientos desde la BD desde la tarea programada
+      getEnfrentamientos(idCompetencia, anioCompetencia){
+        console.log(idCompetencia, 'y el anio:', anioCompetencia);
+        return this.http.get<any>(this._urlEnfrentamientos + '/'+idCompetencia + '/'+anioCompetencia+ '/');
+      }
 
-  getEnfrentamientos(idCompetencia, anioCompetencia){
-    console.log(idCompetencia, 'y el anio:', anioCompetencia);
-    return this.http.get<any>(this._urlEnfrentamientos + '/'+idCompetencia + '/'+anioCompetencia+ '/');
-  }
-
-  //obtengo los enfrentamientos desde la BD desde la tarea programada
-  getCompetenciasActivas(){
-    return this.http.get<any>(this._url + '/list/activas/');
-  }
-
-    getEnfrentamientosBD(){
-        return this.http.get<any>(this._urlEnfrentamientos + '/enfrentamientos/lista/');
-    }
-
-    
-    
-
+   
+      getCompetenciasActivas(){
+        return this.http.get<any>(this._url + '/list/activas/');
+      }
 }
 

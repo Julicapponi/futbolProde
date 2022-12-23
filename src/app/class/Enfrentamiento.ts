@@ -1,22 +1,25 @@
 import {Entity} from 'typeorm';
 
 @Entity()
-export class Partido {
+export class Enfrentamiento {
     idEnfrentamiento: number;
     fechaEnfrentamiento: string;
+    short: string;
     idLiga: number;
-    nameLiga: number;
-    anioLiga: number;
+    nameLiga: string;
+    anioLiga: string;
     idLocal: number;
     nameLocal: string;
     logoLocal: string;
+    ganaLocal: number;
     idVisit: number;
     nameVisit: string;
     logoVisit: string;
+    ganaVisit: number;
     golLocal: number;
     golVisit: number;
-    isModificado: boolean;
-}
-
-export class Enfrentamiento {
+    penalesLocal: number;
+    penalesVisit: number;
+    isModificado: boolean; 
+    isComparado: boolean;
 }

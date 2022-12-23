@@ -16,9 +16,9 @@ import {SharingServiceService} from "../services/sharing-service.service";
 export class ModificarEnfrentamientosPage implements OnInit {
   isCargando: boolean;
   filterTerm: string;
-  enfrentamientos: Enfrentamiento[];
-    partidos: Comp[];
-    partidosComp: Comp ;
+    enfrentamientos: Enfrentamiento[];
+    partidos: Enfrentamiento[];
+    partidosComp: Enfrentamiento ;
     competenciasActivas: any;
     idCompetenciaSeleccionada: string;
     anioCompetenciaSeleccionada: string;
@@ -33,8 +33,6 @@ export class ModificarEnfrentamientosPage implements OnInit {
   
   constructor(private activatedRoute: ActivatedRoute, private competenciaService: CompetenciaService, private sharingService: SharingServiceService, private router: Router, private menuCtrl: MenuController, private authService: AuthService, public alertController: AlertController, private competitionsService: CompetenciaService) {
       this.competenciasActiv();
-      this.listEnfrentamientosBD();
-     
   }
 
   ngOnInit() {
@@ -42,9 +40,11 @@ export class ModificarEnfrentamientosPage implements OnInit {
   }
 
 
-  listEnfrentamientosBD(){
-    this.competenciaService.getEnfrentamientosBD().subscribe(res => {
+    listEnfrentamientosBD(idCompetenciaSeleccionada: string, anioCompetenciaSeleccionada: string){
+      this.isCargando = true;
+    this.competenciaService.getEnfrentamientos(idCompetenciaSeleccionada, anioCompetenciaSeleccionada).subscribe(res => {
         console.log(res);
+        this.isCargando = false;
         this.enfrentamientos = res;
         err => {
             console.log(err);
@@ -62,7 +62,7 @@ export class ModificarEnfrentamientosPage implements OnInit {
         this.idCompetenciaSeleccionada = $event.idcompetition;
         this.anioCompetenciaSeleccionada = $event.anio;
         console.log('Competencia seleccionada: '+this.idCompetenciaSeleccionada + ' con el anio: ' + this.anioCompetenciaSeleccionada);
-        
+        this.listEnfrentamientosBD(this.idCompetenciaSeleccionada, this.anioCompetenciaSeleccionada);
     }
     
     competenciasActiv(){
@@ -90,12 +90,15 @@ export class ModificarEnfrentamientosPage implements OnInit {
                     this.partidosComp = data.response;
                     this.partidos = data.response;
                     this.sharingService.setearPartidos = this.partidosComp;
+                    /*
                     for (const part of this.partidos) {
                         const fechaComp = part.league.round.toString();
                         if (!this.fechasCompetencia.includes(fechaComp)) {
                             this.fechasCompetencia.push(fechaComp);
                         }
                     }
+                    
+                     */
                     console.log(this.fechasCompetencia);
                     this.isCargando = false;
                 },

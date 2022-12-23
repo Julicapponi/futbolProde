@@ -48,16 +48,19 @@
       <ion-fab-button>GUARDAR PRONOSTICO 1</ion-fab-button>
     </ion-fab>
     <ion-fab slot="fixed">
+      <!--
       <ion-fab-button (click)="guardarPronostico(part.fixture.id, part.teams.home.id, part.teams.away.id, part.teams.home.winner, part.teams.away.winner, part.goals.home, part.goals.away)">GUARDAR PRONOSTICO 2</ion-fab-button>
+   -->
     </ion-fab>
-    <ion-grid *ngIf="part.league.round.includes(fechaCompara)">
+    <ion-grid>
       <ion-row class="row-fecha" class="ion-no-margin ion-no-padding">
         <ion-col [size]="12" class="ion-no-margin ion-no-padding">
           <ion-item  class="ion-no-margin ion-no-padding">
-            <ion-badge *ngIf="part.fixture.status.long.includes('Finished') || part.fixture.status.short.includes('FT') || part.fixture.status.short.includes('PEN')" slot="start" fill="outline">Finalizado</ion-badge>
-            <ion-badge *ngIf="part.fixture.status.short.includes('1H') || part.fixture.status.short.includes('2H')" slot="start" fill="outline" style="background-color: red">Vivo</ion-badge>
-            <ion-badge *ngIf="part.fixture.status.short.includes('HT')" slot="start" fill="outline" style="background-color: red">Vivo - Entretiempo</ion-badge>
-            <ion-label slot="end" style="font-size: 0.8rem">  {{part.fixture.date | date :'dd/MM/yyyy HH:mm'}}  </ion-label>
+            <ion-badge *ngIf="part.short.includes('Match Finished')" slot="start" fill="outline">Finalizado</ion-badge>
+            <ion-badge *ngIf="part.short.includes('Match Postponed')" slot="start" fill="outline">Postergado</ion-badge>
+            <ion-badge *ngIf="part.short.includes('1H') || part.short.includes('2H')" slot="start" fill="outline" style="background-color: red">Vivo</ion-badge>
+            <ion-badge *ngIf="part.short.includes('HT')" slot="start" fill="outline" style="background-color: red">Vivo - Entretiempo</ion-badge>
+            <ion-label slot="end" style="font-size: 0.8rem">  {{part.fechaEnfrentamiento | date :'dd/MM/yyyy HH:mm'}}  </ion-label>
             <ion-icon slot="end" name="help-outline" size="small"></ion-icon>
             <!--<ion-button fill="outline" slot="end">View</ion-button>-->
           </ion-item>
@@ -66,7 +69,7 @@
 
       <ion-row class="general">
 
-        <ion-col *ngIf="part.fixture.status.long.includes('Finished') || part.fixture.status.short.includes('FT') || part.fixture.status.short.includes('PEN')"
+        <ion-col *ngIf="part.short.includes('Finished') || part.short.includes('FT') || part.short.includes('PEN')"
           [size]="1" class=" ion-no-margin ion-no-padding col-puntaje">
           <ion-row class="puntaje-obtenido">
             <p >0 PTS</p>
@@ -77,15 +80,16 @@
           <ion-row class="row-local">
             <ion-col [size]="0.5">
               <ion-row>
-                <ion-label class="text-resultado-culminado">{{part.goals.home}}</ion-label>
+                <ion-label class="text-resultado-culminado">{{part.golLocal}}</ion-label>
+                <ion-label class="text-resultado-culminado-penales" *ngIf="part.penalesLocal != null || part.penalesLocal  != undefined">{{part.penalesLocal }}</ion-label>
               </ion-row>
             </ion-col>
             <ion-col [size]="11.5" class="col-local">
               <ion-item class="ion-activated">
-                <ion-label [ngClass]="part.teams.home.winner?'text-negrita':'text-normal'"> <img class="logo-equipo" src="{{part.teams.home.logo}}"> {{part.teams.home.name}} </ion-label>
-                <ion-icon name="remove-circle-outline" slot="end" size="small" (click)="calcularResultado(part.teams.home.id, part.fixture.id, false, true)"></ion-icon>
-                <ion-label slot="end"><p *ngIf="idEquipoLocal === part.teams.home.id">{{this.golesLocal}}</p></ion-label>
-                <ion-icon name="add-circle-outline" slot="end" size="small" (click)="calcularResultado(part.teams.home.id, part.fixture.id, true, true)"></ion-icon>
+                <ion-label [ngClass]="part.ganaLocal?'text-negrita':'text-normal'"> <img class="logo-equipo" src="{{part.logoLocal}}"> {{part.nameLocal}} </ion-label>
+                <ion-icon name="remove-circle-outline" slot="end" size="small" (click)="calcularResultado(part.idLocal, part.idVisit, part.idEnfrentamiento, false, true)"></ion-icon>
+                <ion-label slot="end"><p *ngIf="idEquipoLocal === part.idLocal">{{this.golesLocal}}</p></ion-label>
+                <ion-icon name="add-circle-outline" slot="end" size="small" (click)="calcularResultado(part.idLocal, part.idVisit, part.idEnfrentamiento, true, true)"></ion-icon>
               </ion-item>
             </ion-col>
           </ion-row>
@@ -93,23 +97,30 @@
           <ion-row class="row-visitante">
             <ion-col [size]="0.5">
               <ion-row>
-                <ion-label class="text-resultado-culminado">{{part.goals.away}}</ion-label>
+                <ion-label class="text-resultado-culminado">{{part.golVisit}}</ion-label>
+                <ion-label class="text-resultado-culminado-penales" *ngIf="part.penalesVisit!= null || part.penalesVisit != undefined">{{part.penalesVisit}}</ion-label>
               </ion-row>
             </ion-col>
             <ion-col [size]="11.5" class="col-visitante">
               <ion-item class="ion-activated">
-                <ion-label [ngClass]="part.teams.away.winner?'text-negrita ':'text-normal'"> <img class="logo-equipo" src="{{part.teams.away.logo}}"> {{part.teams.away.name}}</ion-label>
-                <ion-icon name="remove-circle-outline" slot="end" size="small" (click)="calcularResultado(part.teams.away.id, part.fixture.id, false, false)"></ion-icon>
-                <ion-label slot="end"><p *ngIf="idEquipoVisitante === part.teams.away.id">{{this.golesVisitante}}</p></ion-label>
-                <ion-icon name="add-circle-outline" slot="end" size="small" (click)="calcularResultado(part.teams.away.id, part.fixture.id, true, false)"></ion-icon>
+                <ion-label [ngClass]="part.ganaVisit?'text-negrita ':'text-normal'"> <img class="logo-equipo" src="{{part.logoVisit}}"> {{part.nameVisit}}</ion-label>
+                <ion-icon name="remove-circle-outline" slot="end" size="small" (click)="calcularResultado(part.idLocal, part.idVisit, part.idEnfrentamiento, false, false)"></ion-icon>
+                <ion-label slot="end"><p *ngIf="idEquipoVisitante === part.idVisit">{{this.golesVisitante}}</p></ion-label>
+                <ion-icon name="add-circle-outline" slot="end" size="small" (click)="calcularResultado(part.idLocal, part.idVisit, part.idEnfrentamiento, true, false)"></ion-icon>
               </ion-item>
             </ion-col>
           </ion-row>
         </ion-col>
       </ion-row>
+      
     </ion-grid>
   </ion-card>
-
+  
+  <ion-row>
+    <ion-button (click)="guardarPronosticos()">
+      guardar resultados
+    </ion-button>
+  </ion-row>
 
 </ion-content>
 

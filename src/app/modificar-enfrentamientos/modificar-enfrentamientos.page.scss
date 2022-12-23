@@ -1,7 +1,33 @@
+.text-title-modificar-enfrentamientos{
+  color: black;  
+}
+
 .col-goles{
   display: flex;
 }
 
-.input-goles{
+.centrar{
   margin:auto;
 }
+
+.display-flex{
+  display: flex;
+}
+.col-size-resultados{
+  height: 2.5rem;
+
+}
+
+.text-resultado{
+  font-size: 1rem;
+  margin-left: 1rem;
+  font-weight: 600;
+}
+
+.text-goles{
+  font-size: 2rem;
+  font-weight: 600;
+  width: 2.5rem;
+  margin-left: 1rem;
+}
+
