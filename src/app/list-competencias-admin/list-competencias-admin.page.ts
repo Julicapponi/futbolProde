@@ -3,6 +3,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {CompetenciaService} from "../services/competencia.service";
 import {AlertController, MenuController} from "@ionic/angular";
 import {AuthService} from "../services/auth.service";
+import {Competencia} from "../class/Competencia";
 
 @Component({
   selector: 'app-list-competencias-admin',
@@ -10,7 +11,7 @@ import {AuthService} from "../services/auth.service";
   styleUrls: ['./list-competencias-admin.page.scss'],
 })
 export class ListCompetenciasAdminPage implements OnInit {
-  competenciasActivas: any;
+  competenciasActivas: Competencia[];
   isCargando: boolean;
   filterTerm: string;
   

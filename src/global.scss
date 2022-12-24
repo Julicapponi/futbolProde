@@ -24,3 +24,70 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+.bg-image{
+  --background: url('assets/img/background/bg-4.jpg')0 0/100% 100% no-repeat;
+
+}
+
+.desenfoque{
+  -webkit-backdrop-filter: blur(15px);
+  backdrop-filter: blur(15px);
+  background-color: rgba(243,243,243,0.1);
+}
+
+.text-size-small{
+  font-size: 1rem;
+}
+
+.text-size-medium{
+  font-size: 1.2rem;
+}
+
+.text-size-large{
+  font-size: 1.4rem;
+}
+
+.text-white{
+  color: white;
+}
+
+.container-options-inicio{
+  display: flex;
+  margin: 0.5rem;
+  border-radius: 1rem;  
+}
+
+.contenido-options-inicio{
+  margin: auto;
+}
+
+.img-options-inicio{
+  width: 50%;
+  display:block;
+  margin:auto;
+}
+
+.no-scroll .scroll-content{
+    overflow: hidden;
+}
+
+.display-flex{
+  display: flex;
+}
+
+.button-menu{
+  font-size: 34px; //Preferred size here
+}
+
+.margin-auto{
+  margin: auto;
+}
+ion-content{
+  //background-image: url("paper.gif");
+  --ion-background-color:white ;
+}
+
+.text-header{
+  font-size: 1rem;
+}

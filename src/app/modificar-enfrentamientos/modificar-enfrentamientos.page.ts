@@ -44,7 +44,10 @@ export class ModificarEnfrentamientosPage implements OnInit {
       this.isCargando = true;
     this.competenciaService.getEnfrentamientos(idCompetenciaSeleccionada, anioCompetenciaSeleccionada).subscribe(res => {
         console.log(res);
-        this.isCargando = false;
+        //timeout por los logos de equipos, tardan en cargar/impactar en la pagina
+        setTimeout(async () => {
+            this.isCargando = false;
+        }, 1500);
         this.enfrentamientos = res;
         err => {
             console.log(err);

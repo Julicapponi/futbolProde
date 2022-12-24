@@ -44,22 +44,25 @@
         </ion-row>
         
           <ion-row *ngFor="let user of listUsers | filter:filterTerm" class="row-list">
-            <ion-col class='col-grid ion-no-margin ion-no-padding' [size]="3">
-              <ion-label class="text-competencias">{{user.name}}</ion-label>
-            </ion-col>
-            <ion-col class='col-grid ion-no-margin ion-no-padding' [size]="5">
-              <ion-label class="text-competencias">{{user.email}}</ion-label>
-            </ion-col>
-            <ion-col class='col-grid ion-no-margin ion-no-padding' [size]="2">
-              <ion-button style="text-align: center" (click)="editarUser(user)">
-                <img src='assets/icon/edit.png'>
-              </ion-button>
-            </ion-col>
-            <ion-col class='col-grid ion-no-margin ion-no-padding' [size]="2">
-              <ion-button style="text-align: center" (click)="borrarUser(user)">
-                <img src='assets/icon/delete.png'>
-              </ion-button>
-            </ion-col>
+              <ion-row *ngIf="user.admin == 0 || user.admin =='0'">
+                <ion-col class='col-grid ion-no-margin ion-no-padding' [size]="3">
+                  <ion-label class="text-competencias">{{user.name}}</ion-label>
+                </ion-col>
+                <ion-col class='col-grid ion-no-margin ion-no-padding' [size]="5">
+                  <ion-label class="text-competencias">{{user.email}}</ion-label>
+                </ion-col>
+                <ion-col class='col-grid ion-no-margin ion-no-padding' [size]="2">
+                  <ion-button style="text-align: center" (click)="editarUser(user)">
+                    <img src='assets/icon/edit.png'>
+                  </ion-button>
+                </ion-col>
+                <ion-col class='col-grid ion-no-margin ion-no-padding' [size]="2">
+                  <ion-button style="text-align: center" (click)="borrarUser(user)">
+                    <img src='assets/icon/delete.png'>
+                  </ion-button>
+                </ion-col>
+              </ion-row>
+              
           </ion-row>
       </ion-list>
     </ion-col>

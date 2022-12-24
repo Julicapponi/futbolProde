@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {AlertController, MenuController} from "@ionic/angular";
+import {AlertController, MenuController, ToastController} from "@ionic/angular";
 import {AuthService} from "../services/auth.service";
 import {CompetenciaService} from "../services/competencia.service";
 import {Competencia} from "../class/Competencia";
@@ -18,7 +18,7 @@ export class ListCompetenciasPage implements OnInit {
     isActivateCheckbox: boolean;
     competenciasActivas: Competencia;
     listaCompetenciasActivas: any;
-  constructor(private activatedRoute: ActivatedRoute, private competenciaService: CompetenciaService,private router: Router, private menuCtrl: MenuController, private authService: AuthService, public alertController: AlertController, private competitionsService: CompetenciaService) { 
+  constructor(private toast: ToastController, private activatedRoute: ActivatedRoute, private competenciaService: CompetenciaService,private router: Router, private menuCtrl: MenuController, private authService: AuthService, public alertController: AlertController, private competitionsService: CompetenciaService) { 
     this.listCompetenciaActivas();
     this.listarCompetenciasPorId();
   }
@@ -75,6 +75,12 @@ export class ListCompetenciasPage implements OnInit {
             this.competenciaService.editStateCompetition(comp, compActiva).subscribe(
                 res => {
                     console.log(res);
+                    if(res.message.includes('Esta competicion ya está activa')){
+                        this.showToastMessage('Esta competencia ya está activa, elija otra', "danger");
+                    }
+                    if(res.message.includes('Competencia activada')){
+                        this.showToastMessage('Competencia activada con éxito, ahora los usuarios podrán visualizarla', "success");
+                    }
                     if(res.checkbox){
                         this.isActivateCheckbox = true;
                     } else {
@@ -85,6 +91,24 @@ export class ListCompetenciasPage implements OnInit {
                     console.log(err);
                 }
             );
+    }
+
+    async showToastMessage(message:string, color: string) {
+        const toast = await this.toast.create({
+            message: message,
+            duration: 4000,
+            icon: 'checkmark', //https://ionic.io/ionicons
+            cssClass: '',
+            position: "bottom",
+            translucent: true,
+            animated: true,
+            mode: "md",  // md or ios
+            color: color //"danger" ｜ "dark" ｜ "light" ｜ "medium" ｜ "primary" ｜ "secondary" ｜ "success" ｜ "tertiary" ｜ "warning" ｜ string & Record<never, never> ｜ undefined
+        });
+        await toast.present();
+        this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
+            this.router.navigate(['/partidosPage']);
+        });
     }
 
     irListaComp() {

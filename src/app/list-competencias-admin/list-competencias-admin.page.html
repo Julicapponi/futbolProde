@@ -3,14 +3,14 @@
     <ion-buttons slot="start">
       <ion-button (click)="volver()">
         <ion-icon name="arrow-back-outline"></ion-icon>
-        <ion-title class="text">Mi lista de competencias</ion-title>
+        <ion-title class="text">Competencias activas</ion-title>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-header *ngIf="!isCargando">
-  <ion-searchbar class="ion-no-margin ion-no-padding searchbar" placeholder="Buscar..." [(ngModel)]="filterTerm"
+  <ion-searchbar class="ion-no-margin ion-no-padding searchbar" placeholder="Buscar competencia..." [(ngModel)]="filterTerm"
                  animated="true"></ion-searchbar>
   <p class="ion-no-margin text-aclaracion">Lista activas visibles para los usuarios</p>
 </ion-header>
@@ -20,6 +20,8 @@
 <ion-content [fullscreen]="true">
   <ion-row>
     <ion-col [size]="12" *ngIf="isCargando">
+      <ion-progress-bar color="primary" type="indeterminate"></ion-progress-bar>
+      <p>Aguarde, cargando TU lista de competencias</p>
       <app-animation-progress></app-animation-progress>
       <app-animation-progress></app-animation-progress>
       <app-animation-progress></app-animation-progress>
@@ -35,27 +37,10 @@
     <ion-col [size]="12">
 
       <ion-list>
-        <ion-row class="header-table-row">
-          <ion-col [size]="2">
-
-          </ion-col>
-          <ion-col [size]="2">
-            <h4 class="text-header-table ion-no-margin">ID</h4>
-          </ion-col>
-          <ion-col [size]="8">
-            <h4 class="text-header-table ion-no-margin">Nombre</h4>
-          </ion-col>
-        </ion-row>
         <ion-item *ngFor="let competencia of competenciasActivas | filter:filterTerm">
           <ion-row class="row-list">
-            <ion-col class='col-grid ion-no-margin ion-no-padding' [size]="2">
-              <ion-label class="text-competencias">{{competencia.idCompetition}}</ion-label>
-            </ion-col>
-            <ion-col class='col-grid ion-no-margin ion-no-padding' [size]="2">
+            <ion-col class='col-grid ion-no-margin ion-no-padding' [size]="12">
               <ion-label class="text-competencias">{{competencia.name}}</ion-label>
-            </ion-col>
-            <ion-col class='col-grid ion-no-margin ion-no-padding' [size]="8">
-              <ion-label class="text-competencias">{{competencia.anio}}</ion-label>
             </ion-col>
           </ion-row>
         </ion-item>

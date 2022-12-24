@@ -23,6 +23,8 @@
 <ion-content [fullscreen]="true">
   <ion-row>
     <ion-col [size]="12" *ngIf="isCargando">
+      <ion-progress-bar color="primary" type="indeterminate"></ion-progress-bar>
+      <p>Aguarde, cargando competencias</p>
       <app-animation-progress></app-animation-progress>
       <app-animation-progress></app-animation-progress>
       <app-animation-progress></app-animation-progress>

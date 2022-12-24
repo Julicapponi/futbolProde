@@ -1,87 +1,53 @@
-<!-- MENU PRINCIPAL -->
-<ion-menu side="start" menuId="custom" contentId="main" class="my-custom-menu">
-  <ion-header>
-    <ion-toolbar color="tertiary">
-      <ion-title>Custom Menu</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  <ion-content>
-    <ion-list>
-      <ion-item>Menu Item</ion-item>
-      <ion-item>Menu Item</ion-item>
-      <ion-item>Menu Item</ion-item>
-      <ion-item>Menu Item</ion-item>
-      <ion-item>Menu Item</ion-item>
-    </ion-list>
-  </ion-content>
-</ion-menu>
+<ion-row>
+  <ion-col (click)="openMenu()" class="display-flex" [size]="2">
+      <ion-icon class="margin-auto button-menu" name="menu-outline"></ion-icon>
+  </ion-col>
+  <ion-col [size]="10">
+    <ion-item>
+      <ion-select [(ngModel)]="compActivas" (ngModelChange)="ngMode($event)"  placeholder="Selecciona una competencia">
+        <div *ngFor="let compActivas of competenciasActivas">
+          <ion-select-option [value]="compActivas"> {{compActivas.name}}</ion-select-option>
+        </div>
+      </ion-select>
+    </ion-item>
+  </ion-col>
+</ion-row>
 
-<ion-menu side="end" type="push" contentId="main">
-  <ion-header>
-    <ion-toolbar color="danger">
-      <ion-title>End Menu</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  <ion-content>
-    <ion-list>
-      <ion-item>Menu Item</ion-item>
-      <ion-item>Menu Item</ion-item>
-      <ion-item>Menu Item</ion-item>
-      <ion-item>Menu Item</ion-item>
-      <ion-item>Menu Item</ion-item>
-    </ion-list>
-  </ion-content>
-</ion-menu>
-
-<ion-item>
-  <ion-select [(ngModel)]="compActivas" (ngModelChange)="ngMode($event)"  placeholder="Selecciona una competencia">
-    <div *ngFor="let compActivas of competenciasActivas">
-      <ion-select-option [value]="compActivas"> {{compActivas.name}}</ion-select-option>
-    </div>
-  </ion-select>
-</ion-item>
-
-
-
-<ion-content>
-
-
+<ion-content class="bg-image no-scroll">
   <ion-grid>
     <ion-row>
-      <ion-col>
-        <div class="img-grid-resultado">
-          <div>
-            <img src="assets/img/resultados.png" (click)="altaPronosticos()">
+      <ion-col class="container-options-inicio desenfoque">
+          <div class="contenido-options-inicio">
+            <img class="img-options-inicio" src="assets/img/resultados.png" (click)="altaPronosticos()">
             <p class="text-grid-inicio">PRONOSTICOS</p>
           </div>
-        </div>
       </ion-col>
     </ion-row>
     <ion-row>
-      <ion-col>
-        <div class="img-grid-inicio" (click)="irAResultadosFootball()">
-          <img src="assets/img/competition.png">
+      <ion-col class="container-options-inicio desenfoque">
+        <div class="contenido-options-inicio" (click)="irAResultadosFootball()">
+          <img  class="img-options-inicio" src="assets/img/competition.png">
           <p class="text-grid-inicio">TORNEO DE AMIGOS</p>
         </div>
       </ion-col>
-      <ion-col>
-        <div class="img-grid-inicio">
-          <img src="assets/img/leaderboard.png">
+      <ion-col class="container-options-inicio desenfoque">
+        <div>
+          <img class="img-options-inicio" src="assets/img/leaderboard.png">
           <p class="text-grid-inicio">TABLA DE POSICIONES</p>
         </div>
       </ion-col>
     </ion-row>
 
     <ion-row>
-      <ion-col>
-        <div class="img-grid-inicio">
-          <img src="assets/img/soccer.png">
+      <ion-col class="container-options-inicio desenfoque">
+        <div class="contenido-options-inicio">
+          <img class="img-options-inicio" src="assets/img/soccer.png">
           <p class="text-grid-inicio">FAVORITOS</p>
         </div>
       </ion-col>
-      <ion-col>
-        <div class="img-grid-inicio">
-          <img src="assets/img/trophy.png">
+      <ion-col class="container-options-inicio desenfoque">
+        <div class="contenido-options-inicio">
+          <img class="img-options-inicio" src="assets/img/trophy.png">
           <p class="text-grid-inicio">CAMPEON</p>
         </div>
       </ion-col>
@@ -92,11 +58,5 @@
         </ion-button>
       </ion-col>
     </ion-row>
-    <ion-row>
-      <ion-button (click)="irListaUsuarios()">Ir a lista de usuarios</ion-button>
-    </ion-row>
-
   </ion-grid>
-
 </ion-content>
-<!-- TERMINA MENU -->
