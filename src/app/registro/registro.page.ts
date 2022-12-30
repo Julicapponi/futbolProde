@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Router} from '@angular/router';
+import {Router, ActivatedRoute, NavigationExtras} from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import {AlertController, ToastController } from '@ionic/angular';
 import {NAVIGATE_LOGIN} from '../logueo/logueo.page';
@@ -25,8 +25,19 @@ export class RegistroPage implements OnInit {
     password: "",
     admin: "0"
   };
+  isAdmin: boolean;
 
-  constructor(private router: Router, private authService: AuthService, public alertController: AlertController) { }
+  constructor(private router: Router, private activatedRoute: ActivatedRoute, private authService: AuthService, public alertController: AlertController) {
+    try {
+      this.activatedRoute.queryParams.subscribe(() => {
+        if (this.router.getCurrentNavigation().extras.state) {
+          this.isAdmin = this.router.getCurrentNavigation().extras.state.isAdmin; // TIENDA_SELE;
+        }
+      });
+    } catch (e) {
+    }
+    
+  }
 
   ngOnInit() {
   }
@@ -50,7 +61,12 @@ export class RegistroPage implements OnInit {
   }
 
   volver(){
-    this.router.navigate(['/inicio-administrador']);
+    if(this.isAdmin){
+      this.router.navigate(['/inicio-administrador'], { replaceUrl: true });
+    } else {
+      this.router.navigate([NAVIGATE_LOGIN], { replaceUrl: true });
+    }
+
   }
 
   async dialogError(message: string) {

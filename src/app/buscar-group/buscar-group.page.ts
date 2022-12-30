@@ -42,6 +42,9 @@ export class BuscarGroupPage implements OnInit {
           console.log(res);
           this.idUserGreaGrupo = localStorage.getItem('idUser');
           this.resultBusquedaGrupos = res;
+          if(this.resultBusquedaGrupos.length === 0){
+              this.showToastMessage('No se encontraron resultados para la búsqueda del grupo', 'danger', 'thumbs-down', 3000);
+          }
         }),
         err => {
         };
@@ -56,6 +59,21 @@ export class BuscarGroupPage implements OnInit {
         err => {
         };
   }
+
+    async showToastMessage(message:string, color: string, icon: string, duracion: number) {
+        const toast = await this.toast.create({
+            message: message,
+            duration: duracion,
+            icon: icon, //https://ionic.io/ionicons
+            cssClass: '',
+            position: "bottom",
+            translucent: true,
+            animated: true,
+            mode: "md",  // md or ios
+            color: color //"danger" ｜ "dark" ｜ "light" ｜ "medium" ｜ "primary" ｜ "secondary" ｜ "success" ｜ "tertiary" ｜ "warning" ｜ string & Record<never, never> ｜ undefined
+        });
+        await toast.present();
+    }
 
   
 }

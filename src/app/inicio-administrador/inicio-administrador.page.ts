@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Router} from "@angular/router";
+import {NavigationExtras, Router} from "@angular/router";
 import {MenuController} from "@ionic/angular";
 import { AuthService } from '../services/auth.service';
 
@@ -30,7 +30,12 @@ export class InicioAdministradorPage implements OnInit {
   }
 
   irRegistro() {
-    this.router.navigate(['/registroPage']);
+    const navigationExtras: NavigationExtras ={
+      state:{
+        isAdmin: true
+      }
+    }
+    this.router.navigate(['/registroPage'], navigationExtras);
   }
 
 

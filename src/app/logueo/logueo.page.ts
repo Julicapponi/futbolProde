@@ -36,7 +36,7 @@ export class LogueoPage implements OnInit {
     this.authService.signIn(this.user).subscribe(
       res => {
         if(res.message.includes('incorrectos')){
-          
+          this.dialogError(res.message);
         } else {
           this.dialogSucess(res.message);;
           this.usuario = res.user;
@@ -53,8 +53,6 @@ export class LogueoPage implements OnInit {
             this.router.navigate(['/inicioPage']);
           }
         }
-        
-        
       },
       err => {
         console.log(err);

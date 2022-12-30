@@ -71,7 +71,7 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
 
   realizoCalculo = false;
   todosLosPartidos: Enfrentamiento[];
-  isPuedeCargarPronostico: boolean;
+  restarsumar_ocupado=false;
 
   constructor(private toast: ToastController, private router: Router, private sharingService: SharingServiceService, private route: ActivatedRoute, private menuCtrl: MenuController,
               private authService: AuthService, private resultService: ResultsService,
@@ -87,7 +87,7 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
     this.isCargandoPartidos = true;
     await this.sharingService.obtenerPartidos.subscribe((data: Enfrentamiento[]) => {
       //this.partidos = data;
-      this.partidos = data.slice(0, 6);
+      this.partidos = data.slice(0, 20);
       this.todosLosPartidos = this.partidos;
       this.isCargandoPartidos = false;
     });
@@ -158,26 +158,42 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
   }
 
   async guardarPronosticosHechos(part: Enfrentamiento, isSuma: boolean, isLocal: boolean) {
-    this.isPuedeCargarPronostico = false;
+    this.restarsumar_ocupado = true;
     console.log(part);
-    if (isLocal) {
-      if (isSuma) {
-        part.golesLocalPronosticado = part.golesLocalPronosticado + 1;
-      } else {
-        if (part.golesLocalPronosticado > 0) {
-          part.golesLocalPronosticado = part.golesLocalPronosticado - 1;
+    if (part.golesLocalPronosticado != null || part.golesLocalPronosticado != undefined || part.golesVisitPronosticado != null || part.golesVisitPronosticado != undefined) {
+      //EDICION DE PRONOSTICO EXISTENTE
+      if (isLocal) {
+        if (isSuma) {
+          if (part.golesLocalPronosticado != null || part.golesLocalPronosticado != undefined) {
+            part.golesLocalPronosticado = part.golesLocalPronosticado + 1;
+          }
+        } else {
+          if (part.golesLocalPronosticado > 0) {
+            if (part.golesLocalPronosticado != null || part.golesLocalPronosticado != undefined) {
+              part.golesLocalPronosticado = part.golesLocalPronosticado - 1;
+            }
+          }
+        }
+      } else if (!isLocal) {
+        if (isSuma) {
+          if (part.golesVisitPronosticado != null || part.golesVisitPronosticado != undefined) {
+            part.golesVisitPronosticado = part.golesVisitPronosticado + 1;
+          }
+        } else {
+          if (part.golesVisitPronosticado > 0) {
+            if (part.golesVisitPronosticado != null || part.golesVisitPronosticado != undefined) {
+              part.golesVisitPronosticado = part.golesVisitPronosticado - 1;
+            }
+          }
         }
       }
-    } else if (!isLocal) {
-      if (isSuma) {
-        part.golesVisitPronosticado = part.golesVisitPronosticado + 1;
-
-      } else {
-        if (part.golesVisitPronosticado > 0) {
-          part.golesVisitPronosticado = part.golesVisitPronosticado - 1;
-        }
-      }
+    } else {
+      //PRONOSTICO NUEVO
+      part.golesLocalPronosticado = 0;
+      part.golesVisitPronosticado = 0;
     }
+    
+     
     await this.competenciaService.guardarPronosticos(part).subscribe(
         data => {
           if (data.cargoPronostico) {
@@ -185,8 +201,7 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
           } else {
             this.showToastMessage('No se pudo cargar el pronostico, cierre sesión y aguarde unos minutos', 'danger', 'thumbs-down');
           }
-          this.isPuedeCargarPronostico = true;
-          console.log(data);
+          this.restarsumar_ocupado = false;
         });
 
   }
