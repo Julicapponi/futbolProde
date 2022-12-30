@@ -25,10 +25,22 @@
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
 
+.item{
+  --ion-background-color: transparent;
+}
+
 .bg-image{
   --background: url('assets/img/background/bg-4.jpg')0 0/100% 100% no-repeat;
-
 }
+
+.bg-image-black{
+  --ion-background-color: rgba(0, 0, 0, 0.9);
+}
+
+.bg-image-black-transparent{
+  background-color: transparent;
+}
+
 
 .desenfoque{
   -webkit-backdrop-filter: blur(15px);
@@ -38,6 +50,11 @@
 
 .text-size-small{
   font-size: 1rem;
+}
+
+.content-select{
+  background-color: black;  
+  --ion-background-color: black;
 }
 
 .text-size-medium{
@@ -63,9 +80,10 @@
 }
 
 .img-options-inicio{
-  width: 50%;
+  width: 40%;
   display:block;
   margin:auto;
+  padding-top: 1rem;
 }
 
 .no-scroll .scroll-content{
@@ -78,8 +96,16 @@
 
 .button-menu{
   font-size: 34px; //Preferred size here
+  color: white;
 }
 
+.text-default-select{
+  color: white;
+}
+
+.text-select-option{
+  color: white;
+}
 .margin-auto{
   margin: auto;
 }

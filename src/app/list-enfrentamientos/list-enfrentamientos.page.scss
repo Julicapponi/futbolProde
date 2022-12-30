@@ -10,6 +10,23 @@
   height: 2rem;
 }
 
+.label-result-pronosticado{
+  margin: auto;
+}
+
+.number-result-pronosticado{
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--ion-color-primary);
+}
+
+.col-equipos{
+display: flex;  
+}
+
+.icon-operacion-result{
+  margin: auto;
+}
 .icon-sumar{
   height: 26px;
   width: 26px;
@@ -57,6 +74,13 @@
   font-family: 'Poppins-Regular', sans-serif;
 }
 
+.text-tu-pronostico{
+  padding-top: 0.5rem;
+  padding-right: 4px;
+  font-weight: 600;
+  text-align: right;
+  color: var(--ion-color-primary);
+}
 .text-resultado-culminado-penales{
   font-size: 1rem;
   padding-right: 5px;

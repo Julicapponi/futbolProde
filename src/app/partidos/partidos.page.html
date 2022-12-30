@@ -11,7 +11,7 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="bg-image no-scroll">
     <ion-row>
         <ion-col [size]="6">
             <ion-button (click)="buscarGrupo()">
@@ -27,7 +27,7 @@
    
     <ion-row>
         <ion-col *ngIf="isCargando" [size]="12">
-            <p class="text-carga"> Cargando, aguarde por favor... </p>
+            <p class="text-carga text-white"> Cargando, aguarde por favor... </p>
             <ion-progress-bar color="primary" class="barra-progreso" type="indeterminate"></ion-progress-bar>
         </ion-col>
     </ion-row>
@@ -49,8 +49,8 @@
             <ion-col [size]="12">
                 <ion-list>
                     <ion-item>
-                        <a *ngIf="grupo.idUserCreador == this.idUserGreaGrupo"> <ion-badge>Creador </ion-badge> </a>
-                        <ion-label> {{grupo.nameGrupo}}</ion-label>
+                        <a *ngIf="grupo.idUserCreador == this.idUserGreaGrupo"> <ion-badge class="text-white">Creador </ion-badge> </a>
+                        <ion-label class="text-white"> {{grupo.nameGrupo}}</ion-label>
                         <ion-button *ngIf="grupo.idUserCreador != this.idUserGreaGrupo" (click)="salirDelGrupo(grupo)" slot="end" color="warning">
                             SALIR DEL GRUPO
                         </ion-button>

@@ -13,5 +13,16 @@ export class HomePage {
       this.router.navigate(['/logueoPage']);
     }, 1000);
   }
-
+  
+  ngOnInit(){
+    setTimeout(async () => {
+      this.router.navigate(['/logueoPage']);
+    }, 1000);
+  }
+  
+  ionViewDidEnter(){
+    setTimeout(async () => {
+      this.router.navigate(['/logueoPage']);
+    }, 1000);
+  }
 }

@@ -4,6 +4,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import { Comp } from '../class/Comp';
 import { Observable } from 'rxjs';
 import {Competencia} from "../class/Competencia";
+import {Enfrentamiento} from "../class/Enfrentamiento";
 
 @Injectable({
   providedIn: 'root'
@@ -96,7 +97,22 @@ export class CompetenciaService {
         console.log(idCompetencia, 'y el anio:', anioCompetencia);
         return this.http.get<any>(this._urlEnfrentamientos + '/'+idCompetencia + '/'+anioCompetencia+ '/');
       }
+      
+        getEnfrentamientosPronosticados(idCompetencia, userId){
+            console.log('obtenemos pronosticos de idCompetencia la competencia'+ idCompetencia +'hechos por el usuario con id:', userId);
+            return this.http.get<any>(this._urlEnfrentamientos + '/pronosticados/'+idCompetencia + '/'+userId+ '/');
+        }
 
+    guardarPronosticos(part:Enfrentamiento){
+        let idUser = localStorage.getItem('idUser');
+        this.json = {
+            golesLocal: part.golesLocalPronosticado,
+            golesVisit: part.golesVisitPronosticado,
+            idUser: idUser,
+            idEnfrentamiento: part.idEnfrentamiento
+        };
+        return this.http.post<any>(this._urlEnfrentamientos + '/guardar/pronostico/', this.json);
+    }
    
       getCompetenciasActivas(){
         return this.http.get<any>(this._url + '/list/activas/');

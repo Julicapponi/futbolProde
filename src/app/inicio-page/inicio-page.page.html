@@ -1,12 +1,12 @@
-<ion-row>
+<ion-row class="content-select">
   <ion-col (click)="openMenu()" class="display-flex" [size]="2">
       <ion-icon class="margin-auto button-menu" name="menu-outline"></ion-icon>
   </ion-col>
   <ion-col [size]="10">
-    <ion-item>
-      <ion-select [(ngModel)]="compActivas" (ngModelChange)="ngMode($event)"  placeholder="Selecciona una competencia">
+    <ion-item no-lines lines="none" class="content-select">
+      <ion-select class="text-default-select" [(ngModel)]="compActivas" (ngModelChange)="ngMode($event)"  placeholder="Selecciona una competencia">
         <div *ngFor="let compActivas of competenciasActivas">
-          <ion-select-option [value]="compActivas"> {{compActivas.name}}</ion-select-option>
+          <ion-select-option class="text-select-option" [value]="compActivas"> {{compActivas.name}}</ion-select-option>
         </div>
       </ion-select>
     </ion-item>
@@ -18,7 +18,7 @@
     <ion-row>
       <ion-col class="container-options-inicio desenfoque">
           <div class="contenido-options-inicio">
-            <img class="img-options-inicio" src="assets/img/resultados.png" (click)="altaPronosticos()">
+            <img class="img-options-inicio" src="assets/img/scoreboard.png" (click)="altaPronosticos()">
             <p class="text-grid-inicio">PRONOSTICOS</p>
           </div>
       </ion-col>
@@ -26,14 +26,14 @@
     <ion-row>
       <ion-col class="container-options-inicio desenfoque">
         <div class="contenido-options-inicio" (click)="irAResultadosFootball()">
-          <img  class="img-options-inicio" src="assets/img/competition.png">
-          <p class="text-grid-inicio">TORNEO DE AMIGOS</p>
+          <img  class="img-options-inicio" src="assets/img/group-team.png">
+          <p class="text-grid-inicio">GRUPOS</p>
         </div>
       </ion-col>
       <ion-col class="container-options-inicio desenfoque">
         <div>
-          <img class="img-options-inicio" src="assets/img/leaderboard.png">
-          <p class="text-grid-inicio">TABLA DE POSICIONES</p>
+          <img class="img-options-inicio" src="assets/img/podium.png">
+          <p class="text-grid-inicio">PUNTAJES</p>
         </div>
       </ion-col>
     </ion-row>
@@ -41,13 +41,7 @@
     <ion-row>
       <ion-col class="container-options-inicio desenfoque">
         <div class="contenido-options-inicio">
-          <img class="img-options-inicio" src="assets/img/soccer.png">
-          <p class="text-grid-inicio">FAVORITOS</p>
-        </div>
-      </ion-col>
-      <ion-col class="container-options-inicio desenfoque">
-        <div class="contenido-options-inicio">
-          <img class="img-options-inicio" src="assets/img/trophy.png">
+          <img class="img-options-inicio" src="assets/img/champion.png">
           <p class="text-grid-inicio">CAMPEON</p>
         </div>
       </ion-col>

@@ -1,6 +1,6 @@
 import {AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {AlertController, MenuController} from '@ionic/angular';
+import {AlertController, MenuController, ToastController} from '@ionic/angular';
 import {AuthService} from '../services/auth.service';
 import {CompetenciaService} from '../services/competencia.service';
 import {DatePipe} from '@angular/common';
@@ -21,7 +21,7 @@ import {Enfrentamiento} from "../class/Enfrentamiento";
   styleUrls: ['./list-enfrentamientos.page.scss'],
   changeDetection: ChangeDetectionStrategy.Default
 })
-export class ListEnfrentamientosPage implements OnInit, OnDestroy{
+export class ListEnfrentamientosPage implements OnInit, OnDestroy {
   detallePartido: any;
   idCompetencia: string;
   anioCompetencia: string;
@@ -41,15 +41,16 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy{
   partidoEnCurso = false;
   subscriptionCompetencia: Subscription;
   partidos: Enfrentamiento[];
+  partidosPronosticados: Enfrentamiento[];
   fechasCompetencia: any = [];
-  fechaComp= '';
-  fechaCompara= '';
+  fechaComp = '';
+  fechaCompara = '';
   partidosFiltrado: Comp[];
-  partidosPronosticados = Array<Partido>();
+  partidosOrdenados: Enfrentamiento[];
   list = {
-    'pronosticos' :[]
+    'pronosticos': []
   };
-  pronostico : Partido = {
+  pronostico: Partido = {
     idPartido: null,
     userName: null,
     userId: null,
@@ -62,52 +63,86 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy{
     golLocal: 0,
     golVisitante: 0,
   };
-  
-  i: number;
-  partidosFiltrados: Comp[];
+
+  index: number;
+  partidosFiltrados: Enfrentamiento[];
 
   jsonPronosticos: any;
-  
+
   realizoCalculo = false;
-  constructor(private router: Router, private sharingService: SharingServiceService, private route: ActivatedRoute, private menuCtrl: MenuController,
+  todosLosPartidos: Enfrentamiento[];
+  isPuedeCargarPronostico: boolean;
+
+  constructor(private toast: ToastController, private router: Router, private sharingService: SharingServiceService, private route: ActivatedRoute, private menuCtrl: MenuController,
               private authService: AuthService, private resultService: ResultsService,
               private competenciaService: CompetenciaService, public alertController: AlertController,
               public datepipe: DatePipe, private comparteDatosService: ComparteDatosService, private cdr: ChangeDetectorRef, private pronosticosService: PronosticosService) {
-    //this.execute();
+    this.obtenerPartidosPronosticados();
     this.obtenerPartidos();
+    this.coincidencias;
+    this.obtenerFiltroFechas(this.partidos);
   }
 
-  obtenerPartidos(){
+  async obtenerPartidos() {
     this.isCargandoPartidos = true;
-    setTimeout(async () => {
-      
-    }, 6000);
-    this.sharingService.obtenerPartidos.subscribe((data: Enfrentamiento[]) => {
-      this.partidos = data;
+    await this.sharingService.obtenerPartidos.subscribe((data: Enfrentamiento[]) => {
+      //this.partidos = data;
+      this.partidos = data.slice(0, 6);
+      this.todosLosPartidos = this.partidos;
       this.isCargandoPartidos = false;
     });
   }
 
+  async obtenerPartidosPronosticados() {
+    let idCompetencia = localStorage.getItem('idCompetenciaSeleccionada');
+    let idUser = localStorage.getItem('idUser');
+    this.partidosOrdenados = [];
+    //OBTENGO UNICAMENTE LOS ENFRENTAMIENTOS QUE HAYAN SIDO PRONOSTICADOS POR EL USUARIO
+    await this.competenciaService.getEnfrentamientosPronosticados(idCompetencia, idUser).subscribe(
+        data => {
+          this.partidosPronosticados = data;
+          for (var i = 0; i < data.length; i++) {
+            for (var j = 0; j < this.partidos.length; j++) {
+              if (data[i].idEnfrentamiento == this.partidos[j].idEnfrentamiento) {
+                //borro el enfrentamiento si está pronosticado, es decir,
+                this.partidos.splice(j, 1);
+                j--;
+                continue;
+              }
+            }
+          }
+          //CONCATENEO LOS PARTIDOS PRONOSTICADOS CON LOS DEMAS PARTIDOS DE LA COMPETENCIA SIN PRONOSTICAR
+          this.partidos = data.concat(this.partidos);
+          console.log(this.partidos);
+        });
+  }
 
-  filtrarPartidosPorFecha( fecha: string) {
+  async coincidencias() {
+    const right = []
+    // Recorres ambos arreglos y aplicas la condición que deseas
+
+
+    // Una vez obtenidos los registros correctos, puedes filtrar nuevamente el arreglo omitiendo los mismos
+    const wrong = this.partidos.filter(d => !right.includes(d))
+    console.log(right)
+  }
+
+  obtenerFiltroFechas(partidos) {
+    var rounds = partidos.map(function (partido) {
+      return partido.round;
+    });
+    var sorted = rounds.sort();
+
+    this.fechasCompetencia = sorted.filter(function (value, index) {
+      return value !== sorted[index + 1];
+    });
+  }
+
+
+  filtrarPartidosPorFecha(fecha: string) {
     console.log('Seleccionaste esta fecha:', fecha);
-    /*
-   if(fecha.includes('Quarter-finals')) {
-     this.partidosFiltrados = this.partidos.filter(partido => partido.league.round.includes('Quarter'));
-     this.partidos = [];
-     this.partidos = this.partidosFiltrados;
-     this.cdr.detectChanges();
-     console.log(this.partidos);
-   } else if(fecha.includes('Semi-finals')) {
-      this.partidos = this.partidos.filter(partido => partido.league.round.includes('Semi-finals'));
-      console.log(this.partidos);
-    } else {
-     console.log('No se consiguió obtener los partidos');
-   }
-   
-     */
-   // VER PORQUE NO REFREZCA PANTALLA AL FILTRAR POR FECHA
-   this.cdr.detectChanges();
+    this.fecha = fecha;
+    var prueba = this.todosLosPartidos.filter(partido => partido.round.includes(this.fecha));
   }
 
   ngOnDestroy(): void {
@@ -122,43 +157,149 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy{
     this.router.navigate(['/inicioPage']);
   }
 
-  async calcularResultado(idEquipoLocal: number, idEquipoVisitante: number, idPartido: number, isSuma: boolean, isLocal: boolean) {
-    this.i = 0;
-    
-   
+  async guardarPronosticosHechos(part: Enfrentamiento, isSuma: boolean, isLocal: boolean) {
+    this.isPuedeCargarPronostico = false;
+    console.log(part);
+    if (isLocal) {
+      if (isSuma) {
+        part.golesLocalPronosticado = part.golesLocalPronosticado + 1;
+      } else {
+        if (part.golesLocalPronosticado > 0) {
+          part.golesLocalPronosticado = part.golesLocalPronosticado - 1;
+        }
+      }
+    } else if (!isLocal) {
+      if (isSuma) {
+        part.golesVisitPronosticado = part.golesVisitPronosticado + 1;
+
+      } else {
+        if (part.golesVisitPronosticado > 0) {
+          part.golesVisitPronosticado = part.golesVisitPronosticado - 1;
+        }
+      }
+    }
+    await this.competenciaService.guardarPronosticos(part).subscribe(
+        data => {
+          if (data.cargoPronostico) {
+            this.showToastMessage('Pronostico cargado', 'success', 'thumbs-up');
+          } else {
+            this.showToastMessage('No se pudo cargar el pronostico, cierre sesión y aguarde unos minutos', 'danger', 'thumbs-down');
+          }
+          this.isPuedeCargarPronostico = true;
+          console.log(data);
+        });
+
+  }
+
+
+  async showToastMessage(message:string, color: string, icon: string) {
+    const toast = await this.toast.create({
+      message: message,
+      duration: 500,
+      icon: icon, //https://ionic.io/ionicons
+      cssClass: '',
+      position: "bottom",
+      translucent: true,
+      animated: true,
+      mode: "md",  // md or ios
+      color: color //"danger" ｜ "dark" ｜ "light" ｜ "medium" ｜ "primary" ｜ "secondary" ｜ "success" ｜ "tertiary" ｜ "warning" ｜ string & Record<never, never> ｜ undefined
+    });
+    await toast.present();
+  }
+  
+  
+  async calcularResultado(part:Enfrentamiento, isSuma: boolean, isLocal: boolean) {
+    this.index = 0;
+    //part.idLocal, part.idVisit, part.idEnfrentamiento
     if(this.list.pronosticos.length > 0 ) {
       for(let [i, pronostico] of this.list.pronosticos.entries()){
-        console.log(i);
-        if(pronostico.idPartido == idPartido){
+        this.index++;
+        if(pronostico.idPartido == part.idEnfrentamiento){
           this.realizoCalculo = true;
           if (isLocal) {
             if (isSuma) {
               this.list.pronosticos[i].golLocal = this.list.pronosticos[i].golLocal +1;
+              break;
             } else {
               if (this.list.pronosticos[i].golLocal > 0) {
                 this.list.pronosticos[i].golLocal = this.list.pronosticos[i].golLocal - 1;
+                break;
               }
             }
           } else if (!isLocal) {
             if (isSuma) {
               this.list.pronosticos[i].golVisitante = this.list.pronosticos[i].golVisitante +1;
+              break;
             } else {
               if (this.list.pronosticos[i].golVisitante > 0) {
                 this.list.pronosticos[i].golVisitante = this.list.pronosticos[i].golVisitante - 1;
+                break;
               }
             }
           }
         } else {
-          continue;
-        }
+          // AGREGA UN NUEVO PRONOSTICO EN EL CASO QUE NO HAYA ENCONTRADO ALGUN PRONOSTICO DE ESTE PARTIDO EN LA LISTA
+          if(this.list.pronosticos.length === this.index){
+            
+            /*
+            if(idPartido != undefined){
+              var pronostico_idPartido = idPartido;
+              var pronostico_userName = localStorage.getItem('userName');
+              var pronostico_idEquipoVisitante = idEquipoVisitante;
+              var pronostico_idEquipoLocal = idEquipoLocal;
+            }
+            this.golesLocal = 0;
+            this.golesVisitante = 0;
+            if (isLocal) {
+              if (isSuma) {
+                this.golesLocal = this.golesLocal + 1;
+                break;
+              } else {
+                if (this.golesLocal > 0) {
+                  this.golesLocal = this.golesLocal - 1;
+                  break;
+                }
+              }
+            } else if (!isLocal) {
+              if (isSuma) {
+                this.golesVisitante = this.golesVisitante + 1;
+                break;
+              } else {
+                if (this.golesVisitante > 0) {
+                  this.golesVisitante = this.golesVisitante - 1;
+                }
+              }
+            }
+
+            this.list.pronosticos.push({
+              "idPartido": pronostico_idPartido,
+              "userName": pronostico_userName,
+              //"userId": ,
+              //"ganaLocal": ,
+              //"ganaVisitante": ,
+              "golLocal": this.golesLocal,
+              "golVisitante": this.golesVisitante,
+              "idEquipoLocal": pronostico_idEquipoLocal,
+              "idEquipoVisitante": pronostico_idEquipoVisitante,
+              //"nombreEquipoLocal": ,
+              //"nombreEquipoVisitante": ,
+
+            });
+            
+             */
+          } else{
+            continue;
+          }
+        } 
       }
+      
     } else {
-      if(!this.realizoCalculo) {
-        if(idPartido != undefined){
-          var pronostico_idPartido = idPartido;
-          var pronostico_userName = localStorage.getItem('userName');
-          var pronostico_idEquipoVisitante = idEquipoVisitante;
-          var pronostico_idEquipoLocal = idEquipoLocal;
+      // UNICAMENTE PARA EL CASO DEL PRIMER PRONOSTICO A DAR DE ALTA
+        if(part.idEnfrentamiento != undefined){
+          var pronostico_idPartido = part.idEnfrentamiento;
+          var pronostico_idUser = localStorage.getItem('idUser');
+          var pronostico_idEquipoVisitante = part.idVisit;
+          var pronostico_idEquipoLocal = part.idLocal;
         }
         if (isLocal) {
           if (isSuma) {
@@ -180,7 +321,7 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy{
 
         this.list.pronosticos.push({
           "idPartido": pronostico_idPartido,
-          "userName": pronostico_userName,
+          "userName": pronostico_idUser,
           //"userId": ,
           //"ganaLocal": ,
           //"ganaVisitante": ,
@@ -193,8 +334,9 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy{
 
         });
         console.log(this.list.pronosticos);
-      }
+      
     }
+    /*
     if(!this.realizoCalculo) {
       if(idPartido != undefined){
         var pronostico_idPartido = idPartido;
@@ -236,6 +378,8 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy{
       });
       console.log(this.list.pronosticos);
     }
+    
+     */
     console.log(JSON.stringify(this.list.pronosticos));
 
     /*
@@ -378,8 +522,6 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy{
       alert.present();
     });
   }
-
-
-
+  
 }
 

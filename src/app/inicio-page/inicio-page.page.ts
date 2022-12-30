@@ -76,6 +76,7 @@ export class InicioPagePage implements OnInit {
 
   ngMode($event){
     this.idCompetenciaSeleccionada = $event.idcompetition;
+    localStorage.setItem('idCompetenciaSeleccionada', this.idCompetenciaSeleccionada);
     this.anioCompetenciaSeleccionada = $event.anio;
     this.buscarCompetencias(this.idCompetenciaSeleccionada, this.anioCompetenciaSeleccionada);
     console.log('Competencia seleccionada por el usuario:'+this.idCompetenciaSeleccionada + 'con el anio' + this.anioCompetenciaSeleccionada);
@@ -92,6 +93,7 @@ export class InicioPagePage implements OnInit {
         data => {
           console.log('PARTIDOS EN LA PAGINA PRINCIPAL: ');
           console.log(JSON.stringify(data));
+          console.log('CANTIDAD DE ENFRENTAMIENTOS:', data.length);
           this.partidosComp = data;
           this.partidos = data;
           this.sharingService.setearPartidos = this.partidosComp;

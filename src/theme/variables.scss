@@ -1,5 +1,27 @@
 // Ionic Variables and Theming. For more info, please see:
 // http://ionicframework.com/docs/theming/
+/** Fonts **/
+
+@font-face {
+  font-family: 'san-francisco-light';
+  font-style: normal;
+  font-weight: normal;
+  src: url('../assets/font/san-francisco/SFUIDisplay-Light.ttf');
+}
+
+@font-face {
+  font-family: 'san-francisco-medium';
+  font-style: normal;
+  font-weight: normal;
+  src: url('../assets/font/san-francisco/SFUIDisplay-Medium.otf');
+}
+
+@font-face {
+  font-family: 'san-francisco-heavy';
+  font-style: normal;
+  font-weight: normal;
+  src: url('../assets/font/san-francisco/SFUIDisplay-Heavy.otf');
+}
 
 /** Ionic CSS Variables **/
 :root {
@@ -74,6 +96,9 @@
   --ion-color-light-contrast-rgb: 0, 0, 0;
   --ion-color-light-shade: #d7d8da;
   --ion-color-light-tint: #f5f6f9;
+  
+  /**font**/
+  --ion-font-family: 'san-francisco-light';
 }
 
 @media (prefers-color-scheme: dark) {

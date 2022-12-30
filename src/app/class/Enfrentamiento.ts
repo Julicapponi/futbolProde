@@ -8,6 +8,7 @@ export class Enfrentamiento {
     idLiga: number;
     nameLiga: string;
     anioLiga: string;
+    round:string;
     idLocal: number;
     nameLocal: string;
     logoLocal: string;
@@ -22,4 +23,7 @@ export class Enfrentamiento {
     penalesVisit: number;
     isModificado: boolean; 
     isComparado: boolean;
+    golesLocalPronosticado: number;
+    golesVisitPronosticado: number;
+
 }

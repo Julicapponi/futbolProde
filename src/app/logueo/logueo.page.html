@@ -13,15 +13,25 @@
           <div style="padding-bottom: 1rem">
             <h1 style="text-align: center; color: #F26633; font-weight: bold;">BIENVENIDO</h1>
           </div>
-          <div style="padding: 1rem">
-            <ion-item>
-              <ion-input name="email" [(ngModel)]="user.email"  type="email" class="form-control" placeholder="julicapponi@hotmail.com" ngModel required></ion-input>
-            </ion-item>
-            <ion-item>
-              <ion-input name="password" [(ngModel)]="user.password" type="password" class="form-control" placeholder="Contraseña" ngModel required></ion-input>
-            </ion-item>
-          </div>
         </ion-col>
+      </ion-row>
+      <ion-row justify-content-center>
+        <ion-col align-self-center [size]="12">
+          <ion-item class="item">
+            <ion-input name="email" [(ngModel)]="user.email" type="email" class="form-control text-input"
+                       placeholder="julicapponi@hotmail.com" ngModel required></ion-input>
+          </ion-item>
+        </ion-col>
+
+      </ion-row>
+      <ion-row justify-content-center>
+        <ion-col align-self-center [size]="12">
+          <ion-item class="item">
+            <ion-input name="password" [(ngModel)]="user.password" type="password" class="form-control text-input"
+                       placeholder="Contraseña" ngModel required></ion-input>
+          </ion-item>
+        </ion-col>
+
       </ion-row>
       <ion-row>
         <p class="text-white text-size-medium" (click)="resetearPass()" style="padding-left: 1rem">¿Olvidaste tu contraseña?</p>
