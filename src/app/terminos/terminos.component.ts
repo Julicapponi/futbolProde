@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {Router} from "@angular/router";
+import {MenuController} from "@ionic/angular";
 
 @Component({
   selector: 'app-terminos',
@@ -7,10 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TerminosComponent implements OnInit {
 
-  constructor() { }
+  constructor(private menuCtrl: MenuController, private router: Router) { }
 
   ngOnInit() {
 
   }
 
+  volver() {
+    this.menuCtrl.enable(false);
+    this.router.navigate(['/inicioPage']);
+  }
 }
