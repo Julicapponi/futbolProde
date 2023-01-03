@@ -27,9 +27,7 @@ export class BuscarGroupPage implements OnInit {
   }
 
   volver() {
-    this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
       this.router.navigate(['/partidosPage']);
-    });
   }
 
   buscarGrupo(group: Grupo) {

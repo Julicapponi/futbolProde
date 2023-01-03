@@ -1,8 +1,13 @@
 <ion-row class="content-select">
-  <ion-col (click)="openMenu()" class="display-flex" [size]="2">
-      <ion-icon class="margin-auto button-menu" name="menu-outline"></ion-icon>
+  <ion-col class="display-flex" [size]="3">
+    <ion-menu-toggle>
+      <ion-button fill="clear">
+        <ion-icon class="margin-auto button-menu" name="menu-outline"></ion-icon>
+      </ion-button>
+    </ion-menu-toggle>
   </ion-col>
-  <ion-col [size]="10">
+  
+  <ion-col [size]="9">
     <ion-item no-lines lines="none" class="content-select">
       <ion-select class="text-default-select" [(ngModel)]="compActivas" (ngModelChange)="ngMode($event)"  placeholder="Selecciona una competencia">
         <div *ngFor="let compActivas of competenciasActivas">
@@ -16,12 +21,17 @@
 <ion-content class="bg-image no-scroll">
   <ion-grid>
     <ion-row>
-      <ion-col class="container-options-inicio desenfoque">
+     
+      <ion-col class="container-options-inicio desenfoque" >
+        <ion-button class="container-options-inicio ion-no-margin ion-no-padding" fill="clear" [disabled]="isCargando" (click)="altaPronosticos()">
           <div class="contenido-options-inicio">
-            <img class="img-options-inicio" src="assets/img/scoreboard.png" (click)="altaPronosticos()">
-            <p class="text-grid-inicio">PRONOSTICOS</p>
+            <img class="img-options-inicio" src="assets/img/scoreboard.png" >
+            <i class="text-grid-inicio" *ngIf="isCargando"> <img src="./assets/img/loading-gif.gif" class="margin-auto load-gif" height="45px" width="35px"></i>
+            <p class="text-grid-inicio" *ngIf="!isCargando">PRONOSTICOS</p>
           </div>
+        </ion-button>
       </ion-col>
+      
     </ion-row>
     <ion-row>
       <ion-col class="container-options-inicio desenfoque">
@@ -44,12 +54,6 @@
           <img class="img-options-inicio" src="assets/img/champion.png">
           <p class="text-grid-inicio">CAMPEON</p>
         </div>
-      </ion-col>
-
-      <ion-col (click)="cerrarSesion()">
-        <ion-button>
-          CERRAR SESION
-        </ion-button>
       </ion-col>
     </ion-row>
   </ion-grid>

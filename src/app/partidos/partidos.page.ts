@@ -30,11 +30,14 @@ export class PartidosPage implements OnInit {
   async getUserPorGrupo(): Promise<any> {
     return await new Promise(async resolve => {
       this.idUserGreaGrupo = localStorage.getItem('idUser');
+      this.isCargando = true;
       console.log('usuario creando grupo:',this.idUserGreaGrupo )
       await this.gruposService.getGruposPorUser(this.idUserGreaGrupo).subscribe(async respuesta => {
         this.isCargando = false;
-        console.log('GRUPOS QUE PERTENECE EL USUARIO', respuesta);
-        this.gruposDelUser = respuesta;
+          console.log('GRUPOS QUE PERTENECE EL USUARIO', respuesta);
+          this.gruposDelUser = respuesta;
+
+        
       });
     });
   }

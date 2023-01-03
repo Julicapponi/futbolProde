@@ -12,7 +12,6 @@
 <ion-header *ngIf="!isCargando">
   <ion-searchbar class="ion-no-margin ion-no-padding searchbar" placeholder="Buscar competencia..." [(ngModel)]="filterTerm"
                  animated="true"></ion-searchbar>
-  <p class="ion-no-margin text-aclaracion">Lista activas visibles para los usuarios</p>
 </ion-header>
 
 
@@ -31,20 +30,16 @@
       <app-animation-progress></app-animation-progress>
     </ion-col>
   </ion-row>
-
   <ion-row *ngIf="!isCargando">
-
     <ion-col [size]="12">
-
-      <ion-list>
-        <ion-item *ngFor="let competencia of competenciasActivas | filter:filterTerm">
-          <ion-row class="row-list">
-            <ion-col class='col-grid ion-no-margin ion-no-padding' [size]="12">
+        <ion-item *ngFor="let competencia of competenciasActivas | filter:filterTerm" style="padding-bottom: 1rem ">
+            <ion-col class='col-grid ion-no-margin ion-no-padding' [size]="8">
               <ion-label class="text-competencias">{{competencia.name}}</ion-label>
             </ion-col>
-          </ion-row>
+            <ion-col [size]="4">
+              <ion-button size="small" class="button-disable-comp" color="primary" (click)="desactivarComp(competencia)">DESACTIVAR</ion-button>
+            </ion-col>
         </ion-item>
-      </ion-list>
     </ion-col>
   </ion-row>
 </ion-content>

@@ -5,6 +5,7 @@ export class Competencia {
   fixture: string;
   logo: string;
   id: string;
+  idcompetition: number;
   name: string;
   code: string;
   flag: string;
@@ -50,4 +51,5 @@ interface League {
   name: string;
   type: string;
   logo: string;
+  isActiva: boolean;
 }

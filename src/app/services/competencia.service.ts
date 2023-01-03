@@ -56,7 +56,7 @@ export class CompetenciaService {
 
    
     
-    editStateCompetition(comp: Competencia, isChecked: any) {
+    editStateCompetition(comp: Competencia, estaCheckeada: any) {
         console.log(comp);
         const idComp = comp.league.id;
         this.seasons = comp.seasons;
@@ -84,10 +84,11 @@ export class CompetenciaService {
         console.log(this.json);
         //fue checkeada, por lo tanto se agrega a la tabla de activas
         if (this.temporadaActual) {
-            if (isChecked == true) {
-                return this.http.post<any>(this._url + '/', this.json);
-            } else {
+            if (estaCheckeada == true) {
                 return this.http.delete(this._url + '/' + idComp);
+            } else {
+                return this.http.post<any>(this._url + '/', this.json);
+        
             }
         }
     }
@@ -117,5 +118,9 @@ export class CompetenciaService {
       getCompetenciasActivas(){
         return this.http.get<any>(this._url + '/list/activas/');
       }
+
+    deshabilitarCompetencia(idCompetencia){
+        return this.http.delete(this._url + '/'+idCompetencia);
+    }
 }
 

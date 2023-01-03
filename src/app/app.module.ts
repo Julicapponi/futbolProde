@@ -12,8 +12,9 @@ import {TokenInterceptorService } from './services/token-interceptor.service';
 import {ErrorTailorModule} from '@ngneat/error-tailor';
 import {SQLite, SQLiteObject} from '@awesome-cordova-plugins/sqlite/ngx';
 import {Ng2SearchPipeModule} from "ng2-search-filter";
+import {MenuComponent} from "./menu/menu.component";
 @NgModule({
-  declarations: [AppComponent],
+    declarations: [AppComponent, MenuComponent],
   entryComponents: [],
   imports: [
     BrowserModule,

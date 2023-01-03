@@ -79,7 +79,6 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
               public datepipe: DatePipe, private comparteDatosService: ComparteDatosService, private cdr: ChangeDetectorRef, private pronosticosService: PronosticosService) {
     this.obtenerPartidosPronosticados();
     this.obtenerPartidos();
-    this.coincidencias;
     this.obtenerFiltroFechas(this.partidos);
   }
 
@@ -104,27 +103,17 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
           for (var i = 0; i < data.length; i++) {
             for (var j = 0; j < this.partidos.length; j++) {
               if (data[i].idEnfrentamiento == this.partidos[j].idEnfrentamiento) {
-                //borro el enfrentamiento si está pronosticado, es decir,
+                //borro el enfrentamiento si está pronosticado, luego voy a sumar este mismo pero con los resultados pronosticados.
                 this.partidos.splice(j, 1);
                 j--;
                 continue;
               }
             }
           }
-          //CONCATENEO LOS PARTIDOS PRONOSTICADOS CON LOS DEMAS PARTIDOS DE LA COMPETENCIA SIN PRONOSTICAR
+          //CONCATENEO LOS PARTIDOS PRONOSTICADOS CON LOS PARTIDOS TRAIDOS DE LA API
           this.partidos = data.concat(this.partidos);
           console.log(this.partidos);
         });
-  }
-
-  async coincidencias() {
-    const right = []
-    // Recorres ambos arreglos y aplicas la condición que deseas
-
-
-    // Una vez obtenidos los registros correctos, puedes filtrar nuevamente el arreglo omitiendo los mismos
-    const wrong = this.partidos.filter(d => !right.includes(d))
-    console.log(right)
   }
 
   obtenerFiltroFechas(partidos) {

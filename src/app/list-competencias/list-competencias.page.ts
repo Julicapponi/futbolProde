@@ -17,7 +17,9 @@ export class ListCompetenciasPage implements OnInit {
     seActivoCompetencia: boolean;
     isActivateCheckbox: boolean;
     competenciasActivas: Competencia;
-    listaCompetenciasActivas: any;
+    listaCompetenciasActivas=[];
+    listAllCompetitions: any;
+    isCargandoMasComp: boolean;
   constructor(private toast: ToastController, private activatedRoute: ActivatedRoute, private competenciaService: CompetenciaService,private router: Router, private menuCtrl: MenuController, private authService: AuthService, public alertController: AlertController, private competitionsService: CompetenciaService) { 
     this.listCompetenciaActivas();
     this.listarCompetenciasPorId();
@@ -26,27 +28,38 @@ export class ListCompetenciasPage implements OnInit {
   ngOnInit() {
   }
 
-    listCompetenciaActivas(){
-        this.competenciaService.getCompetenciasActivas().subscribe(res => {
-                console.log(res);
-                for (let comp of res){
-                    console.log(comp);
-                    this.listaCompetenciasActivas.push(comp.idCompetition);
+   async listCompetenciaActivas(){
+        return await new Promise(async resolve => {
+            this.competenciaService.getCompetenciasActivas().subscribe(res => {
+                    console.log(res);
+                    for (let comp of res) {
+                        console.log(comp);
+                        this.listaCompetenciasActivas.push(comp.idcompetition);
+                    }
+                    resolve (this.listaCompetenciasActivas);
+                },
+                err => {
+                    console.log(err);
                 }
-            },
-            err => {
-                console.log(err);
-            }
-        );
+            );
+        });
     }
     
   listarCompetenciasPorId(){
       this.isCargando = true;
     this.competitionsService.getLigas().subscribe(
         data => {
-          this.listCompetitions = data.response;
+          this.listAllCompetitions = data.response;
+            for (var i = 0; i < this.listAllCompetitions.length; i++) {
+                for (var j = 0; j < this.listaCompetenciasActivas.length; j++) {
+                    if (this.listAllCompetitions[i].league.id == this.listaCompetenciasActivas[j]) {
+                        this.listAllCompetitions[i].league.isActiva = true;
+                        continue;
+                    }
+                }
+            }
+          this.listCompetitions = this.listAllCompetitions.slice(0,15);
           console.log(this.listaCompetenciasActivas);
-        
           console.log('Lista de competencias', JSON.stringify(this.listCompetitions));
           this.isCargando = false;
         },
@@ -62,21 +75,29 @@ export class ListCompetenciasPage implements OnInit {
         this.router.navigate(['/inicio-administrador']);
     }
 
-    isChecked(competencia: Competencia, event: any) {
+    isChecked(competencia: Competencia) {
+      if(competencia.league.isActiva){
+          this.seActivoCompetencia = true;
+      } else {
+          this.seActivoCompetencia = false;
+      }
+      /*
         if (event.detail.checked == true) {
             this.seActivoCompetencia = true;
         } else {
             this.seActivoCompetencia = false;
         }
-        this.activarCompetencia(competencia, this.seActivoCompetencia);
+        
+       */
+        this.activarODesactivarCompetencia(competencia, this.seActivoCompetencia);
     }
 
-    activarCompetencia(comp: any, compActiva: boolean) {
+    activarODesactivarCompetencia(comp: any, compActiva: boolean) {
             this.competenciaService.editStateCompetition(comp, compActiva).subscribe(
                 res => {
                     console.log(res);
-                    if(res.message.includes('Esta competicion ya está activa')){
-                        this.showToastMessage('Esta competencia ya está activa, elija otra', "danger");
+                    if(res.message.includes('Competencia desactivada')){
+                        this.showToastMessage('Competencia desactivada, los usuarios no podrán visualizar los enfrentamientos. Si desea activarla nuevamente, los enfrentamientos se visualizarán luego de las 00:00', "danger");
                     }
                     if(res.message.includes('Competencia activada')){
                         this.showToastMessage('Competencia activada con éxito, ahora los usuarios podrán visualizarla', "success");
@@ -96,7 +117,7 @@ export class ListCompetenciasPage implements OnInit {
     async showToastMessage(message:string, color: string) {
         const toast = await this.toast.create({
             message: message,
-            duration: 4000,
+            duration: 6000,
             icon: 'checkmark', //https://ionic.io/ionicons
             cssClass: '',
             position: "bottom",
@@ -106,12 +127,14 @@ export class ListCompetenciasPage implements OnInit {
             color: color //"danger" ｜ "dark" ｜ "light" ｜ "medium" ｜ "primary" ｜ "secondary" ｜ "success" ｜ "tertiary" ｜ "warning" ｜ string & Record<never, never> ｜ undefined
         });
         await toast.present();
-        this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
-            this.router.navigate(['/partidosPage']);
-        });
     }
 
     irListaComp() {
         this.router.navigate(['/list-competencias-admin']);
+    }
+
+    verMas() {
+      this.isCargandoMasComp = true;
+      this.listCompetitions = this.listAllCompetitions;
     }
 }

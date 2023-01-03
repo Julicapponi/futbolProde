@@ -1,33 +1,55 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>inicioAdministrador</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-row class="content-select">
+  <ion-col class="display-flex" [size]="4">
+    <ion-menu-toggle>
+      <ion-button fill="clear">
+        <ion-icon class="margin-auto button-menu" name="menu-outline"></ion-icon>
+      </ion-button>
+    </ion-menu-toggle>
+  </ion-col>
+   
+  <ion-col class="display-flex" [size]="8">
+    <ion-title class="text-title-inicio"> Bienvenido administrador </ion-title>
+  </ion-col>
+</ion-row>
 
-<ion-content class="bg-image-black no-scroll">
-  <!-- List of Text Items -->
-  <ion-list class="bg-image-black-transparent">
-    <ion-item class="item" (click)="listaDeCompetencias()">
-      <img class="icon" src="assets/icon/list-check-solid.svg">
-      <ion-label class="text-white">Todas las competencias del mundo</ion-label>
-    </ion-item>
-    <ion-item class="item" (click)="miListaDeCompetencias()">
-      <img class="icon" src="assets/icon/list-check-solid.svg">
-      <ion-label class="text-white">Mi lista de competencias</ion-label>
-    </ion-item>
-    <ion-item class="item" (click)="listaDeUsers()">
-      <img class="icon" src="assets/icon/list-check-solid.svg">
-      <ion-label class="text-white">Listado de usuario registrados</ion-label>
-    </ion-item>
-    <ion-item class="item" (click)="irEditEnfrentamientos()">
-      <ion-label class="text-white">Modificar enfrentamientos</ion-label>
-    </ion-item>
-    <ion-item class="item" (click)="irRegistro()">
-      <img class="icon" src="assets/icon/list-check-solid.svg">
-      <ion-label class="text-white">Alta de usuario</ion-label>
-    </ion-item>
-    <ion-item class="item" (click)="competencias()">
-      <ion-label class="text-white">Competencias</ion-label>
-    </ion-item>
-  </ion-list>
+<ion-content class="bg-image no-scroll">
+  <ion-grid>
+    <ion-row>
+      <ion-col class="container-options-inicio desenfoque" (click)="listaDeCompetencias()">
+        <div class="contenido-options-inicio">
+          <img class="img-options-inicio" src="assets/img/champions.png" >
+          <p class="text-grid-inicio">Competencias del mundo</p>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="container-options-inicio desenfoque" (click)="miListaDeCompetencias()">
+        <div class="contenido-options-inicio" >
+          <img  class="img-options-inicio" src="assets/img/ligas-mundo.png">
+          <p class="text-grid-inicio">Mi lista de competencias</p>
+        </div>
+      </ion-col>
+      <ion-col class="container-options-inicio desenfoque" (click)="listaDeUsers()">
+        <div>
+          <img class="img-options-inicio" src="assets/img/users-list.png">
+          <p class="text-grid-inicio">Listado de usuario registrados</p>
+        </div>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col class="container-options-inicio desenfoque" (click)="irEditEnfrentamientos()">
+        <div class="contenido-options-inicio">
+          <img class="img-options-inicio" src="assets/img/edit.png">
+          <p class="text-grid-inicio">Modificar enfrentamientos</p>
+        </div>
+      </ion-col>
+      <ion-col class="container-options-inicio desenfoque" (click)="irRegistro()">
+        <div class="contenido-options-inicio">
+          <img class="img-options-inicio" src="assets/img/add-user.png">
+          <p class="text-grid-inicio">Alta de usuario</p>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

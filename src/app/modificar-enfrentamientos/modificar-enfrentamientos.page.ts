@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {CompetenciaService} from "../services/competencia.service";
-import {AlertController, MenuController} from "@ionic/angular";
+import {AlertController, MenuController, ToastController} from "@ionic/angular";
 import {AuthService} from "../services/auth.service";
 import {Enfrentamiento} from "../class/Enfrentamiento";
 import {Comp} from "../class/Comp";
@@ -31,7 +31,7 @@ export class ModificarEnfrentamientosPage implements OnInit {
     compActivas: string;
     competenciaSeleccionada: any;
   
-  constructor(private activatedRoute: ActivatedRoute, private competenciaService: CompetenciaService, private sharingService: SharingServiceService, private router: Router, private menuCtrl: MenuController, private authService: AuthService, public alertController: AlertController, private competitionsService: CompetenciaService) {
+  constructor(private toast: ToastController, private activatedRoute: ActivatedRoute, private competenciaService: CompetenciaService, private sharingService: SharingServiceService, private router: Router, private menuCtrl: MenuController, private authService: AuthService, public alertController: AlertController, private competitionsService: CompetenciaService) {
       this.competenciasActiv();
   }
 
@@ -49,12 +49,35 @@ export class ModificarEnfrentamientosPage implements OnInit {
             this.isCargando = false;
         }, 1500);
         this.enfrentamientos = res;
+        if(this.enfrentamientos.length == 0){
+            setTimeout(async () => {
+                if(this.enfrentamientos.length == 0){
+                    this.showToastMessage('Puede que no se visualicen enfrentamientos ya que la competencia fue activa hoy, espere a las 00:00 hs. cuando se sincronicen los enfrentamientos', 'danger', 'thumbs-down');
+                }
+            }, 2000);
+        }
+       
+        
         err => {
             console.log(err);
         }
     });
   }
-  
+
+    async showToastMessage(message:string, color: string, icon: string) {
+        const toast = await this.toast.create({
+            message: message,
+            duration: 5500,
+            icon: icon, //https://ionic.io/ionicons
+            cssClass: '',
+            position: "bottom",
+            translucent: true,
+            animated: true,
+            mode: "md",  // md or ios
+            color: color //"danger" ｜ "dark" ｜ "light" ｜ "medium" ｜ "primary" ｜ "secondary" ｜ "success" ｜ "tertiary" ｜ "warning" ｜ string & Record<never, never> ｜ undefined
+        });
+        await toast.present();
+    }
   
     volver() {
       this.router.navigate(['/inicio-administrador']);

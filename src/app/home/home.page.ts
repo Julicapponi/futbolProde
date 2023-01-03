@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {Router} from '@angular/router';
+import {MenuController} from "@ionic/angular";
 
 @Component({
   selector: 'app-home',
@@ -8,12 +9,13 @@ import {Router} from '@angular/router';
 })
 export class HomePage {
 
-  constructor(private router: Router) {
+  constructor( private menuCtrl: MenuController, private router: Router) {
+    this.menuCtrl.enable(false);
     setTimeout(async () => {
       this.router.navigate(['/logueoPage']);
     }, 1000);
   }
-  
+
   ngOnInit(){
     setTimeout(async () => {
       this.router.navigate(['/logueoPage']);
@@ -21,6 +23,7 @@ export class HomePage {
   }
   
   ionViewDidEnter(){
+    this.menuCtrl.enable(false);
     setTimeout(async () => {
       this.router.navigate(['/logueoPage']);
     }, 1000);

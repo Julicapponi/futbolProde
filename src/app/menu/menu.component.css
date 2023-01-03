@@ -1,0 +1,25 @@
+ion-item {
+    --border-color: white; 
+    --ion-background-color: transparent !important;
+    padding-top: 1rem;
+}
+
+ion-item ion-label{
+    color: white;
+}
+
+ion-list{
+    --ion-background-color: transparent !important; 
+}
+
+.text-header-menu{
+    padding-top: 1rem;
+text-align: center;    
+}
+
+.button-footer{
+    width: 85%;
+    text-align: center;
+    margin: 1rem;
+}
+

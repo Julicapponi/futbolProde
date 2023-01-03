@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {User} from '../class/User';
 import {Router} from '@angular/router';
-import {AlertController, MenuController} from '@ionic/angular';
+import {AlertController, MenuController, ToastController} from '@ionic/angular';
 import { AuthService } from '../services/auth.service';
 import {NAVIGATE_REGISTRO} from "../registro/registro.page";
 
@@ -21,9 +21,9 @@ export class LogueoPage implements OnInit {
   };
   usuario: User[];
   isAdmin: string;
-
-  constructor(private router: Router, private menuCtrl: MenuController, private authService: AuthService, public alertController: AlertController) {
-
+  isCargando=false;
+  constructor(private toast: ToastController, private router: Router, private menuCtrl: MenuController, private authService: AuthService, public alertController: AlertController) {
+    this.menuCtrl.enable(false);
   }
 
   ngOnInit() {
@@ -32,15 +32,23 @@ export class LogueoPage implements OnInit {
 
   signIn(user){
     this.user = user;
+    this.isCargando = true;
     console.log('usuario a loguear', this.user);
+    if(user.email.length === 0 || user.password.length === 0){
+      this.showToastMessage('Email o contraseña vacío','danger','thumbs-down',2000);
+      this.isCargando = false;
+      return;
+    }
     this.authService.signIn(this.user).subscribe(
       res => {
+        this.isCargando = false;
         if(res.message.includes('incorrectos')){
-          this.dialogError(res.message);
+          this.showToastMessage('Email o contraseña incorrecto','danger','thumbs-down',2000);
         } else {
           this.dialogSucess(res.message);;
           this.usuario = res.user;
           console.log('usuario logueado:', JSON.stringify(this.usuario));
+          localStorage.setItem('name', this.usuario[0].name);
           localStorage.setItem('idUser', res.user[0].iduser);
           localStorage.setItem('userName', this.user.email);
           for (let usuario of this.usuario) {
@@ -68,6 +76,21 @@ export class LogueoPage implements OnInit {
      */
   }
 
+  async showToastMessage(message:string, color: string, icon: string, duracion: number) {
+    const toast = await this.toast.create({
+      message: message,
+      duration: duracion,
+      icon: icon, //https://ionic.io/ionicons
+      cssClass: '',
+      position: "bottom",
+      translucent: true,
+      animated: true,
+      mode: "md",  // md or ios
+      color: color //"danger" ｜ "dark" ｜ "light" ｜ "medium" ｜ "primary" ｜ "secondary" ｜ "success" ｜ "tertiary" ｜ "warning" ｜ string & Record<never, never> ｜ undefined
+    });
+    await toast.present();
+  }
+  
   async dialogSucess(message: string) {
     await this.alertController.create({
       header: 'Genial!',

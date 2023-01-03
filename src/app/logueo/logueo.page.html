@@ -22,8 +22,8 @@
                        placeholder="julicapponi@hotmail.com" ngModel required></ion-input>
           </ion-item>
         </ion-col>
-
       </ion-row>
+      
       <ion-row justify-content-center>
         <ion-col align-self-center [size]="12">
           <ion-item class="item">
@@ -38,10 +38,15 @@
       </ion-row>
       <ion-row style="padding:0.2rem">
         <ion-col>
-            <ion-button (click)="signIn(user)" color="primary" type="submit" expand="block">Iniciar sesión</ion-button>
+          <ion-button [disabled]="isCargando" (click)="signIn(user)" color="primary" type="submit" expand="block">  Iniciar sesión <i *ngIf="isCargando"> <img src="./assets/img/loading-gif.gif" class="margin-auto" height="30px" width="30px"></i></ion-button>
         </ion-col>
         <ion-col>
-            <ion-button (click)="registro()" color="secondary" size="medium" expand="block">Registrarse</ion-button>
+            <ion-button (click)="registro()" color="secondary" size="medium" expand="block"> <i>Registrarse</i></ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="isCargando">
+        <ion-col [size]="12" class="display-flex">
+          <ion-progress-bar class="margin-auto" color="primary" type="indeterminate"></ion-progress-bar>
         </ion-col>
       </ion-row>
     </ion-grid>

@@ -26,7 +26,7 @@ export class InicioPagePage implements OnInit {
   detallePartido: any;
   idCompetencia: string;
   anioCompetencia: string;
-  isCargando = true;
+  isCargando = false;
   subscriptionCompetencia: Subscription;
   private data$: Observable<Comp>;
 

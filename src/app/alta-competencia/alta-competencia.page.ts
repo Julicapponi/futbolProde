@@ -13,13 +13,10 @@ import {Comp} from '../class/Comp';
 })
 export class AltaCompetenciaPage implements OnInit {
   competencia: Competencia[];
-  competenciasDisponibles: { name: string; flag: string; value: string};
   comp: Comp[];
-  compet: Comp;
-  competenciasDisponibles3: { name: string; flag: string; value: string};
   constructor(private router: Router, private menuCtrl: MenuController, private authService: AuthService,
               private competenciaService: CompetenciaService, public alertController: AlertController) {
-    this.compet = new Comp();
+    
   }
 
   ngOnInit() {

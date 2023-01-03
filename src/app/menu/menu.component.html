@@ -1,0 +1,25 @@
+<ion-menu contentId="main-content">
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-title class="text-header-menu ion-no-margin"> <img src="./assets/img/profile-circle.png" class="margin-auto" height="50px" width="60px"> </ion-title>
+      <ion-title class="text-header-menu" color="light"><ion-icon name="mail-outline"></ion-icon> {{user}}</ion-title>
+      <ion-title class="text-header-menu" color="light"> <ion-icon name="person-outline"></ion-icon> {{name}}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content color="dark">
+    <ion-list>
+      <ion-item *ngFor="let ruta of lista_rutas" [routerLink]="ruta.ruta" (click)="closeMenu()">
+        <ion-icon color="light" [name]="ruta.icon"></ion-icon>
+        <ion-label style="padding-left: 1rem"> {{ruta.name}}</ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+  <ion-footer>
+    <ion-toolbar color="dark">
+        <ion-button color="danger" (click)="cerrarSesion()" class="button-footer">
+          <ion-icon name="log-out-outline" style="padding-right: 1rem"></ion-icon>
+          Cerrar sesion
+        </ion-button>
+    </ion-toolbar>
+  </ion-footer>
+</ion-menu>
