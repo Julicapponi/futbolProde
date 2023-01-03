@@ -19,6 +19,7 @@ import {ListCompetenciasAdminPage} from "./list-competencias-admin/list-competen
 import {ModificarEnfrentamientosPage} from "./modificar-enfrentamientos/modificar-enfrentamientos.page";
 import {CreateGroupPage} from "./create-group/create-group.page";
 import {BuscarGroupPage} from "./buscar-group/buscar-group.page";
+import {TerminosComponent} from "./terminos/terminos.component";
 
 
 const routes: Routes = [
@@ -46,6 +47,7 @@ const routes: Routes = [
   {path: 'modificar-enfrentamientos', component: ModificarEnfrentamientosPage},
   {path: 'crear-grupo', component: CreateGroupPage},
   {path: 'buscar-group', component: BuscarGroupPage},
+  {path: 'terminos', component: TerminosComponent},
   {
     path: 'prueba',
     loadChildren: () => import('./prueba/prueba.module').then( m => m.PruebaPageModule)
