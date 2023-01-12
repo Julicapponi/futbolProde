@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Router} from "@angular/router";
+import {NavigationExtras, Router} from "@angular/router";
 import { AuthService } from '../services/auth.service';
 import { ResultsService } from '../services/results.service';
 import {GruposService} from "../services/grupos.service";
@@ -16,6 +16,10 @@ export class PartidosPage implements OnInit {
   gruposDelUser: any[];
   idUserGreaGrupo: string;
   isCargando: boolean;
+  sinGruposUnido= false;
+  idUser: string;
+  postulacionesPendientesParaAceptar: any[];
+  cantidadNotificaciones: number;
   
   constructor(private router: Router, private authService: AuthService, private gruposService: GruposService, private resultService: ResultsService, private modalCrontroller: ModalController) {
    
@@ -24,6 +28,7 @@ export class PartidosPage implements OnInit {
   
   
   ngOnInit() {
+      this.notificationPendienteParaGrupo();
     this.getUserPorGrupo();
   }
   
@@ -36,6 +41,9 @@ export class PartidosPage implements OnInit {
         this.isCargando = false;
           console.log('GRUPOS QUE PERTENECE EL USUARIO', respuesta);
           this.gruposDelUser = respuesta;
+          if(this.gruposDelUser.length === 0){
+            this.sinGruposUnido = true;
+          }
 
         
       });
@@ -82,5 +90,26 @@ export class PartidosPage implements OnInit {
     this.router.navigate(['/buscar-group']);
   }
 
-  
+
+  notificationPendienteParaGrupo() {
+    this.isCargando = true;
+    this.idUser = localStorage.getItem('idUser');
+    this.gruposService.getPostulacionesPendientesDeAceptar(this.idUser).subscribe(
+        res => {
+          this.isCargando = false;
+          this.postulacionesPendientesParaAceptar = res;
+          this.cantidadNotificaciones = this.postulacionesPendientesParaAceptar.length;
+        }),
+        err => {
+        };
+  }
+
+  irNotificacionesMiembrosPorAceptar() {
+      const navigationExtras: NavigationExtras ={
+          state:{
+              postulaciones: this.postulacionesPendientesParaAceptar
+          }
+      }
+      this.router.navigate(['/postulaciones-pendientes'], navigationExtras);
+  }
 }

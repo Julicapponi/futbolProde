@@ -49,9 +49,14 @@
       <ion-list>
         <ion-item >
           <ion-label slot="start"> {{grupoResult.nameGrupo}}</ion-label>
-          <ion-button *ngIf="grupoResult.idUserCreador != this.idUserGreaGrupo" slot="end" (click)="unirseAlGrupo(grupoResult)">
-            UNIRSE
+          <ion-button *ngIf="grupoResult.idUserCreador != this.idUserGreaGrupo && !grupoResult.yaPostulado" slot="end" (click)="postularseAGrupo(grupoResult)">
+            POSTULARME
           </ion-button>
+          
+          <ion-badge fill="outline" slot="end" color="danger" *ngIf="grupoResult.yaPostulado">
+            <p class="ion-no-padding text-pendiente">ACEPTACIÓN</p>
+            <p class="ion-no-padding text-pendiente">PENDIENTE</p>
+          </ion-badge>
           <ion-button *ngIf="grupoResult.idUserCreador == this.idUserGreaGrupo" color="danger" slot="end">
             TU ERES EL CREADOR
           </ion-button>

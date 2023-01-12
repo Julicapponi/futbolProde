@@ -1,13 +1,16 @@
 <ion-header no-border>
     <ion-toolbar color="primary">
-        <ion-buttons slot="start">
-            <ion-button (click)="volver()">
+
+            <ion-button slot="start"(click)="volver()">
                 <ion-icon name="arrow-back-outline"></ion-icon>
+              
             </ion-button>
-        </ion-buttons>
-        <p>
-            Grupos
-        </p>
+                 <p>Grupos</p>
+            <ion-button slot="end" (click)="irNotificacionesMiembrosPorAceptar()">
+                <ion-icon name="notifications-outline" size="medium"></ion-icon>
+                <ion-badge style="font-size: 1.3rem">{{cantidadNotificaciones}}</ion-badge>
+            </ion-button>
+        
     </ion-toolbar>
 </ion-header>
 
@@ -24,6 +27,11 @@
                 <ion-icon name="add-outline"></ion-icon>
                 <p> CREAR GRUPO</p>
             </ion-button>
+        </ion-col>
+    </ion-row>
+    <ion-row *ngIf="sinGruposUnido">
+        <ion-col [size]="12">
+            <p class="text-white text-size-medium">Aun no pertences a ningun grupo, busca y comenzá a competir</p>
         </ion-col>
     </ion-row>
    

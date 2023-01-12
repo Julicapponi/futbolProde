@@ -36,15 +36,21 @@ export class GruposService {
         catchError(this.handleError));
   }
 
-  unirseGroup(group){
+  postularAlGroup(group){
     let idUser= localStorage.getItem('idUser');
     console.log('Grupo a unirse:', group);
-    let url = this._url + '/agregar/user/';
+    let url = this._url + '/postular/user/';
     this.json = {
       userId: idUser,
       groupId: group.idgrupo,
     };
     return this.http.post<any>(url, this.json);
+  }
+
+  getPostulaciones(idUser){
+    let url = this._url + '/postulaciones'+'/'+idUser;
+    return this.http.get(url).pipe(timeout(100000), map((response) => <any[]>this.extractData(response)),// this.extractDataZip(response)))this.extractData(response))
+        catchError(this.handleError));
   }
 
     salirDelGrupo(group){ 
@@ -66,6 +72,13 @@ export class GruposService {
     };
     return this.http.post(url, this.json);
   }
+  
+  getPostulacionesPendientesDeAceptar(idUser): Observable<Object[]> {
+    let url = this._url + '/postulaciones/pendientes'+'/'+idUser;
+    return this.http.get(url).pipe(timeout(100000), map((response) => <any[]>this.extractData(response)),// this.extractDataZip(response)))this.extractData(response))
+        catchError(this.handleError));
+  }
+  
 
   private handleError(error:  any) {
     console.log(this.TAG, 'error-> error.status ' , JSON.stringify(error));    // return throwError(error); // <= B

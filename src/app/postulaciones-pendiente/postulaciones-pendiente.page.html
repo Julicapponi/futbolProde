@@ -1,0 +1,23 @@
+<ion-header no-border>
+  <ion-toolbar color="primary">
+    <ion-button slot="start"(click)="volver()">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+    </ion-button>
+    <p>Postulaciones pendientes</p>
+  </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true">
+  <ion-row>
+    <ion-col [size]="12">
+      <ion-list>
+        <ion-item *ngFor="let post of postulaciones">
+          <ion-row class="row-list">
+            <ion-col class='col-grid ion-no-margin ion-no-padding' [size]="12">
+              <p class="text-white">{{post.nameGrupo}}</p>
+            </ion-col>
+          </ion-row>
+        </ion-item>
+      </ion-list>
+    </ion-col>
+  </ion-row>
+</ion-content>

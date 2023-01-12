@@ -15,12 +15,14 @@ export class BuscarGroupPage implements OnInit {
     nameGrupo: "", 
     idUserCreador: ""
   };
-  resultBusquedaGrupos: Grupo[];
+  resultBusquedaGrupos: any[];
   isCargando: boolean;
   idUserGreaGrupo: string;
+  idUser: string;
+  postulacionesEnGrupos: any[];
   
   constructor(private toast: ToastController, private router: Router, private gruposService: GruposService) {
-      
+      this.getPostulacionDelUsuario();
   }
 
   ngOnInit() {
@@ -29,32 +31,64 @@ export class BuscarGroupPage implements OnInit {
   volver() {
       this.router.navigate(['/partidosPage']);
   }
-
-  buscarGrupo(group: Grupo) {
+  
+  async getPostulacionDelUsuario(){
+      return await new Promise(async resolve => {
+          this.isCargando = true;
+          this.idUser = localStorage.getItem('idUser');
+          this.gruposService.getPostulaciones(this.idUser).subscribe(
+              res => {
+                  this.isCargando = false;
+                  console.log(res);
+                  this.postulacionesEnGrupos = res;
+              }),
+              err => {
+              };
+      });
+      
+  }
+  
+  async buscarGrupo(group: Grupo) {
     this.resultBusquedaGrupos = [];
     console.log(group);
     this.isCargando = true;
     this.gruposService.buscarGroup(group.nameGrupo).subscribe(
-        res => {
-          this.isCargando = false;
-          console.log(res);
-          this.idUserGreaGrupo = localStorage.getItem('idUser');
-          this.resultBusquedaGrupos = res;
-          if(this.resultBusquedaGrupos.length === 0){
-              this.showToastMessage('No se encontraron resultados para la búsqueda del grupo', 'danger', 'thumbs-down', 3000);
-          }
+        async res => {
+            this.isCargando = false;
+            console.log(res);
+            this.idUserGreaGrupo = localStorage.getItem('idUser');
+            this.resultBusquedaGrupos = res;
+            if (this.resultBusquedaGrupos.length === 0) {
+                this.showToastMessage('No se encontraron resultados para la búsqueda del grupo', 'danger', 'thumbs-down', 3000);
+                return;
+            }
+            for (let i = 0; i < this.resultBusquedaGrupos.length; i++) {
+                for (let j = 0; j < this.postulacionesEnGrupos.length; j++) {
+                    console.log(this.postulacionesEnGrupos[j]);
+                    console.log(this.resultBusquedaGrupos[i]);
+                    if(this.postulacionesEnGrupos[j].group_id === this.resultBusquedaGrupos[i].idgrupo){
+                        this.resultBusquedaGrupos[i].yaPostulado = true;
+                        break;
+                    } else {
+                        this.resultBusquedaGrupos[i].yaPostulado = false;
+                    }
+                }
+            }
         }),
         err => {
         };
   }
 
-  unirseAlGrupo(group: Grupo) {
-    console.log('uniendose al grupo:', group);
-    this.gruposService.unirseGroup(group).subscribe(
+    postularseAGrupo(group: Grupo) {
+    console.log('Postulandose al grupo:', group);
+    this.gruposService.postularAlGroup(group).subscribe(
         res => {
           console.log(res);
+          this.showToastMessage(res.message,'success','thumbs-up', 3000)
+            this.volver();
         }),
         err => {
+            this.showToastMessage(err.message,'danger','thumbs-down', 3000)
         };
   }
 
