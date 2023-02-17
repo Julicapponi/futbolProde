@@ -1,14 +1,12 @@
 <ion-row class="content-select">
-  <ion-col class="display-flex" [size]="4">
-    <ion-menu-toggle>
-      <ion-button fill="clear">
-        <ion-icon class="margin-auto button-menu" name="menu-outline"></ion-icon>
-      </ion-button>
-    </ion-menu-toggle>
+  <ion-col [size]="3">
+    <ion-button color="danger" class="button-footer" (click)="cerrarSesion()">
+      <ion-icon class="ion-no-padding ion-no-margin" name="log-out-outline"></ion-icon>
+      <p class="ion-no-margin text-title-1lin paddingleftmenor small">Salir</p>
+    </ion-button>
   </ion-col>
-   
-  <ion-col class="display-flex" [size]="8">
-    <ion-title class="text-title-inicio"> Bienvenido administrador </ion-title>
+  <ion-col class="display-flex" [size]="9">
+    <p class="text-title-inicio"> Bienvenido administrador </p>
   </ion-col>
 </ion-row>
 

@@ -10,10 +10,18 @@ import { AuthService } from '../services/auth.service';
 })
 export class InicioAdministradorPage implements OnInit {
 
-  constructor(private router: Router, private authService: AuthService) { }
+  constructor(private menuCtrl: MenuController, private router: Router, private authService: AuthService) {
+    this.menuCtrl.enable(true);
+  }
 
   ngOnInit() {
   }
+
+  //accion desplegar menu
+  toggleMenu(){
+    this.menuCtrl.toggle();
+  }
+  
   listaDeUsers(){
     this.router.navigate(['/list-users']);
   }
@@ -41,5 +49,10 @@ export class InicioAdministradorPage implements OnInit {
 
   irEditEnfrentamientos() {
     this.router.navigate(['/modificar-enfrentamientos']);
+  }
+
+  cerrarSesion() {
+    localStorage.clear();
+    this.router.navigate(['/home']);
   }
 }

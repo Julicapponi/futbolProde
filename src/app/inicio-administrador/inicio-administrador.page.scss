@@ -10,10 +10,10 @@
   width: 70%;
 }
 .text-title-inicio{
-  color: white;
+  color: #808080;
   font-size: 1.3rem;
-  text-align: right;
-  padding-top: 0.1rem;
+  margin: auto;
+  font-weight: 700;
 }
 
 .text-grid-inicio{
@@ -271,6 +271,11 @@
 .text-title-1lin.paddingleft {
   padding-left: 1rem;
 }
+
+.text-title-1lin.paddingleftmenor {
+  padding-left: 0.5rem;
+}
+
 .text-title-1lin.alignselfcenter {
   align-self: center;
 }
@@ -387,8 +392,9 @@
   color: var(--ion-color-secondary);
 }
 
-
-
+.button-footer{
+  margin-left: 1rem;
+}
 
 
 

@@ -21,7 +21,7 @@ export class PartidosPage implements OnInit {
   postulacionesPendientesParaAceptar: any[];
   cantidadNotificaciones: number;
   
-  constructor(private router: Router, private authService: AuthService, private gruposService: GruposService, private resultService: ResultsService, private modalCrontroller: ModalController) {
+  constructor(private modalCtrl: ModalController, private router: Router, private authService: AuthService, private gruposService: GruposService, private resultService: ResultsService, private modalCrontroller: ModalController) {
    
   }
   
@@ -44,8 +44,6 @@ export class PartidosPage implements OnInit {
           if(this.gruposDelUser.length === 0){
             this.sinGruposUnido = true;
           }
-
-        
       });
     });
   }
@@ -104,12 +102,29 @@ export class PartidosPage implements OnInit {
         };
   }
 
-  irNotificacionesMiembrosPorAceptar() {
+  async irNotificacionesMiembrosPorAceptar() {
+      this.router.navigate(['/postulaciones']);
+      /*
+          const profileModal = await this.modalCtrl.create({
+              component: PostulacionesPage,
+              cssClass: 'modal_popup',
+              showBackdrop: true,
+              backdropDismiss: false,
+              componentProps: {
+                  postulaciones: this.postulacionesPendientesParaAceptar
+              },
+          });
+          profileModal.present();
+      }
+      /*
       const navigationExtras: NavigationExtras ={
           state:{
               postulaciones: this.postulacionesPendientesParaAceptar
           }
       }
       this.router.navigate(['/postulaciones-pendientes'], navigationExtras);
+  
+  }
+       */
   }
 }

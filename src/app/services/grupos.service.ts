@@ -46,6 +46,42 @@ export class GruposService {
     };
     return this.http.post<any>(url, this.json);
   }
+  
+  addPostulante(idUser, idGroup){
+    let url = this._url + '/aceptar/postulante/';
+    this.json = {
+      userId: idUser,
+      groupId: idGroup,
+    };
+    return this.http.post<any>(url, this.json);
+  }
+  
+  rechazoPostulante(idUser, idGroup){
+    let url = this._url + '/rechazar/postulante/';
+    this.json = {
+      userId: idUser,
+      groupId: idGroup,
+    };
+    return this.http.post<any>(url, this.json);
+  }
+  
+  agregarPostulanteAlGrupo(idUser, idGroup){
+    let url = this._url + '/agregar/user/';
+    this.json = {
+      userId: idUser,
+      groupId: idGroup,
+    };
+    return this.http.post<any>(url, this.json);
+  }
+
+  borrarPostulacion(idUser, idGroup){
+    let url = this._url + '/borrar/postulacion/';
+    this.json = {
+      userId: idUser,
+      groupId: idGroup,
+    };
+    return this.http.post<any>(url, this.json);
+  }
 
   getPostulaciones(idUser){
     let url = this._url + '/postulaciones'+'/'+idUser;

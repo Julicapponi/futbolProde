@@ -31,6 +31,7 @@ export class LogueoPage implements OnInit {
   }
 
   signIn(user){
+    localStorage.clear();
     this.user = user;
     this.isCargando = true;
     console.log('usuario a loguear', this.user);

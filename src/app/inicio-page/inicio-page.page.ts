@@ -149,8 +149,5 @@ export class InicioPagePage implements OnInit {
       localStorage.clear();
       this.router.navigate(['/home']);
     }
-
-  openMenu() {
-    this.menuCtrl.enable(true);
-  }
+    
 }

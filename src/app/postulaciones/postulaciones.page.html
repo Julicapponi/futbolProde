@@ -1,0 +1,38 @@
+<ion-header no-border>
+  <ion-toolbar color="primary">
+    <ion-button slot="start"(click)="volver()">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+    </ion-button>
+    <p class="ion-no-margin ion-no-padding">Grupos</p>
+    <p class="ion-no-margin subtitle"> <ion-icon name="caret-down-outline" style="padding-top: 0.2rem"></ion-icon> Postulaciones pendientes</p>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="bg-image no-scroll">
+    <ion-row *ngFor="let post of postulacionesPendientesParaAceptar">
+      <ion-col [size]="12">
+        <ion-list>
+          <ion-item class="border-light">
+            <ion-col class="display-flex" class='col-grid ion-no-margin ion-no-padding' [size]="6">
+              <p class="text-competencias text-white margin-auto">Grupo: {{post.nameGrupo}}</p>
+              <p class="text-competencias text-white margin-auto">Usuario: {{post.userName}}</p>
+            </ion-col>
+            <ion-col class="display-flex" [size]="3" class="ion-no-padding ion-no-margin"
+                     (click)="aceptaPostulante(true, post)">
+              <ion-button class="ion-no-padding ion-no-margin margin-auto">
+                <p> ACEPTAR</p>
+                <ion-icon name="checkmark-done-outline"></ion-icon>
+              </ion-button>
+            </ion-col>
+            <ion-col class="display-flex" [size]="3" class="ion-no-padding ion-no-margin"
+                     (click)="aceptaPostulante(false, post)">
+              <ion-button color="danger" class="ion-no-padding ion-no-margin margin-auto">
+                <p> RECHAZAR</p>
+                <ion-icon name="close-outline"></ion-icon>
+              </ion-button>
+            </ion-col>
+
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+</ion-content>
