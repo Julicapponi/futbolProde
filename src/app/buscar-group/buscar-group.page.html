@@ -31,6 +31,7 @@
       </ion-row>
     </ion-grid>
   </form>
+  
   <ion-row *ngIf="isCargando">
     <ion-col [size]="1"></ion-col>
     <ion-col [size]="10">
@@ -39,23 +40,33 @@
     </ion-col>
     <ion-col [size]="1"></ion-col>
   </ion-row>
-  <ion-row *ngIf="resultBusquedaGrupos?.length">
-    <ion-col [size]="12">
-      <h4 class="ion-color-dark">Resultado de la busqueda</h4>
+  
+  <ion-row class="row-message-alert" *ngIf="!isCargando && postulacionesEnGrupos.length>0">
+    <ion-col [size]="12" class="display-flex">
+      <p class="ion-no-padding margin-auto"><ion-icon name="alert-circle-outline"></ion-icon> Tienes <b style="font-size: 1.2rem">{{postulacionesEnGrupos.length}}</b> postulación pendiente, aguarda a que el administrador del grupo te acepte. </p>
     </ion-col>
   </ion-row>
+  
+  <ion-row *ngIf="resultBusquedaGrupos?.length">
+    <ion-col [size]="12">
+      <h4 class="ion-color-dark">Resultado de la busqueda </h4>
+    </ion-col>
+  </ion-row>
+  
+  
+
   <ion-row *ngFor="let grupoResult of resultBusquedaGrupos">
     <ion-col [size]="12">
       <ion-list>
         <ion-item >
           <ion-label slot="start"> {{grupoResult.nameGrupo}}</ion-label>
-          <ion-button *ngIf="grupoResult.idUserCreador != this.idUserGreaGrupo && !grupoResult.yaPostulado" slot="end" (click)="postularseAGrupo(grupoResult)">
-            POSTULARME
+          <ion-button *ngIf="grupoResult.idUserCreador != this.idUserGreaGrupo && !grupoResult.yaPostulado " slot="end" (click)="postularseAGrupo(grupoResult)">
+            UNIRSE
           </ion-button>
           
-          <ion-badge fill="outline" slot="end" color="danger" *ngIf="grupoResult.yaPostulado">
-            <p class="ion-no-padding text-pendiente">ACEPTACIÓN</p>
-            <p class="ion-no-padding text-pendiente">PENDIENTE</p>
+          <ion-badge fill="outline" slot="end" color="warning" *ngIf="grupoResult.yaPostulado ">
+            <p class="ion-no-padding text-white text-pendiente">ACEPTACIÓN</p>
+            <p class="ion-no-padding text-white text-pendiente">PENDIENTE</p>
           </ion-badge>
           <ion-button *ngIf="grupoResult.idUserCreador == this.idUserGreaGrupo" color="danger" slot="end">
             TU ERES EL CREADOR

@@ -32,11 +32,18 @@
   </ion-row>
   <ion-row *ngIf="!isCargando">
     <ion-col [size]="12">
-        <ion-item *ngFor="let competencia of competenciasActivas | filter:filterTerm" style="padding-bottom: 1rem ">
-            <ion-col class='col-grid ion-no-margin ion-no-padding' [size]="8">
-              <ion-label class="text-competencias">{{competencia.name}}</ion-label>
+      <p class="ion-no-margin ion-no-padding"> Recordá desactivar las competencia que hayan culminado.</p>
+      <p class="ion-no-margin ion-no-padding"> Si desactivas alguna competencia que está en curso los enfrentamientos se borrarán </p>
+    </ion-col>
+    <ion-col [size]="12">
+        <ion-item [ngClass]="competencia.yaEdito?'visualiza-editado':''" *ngFor="let competencia of competenciasActivas | filter:filterTerm" style="padding-bottom: 1rem ">
+            <ion-col class='col-grid ion-no-margin ion-no-padding' [size]="6">
+              <ion-input (click)="cambioNombre(competencia)" [(ngModel)]="competencia.name" class="text-competencias"></ion-input>
             </ion-col>
-            <ion-col [size]="4">
+          <ion-col [size]="3">
+            <ion-button size="small" class="button-disable-comp" color="warning" [disabled]="!competencia.cambioNombre" (click)="editComp(competencia)">EDITAR</ion-button>
+          </ion-col>
+            <ion-col [size]="3">
               <ion-button size="small" class="button-disable-comp" color="primary" (click)="desactivarComp(competencia)">DESACTIVAR</ion-button>
             </ion-col>
         </ion-item>

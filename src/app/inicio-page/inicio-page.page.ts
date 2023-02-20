@@ -10,6 +10,8 @@ import {Competencia} from "../class/Competencia";
 import {Observable, Subscription} from "rxjs";
 import { ComparteDatosService } from '../services/comparte-datos.service';
 import { SharingServiceService } from '../services/sharing-service.service';
+import {Grupo} from "../class/Grupo";
+import {ImageSlider} from "../class/ImageSlider";
 
 @Component({
   selector: 'app-inicio-page',
@@ -29,6 +31,14 @@ export class InicioPagePage implements OnInit {
   isCargando = false;
   subscriptionCompetencia: Subscription;
   private data$: Observable<Comp>;
+  ocultaSlider = false;
+  slideOptsOne = {
+    initialSlide: 0,
+    slidesPerView: 1,
+    autoplay:true
+  };
+
+  images: ImageSlider[];
 
   constructor(private route: ActivatedRoute, private sharingService: SharingServiceService,
               private router: Router, private menuCtrl: MenuController, private competenciaService: CompetenciaService, public alertController: AlertController, private comparteDatosService: ComparteDatosService ) {
@@ -36,6 +46,13 @@ export class InicioPagePage implements OnInit {
   }
 
   ngOnInit() {
+    this.images = [];
+    let ob = { title: 'Enzo Fernandez al Chelsea, transferencia record', url: 'https://cloudfront-us-east-1.images.arcpublishing.com/infobae/57KCIDG42ZHB5CXCULFZ4SOZXE.jpg' };
+    let ob1 = { title: 'Enzo Fernandez al Chelsea, transferencia record', url: 'https://cloudfront-us-east-1.images.arcpublishing.com/infobae/57KCIDG42ZHB5CXCULFZ4SOZXE.jpg' }
+    
+    this.images.push(ob);
+    this.images.push(ob1);
+    this.images.push(ob);
     this.competenciaService.getCompetenciasActivas().subscribe(res => {
           console.log(res);
           this.competenciasActivas = res;
@@ -149,5 +166,13 @@ export class InicioPagePage implements OnInit {
       localStorage.clear();
       this.router.navigate(['/home']);
     }
-    
+
+  ocultarSlider(oculta:boolean) {
+    if(oculta){
+      this.ocultaSlider = true;
+    } else {
+      this.ocultaSlider = false;
+    }
+ 
+  }
 }

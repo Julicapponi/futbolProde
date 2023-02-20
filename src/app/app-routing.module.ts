@@ -21,6 +21,7 @@ import {CreateGroupPage} from "./create-group/create-group.page";
 import {BuscarGroupPage} from "./buscar-group/buscar-group.page";
 import {TerminosComponent} from "./terminos/terminos.component";
 import {PostulacionesPage} from "./postulaciones/postulaciones.page";
+import {EditGroupPage} from "./edit-group/edit-group.page";
 
 
 const routes: Routes = [
@@ -50,6 +51,8 @@ const routes: Routes = [
   {path: 'buscar-group', component: BuscarGroupPage},
   {path: 'terminos', component: TerminosComponent},
   {path: 'postulaciones', component: PostulacionesPage},
+  {path: 'edit-group', component: EditGroupPage},
+  
   {
     path: 'prueba',
     loadChildren: () => import('./prueba/prueba.module').then( m => m.PruebaPageModule)
@@ -121,7 +124,12 @@ const routes: Routes = [
   {
     path: 'postulaciones',
     loadChildren: () => import('./postulaciones/postulaciones.module').then( m => m.PostulacionesPageModule)
+  },
+  {
+    path: 'edit-group',
+    loadChildren: () => import('./edit-group/edit-group.module').then( m => m.EditGroupPageModule)
   }
+
 
 
 

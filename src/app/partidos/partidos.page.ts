@@ -29,7 +29,12 @@ export class PartidosPage implements OnInit {
   
   ngOnInit() {
       this.notificationPendienteParaGrupo();
-    this.getUserPorGrupo();
+      this.getUserPorGrupo();
+  }
+  
+  ionViewDidEnter(){
+      this.notificationPendienteParaGrupo();
+      this.getUserPorGrupo();
   }
   
   async getUserPorGrupo(): Promise<any> {
@@ -62,8 +67,12 @@ export class PartidosPage implements OnInit {
         };
   }
 
+    editarGrupo(grupo: any) {
+        this.router.navigate(['/edit-group']);
+    }
+    
   borrarGrupo(group: Grupo) {
-    console.log('uniendose al grupo:', group);
+    console.log('borrando el grupo:', group);
     this.isCargando = true;
     this.gruposService.borrarGrupo(group).subscribe(
         res => {
@@ -87,6 +96,8 @@ export class PartidosPage implements OnInit {
   buscarGrupo() {
     this.router.navigate(['/buscar-group']);
   }
+
+
 
 
   notificationPendienteParaGrupo() {
@@ -127,4 +138,6 @@ export class PartidosPage implements OnInit {
   }
        */
   }
+
+    
 }

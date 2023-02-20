@@ -1,0 +1,32 @@
+<ion-header no-border>
+  <ion-toolbar color="primary" style="-webkit-border-radius: 0px 0px 6px 6px">
+    <ion-buttons slot="start">
+      <ion-button (click)="volver()">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <p>Edición del grupo</p>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="bg-image no-scroll">
+  <form>
+    <ion-grid>
+      <ion-row>
+        <ion-col class="display-flex">
+          <ion-label class="text-white margin-auto">Nombre grupo:</ion-label>
+        </ion-col>
+        <ion-item>
+          <ion-input name="nameGrupo"  type="text" class="text-white form-control"
+                     placeholder="Juan56"></ion-input>
+        </ion-item>
+      </ion-row>
+
+      <ion-row style="padding:0.2rem">
+        <ion-col>
+          <ion-button size="large" (click)="editGroup()" expand="block">Modificar</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>

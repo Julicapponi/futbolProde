@@ -25,18 +25,25 @@ export class CreateGroupPage implements OnInit {
 
   async volver() {
     //await this.modalCrontroller.dismiss();
-    this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
       this.router.navigate(['/partidosPage']);
-    });
   }
 
   async createGrupo(grupo) {
     this.group = grupo
+    if(this.group.nameGrupo.length < 3){
+      this.showToastMessage('Nombre de grupo corto, ingrese mas caracteres', "danger");
+      return;
+    }
     console.log(this.group);
     this.gruposService.createGroup(this.group).subscribe(
         res => {
           this.showToastMessage('Grupo creado con exito!!', "success");
           console.log(res);
+          this.group = {
+            idGrupo: null,
+            nameGrupo: "",
+            idUserCreador: ""
+          };
         }),
         err => {
           this.showToastMessage('Error al crear grupo, reintente más tarde', "danger");;
@@ -56,8 +63,5 @@ export class CreateGroupPage implements OnInit {
       color: color //"danger" ｜ "dark" ｜ "light" ｜ "medium" ｜ "primary" ｜ "secondary" ｜ "success" ｜ "tertiary" ｜ "warning" ｜ string & Record<never, never> ｜ undefined
     });
     await toast.present();
-    this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
-      this.router.navigate(['/partidosPage']);
-    });
   }
 }

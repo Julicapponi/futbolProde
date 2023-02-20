@@ -50,10 +50,13 @@
                         <a *ngIf="grupo.idUserCreador == this.idUserGreaGrupo"> <ion-badge class="text-white" style="margin-right: 1rem">Creador </ion-badge> </a>
                         <p class="text-white"> {{grupo.nameGrupo}}</p>
                         <ion-button *ngIf="grupo.idUserCreador != this.idUserGreaGrupo" (click)="salirDelGrupo(grupo)" slot="end" color="warning">
-                            SALIR DEL GRUPO
+                            SALIR
+                        </ion-button>
+                        <ion-button *ngIf="grupo.idUserCreador == this.idUserGreaGrupo" (click)="editarGrupo(grupo)" slot="end" color="warning" >
+                            EDITAR
                         </ion-button>
                         <ion-button *ngIf="grupo.idUserCreador == this.idUserGreaGrupo" (click)="borrarGrupo(grupo)" slot="end" color="danger" >
-                            ELIMINAR GRUPO
+                            ELIMINAR
                         </ion-button>
                     </ion-item>
                 </ion-list>

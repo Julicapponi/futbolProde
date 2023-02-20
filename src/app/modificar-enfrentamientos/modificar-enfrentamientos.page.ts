@@ -48,11 +48,11 @@ export class ModificarEnfrentamientosPage implements OnInit {
         setTimeout(async () => {
             this.isCargando = false;
         }, 1500);
-        this.enfrentamientos = res;
+        this.enfrentamientos = res.slice(0, 20);
         if(this.enfrentamientos.length == 0){
             setTimeout(async () => {
                 if(this.enfrentamientos.length == 0){
-                    this.showToastMessage('Puede que no se visualicen enfrentamientos ya que la competencia fue activa hoy, espere a las 00:00 hs. cuando se sincronicen los enfrentamientos', 'danger', 'thumbs-down');
+                    this.showToastMessage('Puede que no se visualicen enfrentamientos ya que la competencia fue activa el día de hoy, espere a las 00:00 hs. cuando se sincronicen los enfrentamientos', 'danger', 'thumbs-down');
                 }
             }, 2000);
         }

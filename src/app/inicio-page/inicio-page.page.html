@@ -1,5 +1,5 @@
 <ion-row class="content-select">
-  <ion-col class="display-flex" [size]="3">
+  <ion-col class="ion-no-padding ion-no-margin display-flex" [size]="3">
     <ion-menu-toggle>
       <ion-button fill="clear">
         <ion-icon class="margin-auto button-menu" name="menu-outline"></ion-icon>
@@ -7,7 +7,7 @@
     </ion-menu-toggle>
   </ion-col>
   
-  <ion-col [size]="9">
+  <ion-col class="ion-no-padding ion-no-margin" [size]="9">
     <ion-item no-lines lines="none" class="content-select">
       <ion-select class="text-default-select" [(ngModel)]="compActivas" (ngModelChange)="ngMode($event)"  placeholder="Selecciona una competencia">
         <div *ngFor="let compActivas of competenciasActivas">
@@ -19,9 +19,28 @@
 </ion-row>
 
 <ion-content class="bg-image no-scroll">
-  <ion-grid>
+  <ion-grid class="ion-no-padding margin-grid">
     <ion-row>
-     
+      <ion-col class="col-slider-icon" [size]="12">
+        <ion-icon class="animacion" *ngIf="ocultaSlider"size="large" (click)="ocultarSlider(false)" name="eye-off-outline"></ion-icon>
+      </ion-col>
+      <ion-col class="col-slider" *ngIf="!ocultaSlider" [size]="12">
+        <ion-row class="ion-no-margin ion-no-padding">
+          <ion-col class="ion-no-margin ion-no-padding">
+            <ion-slides class="img-inicio" [options]="slideOptsOne">
+              <ion-slide *ngFor="let item of images">
+                <ion-row style="position: relative;">
+                    <ion-img [src]="item.url"></ion-img>
+                    <ion-icon  style="position: absolute; top: 0; left: 0; margin: 30px 0 0 10px;" *ngIf="!ocultaSlider" size="large" (click)="ocultarSlider(true)" name="eye-outline"></ion-icon>
+                </ion-row>
+              </ion-slide>
+            </ion-slides>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+    
+    <ion-row>
       <ion-col class="container-options-inicio desenfoque" >
         <ion-button class="container-options-inicio ion-no-margin ion-no-padding" fill="clear" [disabled]="isCargando" (click)="altaPronosticos()">
           <div class="contenido-options-inicio">

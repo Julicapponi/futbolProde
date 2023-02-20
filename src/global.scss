@@ -70,6 +70,30 @@
   color: white;
 }
 
+  .animacion{
+    position: relative;
+    animation-name: mover;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+  }
+
+  @keyframes mover {
+    from {left: 0px;}
+    to {left: 5px;}
+  }
+  
+.img-inicio{
+  border-radius: 0.5rem;
+  height: 20vh;
+}
+
+.row-message-alert{
+  border-radius: 0.5rem;
+  background-color: #ffaf96;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
 .container-options-inicio{
   display: flex;
   margin: 0.5rem;

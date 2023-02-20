@@ -11,6 +11,8 @@ export class Competencia {
   flag: string;
   anio: string;
   activa: boolean;
+  cambioNombre = false;
+  yaEdito = false;
 }
 
 interface Season {

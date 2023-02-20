@@ -6,6 +6,7 @@
         <ion-title class="text-header">TUS PRONOSTICOS</ion-title>
       </ion-button>
     </ion-buttons>
+    <p class="ion-no-margin ion-no-padding">Tus enfrentamientos</p>
   </ion-toolbar>
 </ion-header>
 <ion-row *ngIf="isCargandoPartidos">
@@ -138,12 +139,6 @@
       
     </ion-grid>
   </ion-card>
-
-  <ion-row>
-    <ion-button (click)="guardarPronosticos()">
-      guardar resultados
-    </ion-button>
-  </ion-row>
 
 </ion-content>
 

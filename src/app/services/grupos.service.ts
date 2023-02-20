@@ -92,7 +92,7 @@ export class GruposService {
     salirDelGrupo(group){ 
     let idUser= localStorage.getItem('idUser');
     console.log('Grupo a unirse:', group);
-    let url = this._url + '/eliminar/';
+    let url = this._url + '/salir/';
     this.json = {
       userId: idUser,
       groupId: group.idgrupo,
@@ -100,6 +100,15 @@ export class GruposService {
     return this.http.post(url, this.json);
   }
 
+  editarGrupo(group) {
+    console.log('Grupo a editar:', group);
+    let url = this._url + '/editar/';
+    this.json = {
+      groupId: group.idgrupo,
+    };
+    return this.http.post(url, this.json);
+  }
+  
   borrarGrupo(group){
     console.log('Grupo a unirse:', group);
     let url = this._url + '/eliminar/';
@@ -136,4 +145,6 @@ export class GruposService {
     console.log('Buscando usuarios del grupo con id:', groupId);
     return this.http.get<any>(this._url + '/listar/user/', groupId);
   }
+
+
 }

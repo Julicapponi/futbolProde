@@ -14,6 +14,7 @@ export class ListCompetenciasAdminPage implements OnInit {
   competenciasActivas: Competencia[];
   isCargando: boolean;
   filterTerm: string;
+  cambiaNomComp=false;
   
   constructor(private toast: ToastController, private activatedRoute: ActivatedRoute, private competenciaService: CompetenciaService,private router: Router, private menuCtrl: MenuController, private authService: AuthService, public alertController: AlertController, private competitionsService: CompetenciaService) {
     this.listaCompetenciasActivas();
@@ -44,21 +45,21 @@ export class ListCompetenciasAdminPage implements OnInit {
       this.competenciaService.deshabilitarCompetencia(Comp.idcompetition).subscribe(res => {
             console.log(res);
             this.listaCompetenciasActivas();
-            this.showToastMessage('Competencia desactivada, los usuarios no podrán visualizarla', 'success', 'thumbs-up');
+            this.showToastMessage('Competencia desactivada, los usuarios no podrán visualizarla', 'success', 'thumbs-up',1000);
             this.isCargando = false;
           },
           err => {
-            this.showToastMessage(err, 'danger', 'thumbs-down');
+            this.showToastMessage(err, 'danger', 'thumbs-down',500);
             console.log(err);
           }
       );
     }
 
 
-    async showToastMessage(message:string, color: string, icon: string) {
+    async showToastMessage(message:string, color: string, icon: string, duration: number) {
         const toast = await this.toast.create({
             message: message,
-            duration: 500,
+            duration: duration,
             icon: icon, //https://ionic.io/ionicons
             cssClass: '',
             position: "bottom",
@@ -70,4 +71,21 @@ export class ListCompetenciasAdminPage implements OnInit {
         await toast.present();
     }
 
+    editComp(compEditada: Competencia) {
+        console.log(compEditada);
+        this.competenciaService.editCompetition(compEditada).subscribe(res => {
+                compEditada.yaEdito = true;
+                this.isCargando = false;
+                compEditada.cambioNombre = false;
+                this.showToastMessage('Nombre de la competencia cambiado con exito, ahora los usuarios podrán visualizarlo', 'success', 'thumbs-up',2000);
+            },
+            err => {
+                console.log(err);
+            }
+        );
+    }
+
+    cambioNombre(competencia: Competencia) {
+      competencia.cambioNombre = true;
+    }
 }

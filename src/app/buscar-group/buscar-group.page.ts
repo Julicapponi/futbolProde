@@ -19,7 +19,8 @@ export class BuscarGroupPage implements OnInit {
   isCargando: boolean;
   idUserGreaGrupo: string;
   idUser: string;
-  postulacionesEnGrupos: any[];
+  postulacionesEnGrupos = [];
+  grupoBuscado: Grupo;
   
   constructor(private toast: ToastController, private router: Router, private gruposService: GruposService) {
       this.getPostulacionDelUsuario();
@@ -33,6 +34,7 @@ export class BuscarGroupPage implements OnInit {
   }
   
   async getPostulacionDelUsuario(){
+      this.postulacionesEnGrupos = [];
       return await new Promise(async resolve => {
           this.isCargando = true;
           this.idUser = localStorage.getItem('idUser');
@@ -51,6 +53,7 @@ export class BuscarGroupPage implements OnInit {
   async buscarGrupo(group: Grupo) {
     this.resultBusquedaGrupos = [];
     console.log(group);
+    this.grupoBuscado = group;
     this.isCargando = true;
     this.gruposService.buscarGroup(group.nameGrupo).subscribe(
         async res => {
@@ -79,15 +82,18 @@ export class BuscarGroupPage implements OnInit {
         };
   }
 
-    postularseAGrupo(group: Grupo) {
+    postularseAGrupo(group: any) {
+   
     console.log('Postulandose al grupo:', group);
+    group.yaPostulado = false;
     this.gruposService.postularAlGroup(group).subscribe(
         res => {
           console.log(res);
-          this.showToastMessage(res.message,'success','thumbs-up', 3000)
-            this.volver();
+          this.showToastMessage('Genial, debes esperar a que el administrador acepte tu postulación.','success','thumbs-up', 3000)
+          group.yaPostulado = true;
         }),
         err => {
+            group.yaPostulado = false;
             this.showToastMessage(err.message,'danger','thumbs-down', 3000)
         };
   }

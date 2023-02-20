@@ -122,5 +122,17 @@ export class CompetenciaService {
     deshabilitarCompetencia(idCompetencia){
         return this.http.delete(this._url + '/'+idCompetencia);
     }
+
+    editCompetition(compEditada: Competencia) {
+        const id = compEditada.idcompetition;
+        const nameEdit = compEditada.name;
+        const anioComp = compEditada.anio;
+        this.json = {
+            idcompetition: id,
+            name: nameEdit,
+            anio: anioComp
+        };
+        return this.http.put(this._url + '/' +id , this.json);
+    }
 }
 
