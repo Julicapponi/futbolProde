@@ -9,6 +9,7 @@
     <p class="ion-no-margin ion-no-padding">Tus enfrentamientos</p>
   </ion-toolbar>
 </ion-header>
+
 <ion-row *ngIf="isCargandoPartidos">
   <ion-col [size]="1"></ion-col>
   <ion-col [size]="10">
@@ -29,14 +30,14 @@
   
 <ion-col [size]="12">
   <ion-row>
-    <ion-select [(ngModel)]="fechaCompara" (ngModelChange)="fechaEvent($event)" placeholder="Jornada">
+    <ion-select [value]="fechaAVisualizarPorActualidad" [(ngModel)]="fechaAVisualizarPorActualidad" (ngModelChange)="fechaEvent($event)" placeholder="Seleccione una fecha">
       <div *ngFor="let fechaComp of this.fechasCompetencia">
-        <ion-select-option (click)="filtrarPartidosPorFecha(fechaComp)"> {{fechaComp}}</ion-select-option>
+        <ion-select-option value="{{fechaComp}}" (click)="filtrarPartidosPorFecha(fechaComp)"> {{fechaComp}}</ion-select-option>
       </div>
     </ion-select>
   </ion-row>
 </ion-col>
-  <ion-card *ngFor="let part of partidos" class="ion-no-margin ion-no-padding">
+  <ion-card *ngFor="let part of partidosAVisualizar" class="ion-no-margin ion-no-padding">
     <ion-grid>
       <ion-row class="row-fecha" class="ion-no-margin ion-no-padding">
         <ion-col [size]="12" class="ion-no-margin ion-no-padding">

@@ -150,7 +150,7 @@
     }
   },
   "cli": {
-    "defaultCollection": "@ionic/angular-toolkit",
+    "schematicCollections": "@ionic/angular-toolkit",
     "analytics": false
   },
   "schematics": {}
