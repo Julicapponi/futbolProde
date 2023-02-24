@@ -108,22 +108,12 @@ export class InicioPagePage implements OnInit {
       console.log('Se muestra competencia con este id: ', idCompetenciaSeleccionada);
       this.subscriptionCompetencia = this.competenciaService.getEnfrentamientos(idCompetenciaSeleccionada, anioCompetenciaSeleccionada).subscribe(
         data => {
-          console.log('PARTIDOS EN LA PAGINA PRINCIPAL: ');
+          console.log('PARTIDOS OBTENIDOS DE LA API: ');
           console.log(JSON.stringify(data));
           console.log('CANTIDAD DE ENFRENTAMIENTOS:', data.length);
           this.partidosComp = data;
           this.partidos = data;
           this.sharingService.setearPartidos = this.partidosComp;
-          for (const part of this.partidos) {
-            /* VER FILTRO DE FECHAS YA QUE SE CAMBIO SE CONSUME DESDE LA BD, NO DE LA API
-            const fechaComp = part.league.round.toString();
-            if (!this.fechasCompetencia.includes(fechaComp)) {
-              this.fechasCompetencia.push(fechaComp);
-            }
-          
-             */
-          }
-          console.log(this.fechasCompetencia);
           this.isCargando = false;
         },
         err => {

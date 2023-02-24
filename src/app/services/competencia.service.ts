@@ -98,7 +98,13 @@ export class CompetenciaService {
         console.log(idCompetencia, 'y el anio:', anioCompetencia);
         return this.http.get<any>(this._urlEnfrentamientos + '/'+idCompetencia + '/'+anioCompetencia+ '/');
       }
-      
+
+    //obtengo los enfrentamientos desde la API 
+    getEnfrentamientosApi(idCompetencia, anioCompetencia){
+        console.log(idCompetencia, 'y el anio:', anioCompetencia);
+        return this.http.get<any>(this._urlEnfrentamientos + '/list/'+idCompetencia + '/'+anioCompetencia+ '/');
+    }
+    
         getEnfrentamientosPronosticados(idCompetencia, userId){
             console.log('obtenemos pronosticos de idCompetencia la competencia'+ idCompetencia +'hechos por el usuario con id:', userId);
             return this.http.get<any>(this._urlEnfrentamientos + '/pronosticados/'+idCompetencia + '/'+userId+ '/');

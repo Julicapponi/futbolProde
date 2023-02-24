@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {CompetenciaService} from "../services/competencia.service";
 import {AlertController, MenuController, ToastController} from "@ionic/angular";
@@ -14,6 +14,7 @@ import {SharingServiceService} from "../services/sharing-service.service";
   styleUrls: ['./modificar-enfrentamientos.page.scss'],
 })
 export class ModificarEnfrentamientosPage implements OnInit {
+    @ViewChild('popover') popover;
   isCargando: boolean;
   filterTerm: string;
     enfrentamientos: Enfrentamiento[];
@@ -36,6 +37,7 @@ export class ModificarEnfrentamientosPage implements OnInit {
     partidosAVisualizar: Enfrentamiento[];
     fechaAVisualizarPorActualidad: any;
     prueba: Enfrentamiento[];
+    isOpen = false;
   
   constructor(private toast: ToastController, private activatedRoute: ActivatedRoute, private competenciaService: CompetenciaService, private sharingService: SharingServiceService, private router: Router, private menuCtrl: MenuController, private authService: AuthService, public alertController: AlertController, private competitionsService: CompetenciaService) {
       this.competenciasActiv();
@@ -298,5 +300,15 @@ export class ModificarEnfrentamientosPage implements OnInit {
         console.log($event);
         const fecha = $event.toString();
         this.filtrarPartidosPorFecha(fecha);
+    }
+
+    dialogSelectFechas() {
+       if (!this.seleccionoUnaComp){
+           
+       }
+    }
+
+    presentPopover(e: Event) {
+        
     }
 }

@@ -9,12 +9,12 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-row  class="ion-no-margin ion-no-padding">
-    <ion-col [size]="12" class="color-2">
+<ion-row class="ion-no-margin ion-no-padding">
+    <ion-col [size]="12">
         <ion-item class="color-3">
-            <ion-select [(ngModel)]="compActivas" (ngModelChange)="ngMode($event)" placeholder="Selecciona una competencia">
+            <ion-select class="text-white" [(ngModel)]="compActivas" (ngModelChange)="ngMode($event)" placeholder="Selecciona una competencia">
                 <div *ngFor="let compActivas of competenciasActivas">
-                    <ion-select-option [value]="compActivas"> {{compActivas.name}}</ion-select-option>
+                    <ion-select-option class="text-white" [value]="compActivas"> {{compActivas.name}}</ion-select-option>
                 </div>
             </ion-select>
         </ion-item>
@@ -26,31 +26,35 @@
 
 
 
-<ion-content [fullscreen]="true">
+<ion-content class="bg-image no-scroll" [fullscreen]="true">
     <ion-row>
         <ion-col class="col-title-fechas" [size]="12">
             <p [ngClass]="!seleccionoUnaComp?'noHabilitado':'habilitado'" class="ion-no-padding ion-no-margin">Fechas:</p>
         </ion-col>
-        <ion-col [size]="12" class="display-flex">
-            <ion-select class="margin-auto" [disabled]="!seleccionoUnaComp" [value]="fechaAVisualizarPorActualidad" [(ngModel)]="fechaAVisualizarPorActualidad" (ngModelChange)="fechaEvent($event)" placeholder="Seleccione una fecha">
+    </ion-row>
+    <ion-row class="col-fechas">
+        <ion-col [size]="12" class="display-flex" (click)="presentPopover($event)">
+            <ion-select class="margin-auto text-white"  [disabled]="!seleccionoUnaComp" [value]="fechaAVisualizarPorActualidad" [(ngModel)]="fechaAVisualizarPorActualidad" (ngModelChange)="fechaEvent($event)" placeholder="Seleccione una fecha">
                 <div *ngFor="let fechaComp of this.fechasCompetencia">
-                    <ion-select-option value="{{fechaComp}}" (click)="filtrarPartidosPorFecha(fechaComp)"> {{fechaComp}}</ion-select-option>
+                    <ion-select-option class="text-white" value="{{fechaComp}}" (click)="filtrarPartidosPorFecha(fechaComp)"> {{fechaComp}}</ion-select-option>
                 </div>
             </ion-select>
         </ion-col>
+        
     </ion-row>
+    
     <ion-row>
         <ion-col [size]="12" *ngIf="isCargando">
             <ion-progress-bar color="primary" type="indeterminate"></ion-progress-bar>
-            <p>Aguarde, cargando enfrentamientos de <b>{{competenciaSeleccionada}}</b></p>
+            <p class="text-white">Aguarde, cargando enfrentamientos de <b>{{competenciaSeleccionada}}</b></p>
         </ion-col>
     </ion-row>
 
     <ion-grid>
         <ion-row>
             <ion-col [size]="12">
-                <ion-list *ngFor="let enfrent of partidosAVisualizar | filter:competenciaSeleccionada">
-                        <ion-row>
+                <ion-list class="card-enfrentamiento" *ngFor="let enfrent of partidosAVisualizar | filter:competenciaSeleccionada">
+                        <ion-row >
                             <ion-col [size]="12">
                                 <ion-row>
                                     <ion-col [size]="4">

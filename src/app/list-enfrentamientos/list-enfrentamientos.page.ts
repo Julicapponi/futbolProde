@@ -86,7 +86,8 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
     this.filtrarPartidosPorFecha(this.fechaAVisualizarPorActualidad);
 
   }
-
+  
+  // obtiene los enfrentamientos de la BD, que vienen desde inicio
   async obtenerPartidos() {
     this.isCargandoPartidos = true;
     await this.sharingService.obtenerPartidos.subscribe((data: Enfrentamiento[]) => {
@@ -102,7 +103,7 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
     let idCompetencia = localStorage.getItem('idCompetenciaSeleccionada');
     let idUser = localStorage.getItem('idUser');
     this.partidosOrdenados = [];
-    //OBTENGO UNICAMENTE LOS ENFRENTAMIENTOS QUE HAYAN SIDO PRONOSTICADOS POR EL USUARIO
+    //OBTENGO UNICAMENTE LOS ENFRENTAMIENTOS QUE HAYAN SIDO PRONOSTICADOS POR EL USUARIO EN LA BD
     await this.competenciaService.getEnfrentamientosPronosticados(idCompetencia, idUser).subscribe(
         data => {
           this.partidosPronosticados = data;
@@ -145,18 +146,22 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
       aMatches = a.match(regex);
       bMatches = b.match(regex);
     }
+    if(aMatches===null || bMatches === null){
+      aMatches = [0];
+      bMatches = [0];
+    }
     
     // Convertir strings a números y llenar con ceros a la izquierda para que tengan la misma longitud
     aMatches = aMatches.map((match) => parseInt(match)).map((num) => num.toString().padStart(2, "0"));
     bMatches = bMatches.map((match) => parseInt(match)).map((num) => num.toString().padStart(2, "0"));
-
+    
     // Comparar los números
     for (let i = 0; i < Math.min(aMatches.length, bMatches.length); i++) {
       if (aMatches[i] !== bMatches[i]) {
         return aMatches[i] - bMatches[i];
       }
     }
-
+    
     // Si los números son iguales, comparar los strings completos
     return a.localeCompare(b);
   }
@@ -265,7 +270,19 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
     this.fecha = fecha.trim();
     this.partidos = [];
     this.partidos = this.todosLosPartidos.filter(partido => partido.round ===this.fecha);
-    this.partidosAVisualizar = this.partidos
+    this.partidosAVisualizar = this.partidos;
+  }
+
+  convertirFecha (fechaString) {
+    var fechaSp = fechaString.split("-");
+    var anio = new Date().getFullYear();
+    if (fechaSp.length == 3) {
+      anio = fechaSp[2];
+    }
+    var mes = fechaSp[1] - 1;
+    var dia = fechaSp[0];
+
+    return new Date(anio, mes, dia);
   }
 
   ngOnDestroy(): void {

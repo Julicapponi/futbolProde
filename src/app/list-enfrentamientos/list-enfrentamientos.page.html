@@ -3,24 +3,23 @@
     <ion-buttons slot="start">
       <ion-button (click)="volver()">
         <ion-icon name="arrow-back-outline"></ion-icon>
-        <ion-title class="text-header">TUS PRONOSTICOS</ion-title>
       </ion-button>
     </ion-buttons>
-    <p class="ion-no-margin ion-no-padding">Tus enfrentamientos</p>
+    <p class="ion-no-margin ion-no-padding">Enfrentamientos</p>
   </ion-toolbar>
 </ion-header>
 
 <ion-row *ngIf="isCargandoPartidos">
   <ion-col [size]="1"></ion-col>
   <ion-col [size]="10">
-    <p class="text-carga" *ngIf="isCargandoPartidos"> Cargando partidos, aguarde por favor... </p>
+    <p class="text-white text-carga" *ngIf="isCargandoPartidos"> Cargando partidos, aguarde por favor... </p>
     <ion-progress-bar color="primary" class="barra-progreso"  *ngIf="isCargandoPartidos" type="indeterminate"></ion-progress-bar>
   </ion-col>
   <ion-col [size]="1"></ion-col>
 </ion-row>
 
 
-<ion-content>
+<ion-content class="bg-image no-scroll">
   <div *ngIf="isCargandoPartidos">
     <app-animation-progress ></app-animation-progress>
     <app-animation-progress ></app-animation-progress>
@@ -28,11 +27,12 @@
     <app-animation-progress ></app-animation-progress>
   </div>
   
-<ion-col [size]="12">
-  <ion-row>
-    <ion-select [value]="fechaAVisualizarPorActualidad" [(ngModel)]="fechaAVisualizarPorActualidad" (ngModelChange)="fechaEvent($event)" placeholder="Seleccione una fecha">
-      <div *ngFor="let fechaComp of this.fechasCompetencia">
-        <ion-select-option value="{{fechaComp}}" (click)="filtrarPartidosPorFecha(fechaComp)"> {{fechaComp}}</ion-select-option>
+<ion-col [size]="12" class="display-flex ion-no-padding">
+  <ion-row class="margin-auto ion-no-padding">
+    <p style="margin-right: 1rem" class="text-white">Jornada: </p>
+    <ion-select class="text-white ion-no-margin ion-no-padding" [value]="fechaAVisualizarPorActualidad" [(ngModel)]="fechaAVisualizarPorActualidad" (ngModelChange)="fechaEvent($event)" placeholder="Seleccione una fecha">
+      <div class="ion-no-margin ion-no-padding" *ngFor="let fechaComp of this.fechasCompetencia">
+        <ion-select-option value="{{fechaComp}}" (click)="filtrarPartidosPorFecha(fechaComp)" class="text-white ion-no-margin ion-no-padding"> {{fechaComp}}</ion-select-option>
       </div>
     </ion-select>
   </ion-row>
@@ -43,13 +43,12 @@
         <ion-col [size]="12" class="ion-no-margin ion-no-padding">
           <ion-item  class="ion-no-margin ion-no-padding">
          
-            <ion-badge *ngIf="part.short.includes('Time to be defined')" slot="start" fill="outline">Por jugar</ion-badge>
+            <ion-badge *ngIf="part.short.includes('Time to be defined') || part.short.includes('Not Started')" slot="start" fill="outline" class="badge-color-por-jugar">Por jugar</ion-badge>
             <ion-badge *ngIf="part.short.includes('Match Finished')" slot="start" fill="outline">Finalizado</ion-badge>
             <ion-badge *ngIf="part.short.includes('Match Postponed')" slot="start" fill="outline">Postergado</ion-badge>
             <ion-badge *ngIf="part.short.includes('1H') || part.short.includes('2H')" slot="start" fill="outline" style="background-color: red">Vivo</ion-badge>
             <ion-badge *ngIf="part.short.includes('HT')" slot="start" fill="outline" style="background-color: red">Vivo - Entretiempo</ion-badge>
             <ion-label slot="end" style="font-size: 0.8rem">  {{part.fechaEnfrentamiento | date :'dd/MM/yyyy HH:mm'}}  </ion-label>
-            <ion-icon slot="end" name="help-outline" size="small"></ion-icon>
             <!--<ion-button fill="outline" slot="end">View</ion-button>-->
           </ion-item>
         </ion-col>

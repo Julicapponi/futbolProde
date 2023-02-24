@@ -8,8 +8,8 @@
   </ion-col>
   
   <ion-col class="ion-no-padding ion-no-margin" [size]="9">
-    <ion-item no-lines lines="none" class="content-select">
-      <ion-select class="text-default-select" [(ngModel)]="compActivas" (ngModelChange)="ngMode($event)"  placeholder="Selecciona una competencia">
+    <ion-item no-lines lines="none" class="content-select display-flex">
+      <ion-select class="text-default-select margin-auto" [(ngModel)]="compActivas" (ngModelChange)="ngMode($event)"  placeholder="Selecciona una competencia">
         <div *ngFor="let compActivas of competenciasActivas">
           <ion-select-option class="text-select-option" [value]="compActivas"> {{compActivas.name}}</ion-select-option>
         </div>
@@ -26,10 +26,10 @@
       </ion-col>
       <ion-col class="col-slider" *ngIf="!ocultaSlider" [size]="12">
         <ion-row class="ion-no-margin ion-no-padding">
-          <ion-col class="ion-no-margin ion-no-padding">
+          <ion-col class="ion-no-margin ion-no-padding" style="position: relative">
             <ion-slides class="img-inicio" [options]="slideOptsOne">
               <ion-slide *ngFor="let item of images">
-                <ion-row style="position: relative;">
+                <ion-row >
                     <ion-img [src]="item.url"></ion-img>
                     <ion-icon  style="position: absolute; top: 0; left: 0; margin: 30px 0 0 10px;" *ngIf="!ocultaSlider" size="large" (click)="ocultarSlider(true)" name="eye-outline"></ion-icon>
                 </ion-row>
@@ -45,7 +45,8 @@
         <ion-button class="container-options-inicio ion-no-margin ion-no-padding" fill="clear" [disabled]="isCargando" (click)="altaPronosticos()">
           <div class="contenido-options-inicio">
             <img class="img-options-inicio" src="assets/img/scoreboard.png" >
-            <i class="text-grid-inicio" *ngIf="isCargando"> <img src="./assets/img/loading-gif.gif" class="margin-auto load-gif" height="45px" width="35px"></i>
+            <p class="text-grid-inicio" *ngIf="isCargando">CARGANDO PRONOSTICOS...</p>
+            <ion-progress-bar color="primary" class="barra-progreso-pronosticos"  *ngIf="isCargando" type="indeterminate"></ion-progress-bar>
             <p class="text-grid-inicio" *ngIf="!isCargando">PRONOSTICOS</p>
           </div>
         </ion-button>
