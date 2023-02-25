@@ -32,9 +32,9 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
   idEquipoVisitante = 0;
   competencia: Competencia[];
   isCargandoPartidos = true;
-  isCargando = true;
+
   myDate = Date.now();
-  fechaHoy: string;
+
   compFixture: any;
   fecha: string;
   partidoTerminado = false;
@@ -69,59 +69,107 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
   jsonPronosticos: any;
 
   realizoCalculo = false;
-  todosLosPartidos: Enfrentamiento[];
   restarsumar_ocupado=false;
   fechaAVisualizarPorActualidad: any;
   partidosAVisualizar: Enfrentamiento[];
-   
+  partidosBD: Enfrentamiento[];
+  partidosConcatenados: any;
+  fechaHoy: Date;
+  puedePronosticar: boolean;
+  messageLoaderStatus: string;
 
   constructor(private toast: ToastController, private router: Router, private sharingService: SharingServiceService, private route: ActivatedRoute, private menuCtrl: MenuController,
               private authService: AuthService, private resultService: ResultsService,
               private competenciaService: CompetenciaService, public alertController: AlertController,
               public datepipe: DatePipe, private comparteDatosService: ComparteDatosService, private cdr: ChangeDetectorRef, private pronosticosService: PronosticosService) {
-    this.obtenerPartidosPronosticados();
-    this.obtenerPartidos();
-    //this.obtenerFiltroFechas(this.partidos);
-    this.obtenerFechaDefault(this.partidos);
-    this.filtrarPartidosPorFecha(this.fechaAVisualizarPorActualidad);
+    this.isCargandoPartidos = true;
+    this.messageLoaderStatus = 'Cargando datos de los partidos, aguarde por favor... ';
+    this.obtenerPartidosYConcatenar();
+    //ingreso timeout ya que tarda en realizar la funcion de obtenerPartidosYConcatenar 
+    setTimeout(async () => {
+      this.obtenerFechaDefault(this.partidosConcatenados);
+      this.filtrarPartidosPorFecha(this.fechaAVisualizarPorActualidad);
+      this.isCargandoPartidos = false;
+    }, 4000);
+ 
+
 
   }
   
   // obtiene los enfrentamientos de la BD, que vienen desde inicio
-  async obtenerPartidos() {
-    this.isCargandoPartidos = true;
-    await this.sharingService.obtenerPartidos.subscribe((data: Enfrentamiento[]) => {
-      this.partidos = data;
-      //this.partidos = data.slice(0, 80);
-      this.todosLosPartidos = this.partidos;
-      this.isCargandoPartidos = false;
+  async obtenerPartidosYConcatenar() : Promise<any> {
+    const promise = new Promise(async resolve => {
+    //this.partidosBD partidos que vienen de la bd, todos los de la competencia.
+    this.sharingService.obtenerPartidos.subscribe((data: Enfrentamiento[]) => {
+     this.partidosBD = data;
+    });
+
+      let idCompetencia = localStorage.getItem('idCompetenciaSeleccionada');
+      let idUser = localStorage.getItem('idUser');
+      this.partidosOrdenados = [];
+      
+      //OBTENGO UNICAMENTE LOS ENFRENTAMIENTOS QUE HAYAN SIDO PRONOSTICADOS POR EL USUARIO EN LA BD
+      this.competenciaService.getEnfrentamientosPronosticados(idCompetencia, idUser).subscribe(
+          data => {
+            this.partidosPronosticados = data;
+            for (var i = 0; i < data.length; i++) {
+              for (var j = 0; j < this.partidosBD.length; j++) {
+                if (data[i].idEnfrentamiento == this.partidosBD[j].idEnfrentamiento) {
+                  //borro el enfrentamiento si está pronosticado, luego voy a sumar este mismo pero con los resultados pronosticados.
+                  this.partidosBD.splice(j, 1);
+                  j--;
+                  continue;
+                }
+              }
+            }
+            
+            this.partidosConcatenados = data.concat(this.partidosBD);
+            resolve (this.partidosConcatenados)
+          });
+      
+    })
+    promise.then((res) => {
+      console.log('I get called:', res === 123); // Devuelve: true
+    });
+    promise.catch((err) => {
+      console.log(err);
     });
   }
   
+/*
+  async obtenerPartidosPronosticados(partidosBD: Enfrentamiento[]) : Promise<any> {
+    const promise = new Promise(async resolve => {
+      let idCompetencia = localStorage.getItem('idCompetenciaSeleccionada');
+      let idUser = localStorage.getItem('idUser');
+      this.partidosOrdenados = [];
+      //OBTENGO UNICAMENTE LOS ENFRENTAMIENTOS QUE HAYAN SIDO PRONOSTICADOS POR EL USUARIO EN LA BD
 
-  async obtenerPartidosPronosticados() {
-    let idCompetencia = localStorage.getItem('idCompetenciaSeleccionada');
-    let idUser = localStorage.getItem('idUser');
-    this.partidosOrdenados = [];
-    //OBTENGO UNICAMENTE LOS ENFRENTAMIENTOS QUE HAYAN SIDO PRONOSTICADOS POR EL USUARIO EN LA BD
-    await this.competenciaService.getEnfrentamientosPronosticados(idCompetencia, idUser).subscribe(
-        data => {
-          this.partidosPronosticados = data;
-          for (var i = 0; i < data.length; i++) {
-            for (var j = 0; j < this.partidos.length; j++) {
-              if (data[i].idEnfrentamiento == this.partidos[j].idEnfrentamiento) {
-                //borro el enfrentamiento si está pronosticado, luego voy a sumar este mismo pero con los resultados pronosticados.
-                this.partidos.splice(j, 1);
-                j--;
-                continue;
+      this.competenciaService.getEnfrentamientosPronosticados(idCompetencia, idUser).subscribe(
+          data => {
+            this.partidosPronosticados = data;
+            for (var i = 0; i < data.length; i++) {
+              for (var j = 0; j < this.partidos.length; j++) {
+                if (data[i].idEnfrentamiento == this.partidos[j].idEnfrentamiento) {
+                  //borro el enfrentamiento si está pronosticado, luego voy a sumar este mismo pero con los resultados pronosticados.
+                  this.partidos.splice(j, 1);
+                  j--;
+                  continue;
+                }
               }
             }
-          }
-          //CONCATENEO LOS PARTIDOS PRONOSTICADOS CON LOS PARTIDOS TRAIDOS DE LA API
-          this.partidos = data.concat(this.partidos);
-        });
+            //CONCATENEO LOS PARTIDOS PRONOSTICADOS CON LOS PARTIDOS TRAIDOS DE LA API
+            this.partidos = data.concat(this.partidos);
+            resolve (this.partidos)
+          });
+    })
+    promise.then((res) => {
+      console.log('I get called:', res === 123); // Devuelve: true
+    });
+    promise.catch((err) => {
+      console.log(err);
+    });
   }
-
+*/
   obtenerFiltroFechas(partidos) {
     var rounds = partidos.map(function (partido) {
       return partido.round;
@@ -187,6 +235,8 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
       diaActual = String(diaActual).padStart(2,'0').toString();
     }
     const fechaActual = anioActual+'-'+mesActual+'-'+diaActual+'T00:00:00+00:00';
+    this.fechaHoy = new Date(fechaActual);
+    
     var json = partidos.map(function (partido) {
       return {round: partido.round, fechaEnfrentamiento: partido.fechaEnfrentamiento};
     });
@@ -269,8 +319,49 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
     console.log('Seleccionaste esta fecha:', fecha);
     this.fecha = fecha.trim();
     this.partidos = [];
-    this.partidos = this.todosLosPartidos.filter(partido => partido.round ===this.fecha);
-    this.partidosAVisualizar = this.partidos;
+    let part = this.partidosConcatenados.filter(partido => partido.round ===this.fecha);
+    
+    
+    //REALIZA CALCULOS DE ESTADO DE PARTIDO (EN CURSO, FINALIZADO, POR JUGAR)
+    //estadoFecha = 1 por jugar
+    //estadoFecha = 2 en curso
+    //estadoFecha = 3 finalizado
+    for (let i = 0; i <  part.length; i++) {
+      console.log(part[i]);
+      let fechaPartido = new Date(part[i].fechaEnfrentamiento);
+      // Calcular la diferencia en milisegundos
+      const diferencia = this.fechaHoy.getTime() - fechaPartido.getTime();
+      
+      // Convertir la diferencia a minutos
+      const minutosDiff = Math.floor(diferencia / 1000 / 60);
+      // Convertir de min a hs
+      const horasDiff = minutosDiff / 60;
+      
+      //1 por jugar
+      //2 en curso
+      //3 finalizado
+      if(horasDiff >= 0 && horasDiff <= 2.3){
+        part[i].estadoFecha = 2;
+      } else if(horasDiff<-0.1){
+        part[i].estadoFecha = 1;
+      } else {
+        part[i].estadoFecha = 3;
+      }
+      
+      //30 minutos antes del arranco del partido para poder pronosticar
+      if(horasDiff<-0.5){
+        part[i].puedePronosticar = true;
+      } else{
+        part[i].puedePronosticar = false;
+      }
+      
+      if(this.fechaHoy < fechaPartido){
+        part[i].estadoFecha = 1;
+      } else {
+        part[i].estadoFecha = 3;
+      }
+    }
+    this.partidosAVisualizar = part;
   }
 
   convertirFecha (fechaString) {

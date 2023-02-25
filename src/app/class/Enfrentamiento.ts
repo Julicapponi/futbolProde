@@ -25,5 +25,7 @@ export class Enfrentamiento {
     isComparado: boolean;
     golesLocalPronosticado: number;
     golesVisitPronosticado: number;
+    estadoFecha: number;
+    puedePronosticar:Boolean;
 
 }

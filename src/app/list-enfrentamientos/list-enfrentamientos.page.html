@@ -9,25 +9,20 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-row *ngIf="isCargandoPartidos">
-  <ion-col [size]="1"></ion-col>
-  <ion-col [size]="10">
-    <p class="text-white text-carga" *ngIf="isCargandoPartidos"> Cargando partidos, aguarde por favor... </p>
-    <ion-progress-bar color="primary" class="barra-progreso"  *ngIf="isCargandoPartidos" type="indeterminate"></ion-progress-bar>
-  </ion-col>
-  <ion-col [size]="1"></ion-col>
-</ion-row>
+
 
 
 <ion-content class="bg-image no-scroll">
-  <div *ngIf="isCargandoPartidos">
-    <app-animation-progress ></app-animation-progress>
-    <app-animation-progress ></app-animation-progress>
-    <app-animation-progress ></app-animation-progress>
-    <app-animation-progress ></app-animation-progress>
-  </div>
+  <ion-row *ngIf="isCargandoPartidos">
+    <ion-col [size]="1"></ion-col>
+    <ion-col [size]="10">
+      <p class="text-white text-carga"> {{messageLoaderStatus}}</p>
+      <ion-progress-bar color="primary" class="barra-progreso" type="indeterminate"></ion-progress-bar>
+    </ion-col>
+    <ion-col [size]="1"></ion-col>
+  </ion-row>
   
-<ion-col [size]="12" class="display-flex ion-no-padding">
+<ion-col [size]="12" class="display-flex ion-no-padding" *ngIf="!isCargandoPartidos">
   <ion-row class="margin-auto ion-no-padding">
     <p style="margin-right: 1rem" class="text-white">Jornada: </p>
     <ion-select class="text-white ion-no-margin ion-no-padding" [value]="fechaAVisualizarPorActualidad" [(ngModel)]="fechaAVisualizarPorActualidad" (ngModelChange)="fechaEvent($event)" placeholder="Seleccione una fecha">
@@ -42,12 +37,16 @@
       <ion-row class="row-fecha" class="ion-no-margin ion-no-padding">
         <ion-col [size]="12" class="ion-no-margin ion-no-padding">
           <ion-item  class="ion-no-margin ion-no-padding">
-         
+            <ion-badge *ngIf="part.estadoFecha === 1" slot="start" fill="outline" class="badge-color-por-jugar">Por jugar</ion-badge>
+            <ion-badge *ngIf="part.estadoFecha === 2" slot="start" fill="outline" style="background-color: orange">Jugando</ion-badge>
+            <ion-badge *ngIf="part.estadoFecha === 3" slot="start" fill="outline" style="background-color: red">Finalizado</ion-badge>
+            <!--
             <ion-badge *ngIf="part.short.includes('Time to be defined') || part.short.includes('Not Started')" slot="start" fill="outline" class="badge-color-por-jugar">Por jugar</ion-badge>
             <ion-badge *ngIf="part.short.includes('Match Finished')" slot="start" fill="outline">Finalizado</ion-badge>
             <ion-badge *ngIf="part.short.includes('Match Postponed')" slot="start" fill="outline">Postergado</ion-badge>
             <ion-badge *ngIf="part.short.includes('1H') || part.short.includes('2H')" slot="start" fill="outline" style="background-color: red">Vivo</ion-badge>
             <ion-badge *ngIf="part.short.includes('HT')" slot="start" fill="outline" style="background-color: red">Vivo - Entretiempo</ion-badge>
+            -->
             <ion-label slot="end" style="font-size: 0.8rem">  {{part.fechaEnfrentamiento | date :'dd/MM/yyyy HH:mm'}}  </ion-label>
             <!--<ion-button fill="outline" slot="end">View</ion-button>-->
           </ion-item>
@@ -84,7 +83,7 @@
               </ion-item>
             </ion-col>
             <ion-col [size]="1" class="col-equipos">
-              <ion-button size="small" (click)="guardarPronosticosHechos(part, false, true)" [disabled]="part.short.includes('Match Finished') || restarsumar_ocupado" fill="clear" class="icon-operacion-result ion-no-margin ion-no-padding">
+              <ion-button size="small" (click)="guardarPronosticosHechos(part, false, true)" [disabled]="!part.puedePronosticar || restarsumar_ocupado" fill="clear" class="icon-operacion-result ion-no-margin ion-no-padding">
                 <ion-icon class="icon-operacion-result" name="remove-circle-outline" size="small"
                           ></ion-icon>
               </ion-button>
@@ -94,7 +93,7 @@
             </ion-col>
 
             <ion-col [size]="1" class="col-equipos">
-              <ion-button size="small" (click)="guardarPronosticosHechos(part, true, true)" [disabled]="part.short.includes('Match Finished') || restarsumar_ocupado" fill="clear" class="icon-operacion-result ion-no-margin ion-no-padding">
+              <ion-button size="small" (click)="guardarPronosticosHechos(part, true, true)" [disabled]="!part.puedePronosticar || restarsumar_ocupado" fill="clear" class="icon-operacion-result ion-no-margin ion-no-padding">
                 <ion-icon  name="add-circle-outline" size="small"
                           ></ion-icon>
               </ion-button>
@@ -116,7 +115,7 @@
               </ion-item>
             </ion-col>
             <ion-col [size]="1" class="col-equipos">
-              <ion-button (click)="guardarPronosticosHechos(part, false, false)" [disabled]="part.short.includes('Match Finished') || restarsumar_ocupado"
+              <ion-button (click)="guardarPronosticosHechos(part, false, false)" [disabled]="!part.puedePronosticar || restarsumar_ocupado"
                           size="small" fill="clear" class="icon-operacion-result ion-no-margin ion-no-padding">
                 <ion-icon name="remove-circle-outline" size="small"></ion-icon>
               </ion-button>
@@ -128,7 +127,7 @@
             </ion-col>
 
             <ion-col [size]="1" class="col-equipos">
-              <ion-button (click)="guardarPronosticosHechos(part, true, false)" [disabled]="part.short.includes('Match Finished') || restarsumar_ocupado"
+              <ion-button (click)="guardarPronosticosHechos(part, true, false)" [disabled]="!part.puedePronosticar || restarsumar_ocupado"
                           size="small" fill="clear" class="icon-operacion-result ion-no-margin ion-no-padding">
                 <ion-icon name="add-circle-outline" size="small"></ion-icon>
               </ion-button>
