@@ -55,13 +55,16 @@
     </ion-row>
     <ion-row>
       <ion-col class="container-options-inicio desenfoque">
+
         <div class="contenido-options-inicio" (click)="irAResultadosFootball()">
+          <p *ngIf="cantidadNotificaciones >0" class="text-grid-notificaciones ion-no-padding ion-no-margin primary"> {{cantidadNotificaciones }} <i  class="text-grid-notificaciones ion-no-padding ion-no-margin primary" *ngIf="cantidadNotificaciones>1">Notificaciones</i> <i  class="text-grid-notificaciones ion-no-padding ion-no-margin primary" *ngIf="cantidadNotificaciones==1">Notificación</i> </p>
           <img  class="img-options-inicio" src="assets/img/group-team.png">
           <p class="text-grid-inicio">GRUPOS</p>
+     
         </div>
       </ion-col>
       <ion-col class="container-options-inicio desenfoque">
-        <div>
+        <div style="margin:auto">
           <img class="img-options-inicio" src="assets/img/podium.png">
           <p class="text-grid-inicio">PUNTAJES</p>
         </div>

@@ -12,6 +12,7 @@ import { ComparteDatosService } from '../services/comparte-datos.service';
 import { SharingServiceService } from '../services/sharing-service.service';
 import {Grupo} from "../class/Grupo";
 import {ImageSlider} from "../class/ImageSlider";
+import {GruposService} from "../services/grupos.service";
 
 @Component({
   selector: 'app-inicio-page',
@@ -39,13 +40,18 @@ export class InicioPagePage implements OnInit {
   };
 
   images: ImageSlider[];
+  idUser: string;
+  postulacionesPendientesParaAceptar: Object[];
+  cantidadNotificaciones: number;
 
-  constructor(private route: ActivatedRoute, private sharingService: SharingServiceService,
+  constructor(private gruposService: GruposService, private route: ActivatedRoute, private sharingService: SharingServiceService,
               private router: Router, private menuCtrl: MenuController, private competenciaService: CompetenciaService, public alertController: AlertController, private comparteDatosService: ComparteDatosService ) {
     this.menuCtrl.enable(true);
+    this.notificationPendienteParaGrupo();
   }
 
   ngOnInit() {
+    this.notificationPendienteParaGrupo();
     this.images = [];
     let ob = { title: 'Enzo Fernandez al Chelsea, transferencia record', url: 'https://cloudfront-us-east-1.images.arcpublishing.com/infobae/57KCIDG42ZHB5CXCULFZ4SOZXE.jpg' };
     let ob1 = { title: 'Enzo Fernandez al Chelsea, transferencia record', url: 'https://cloudfront-us-east-1.images.arcpublishing.com/infobae/57KCIDG42ZHB5CXCULFZ4SOZXE.jpg' }
@@ -61,6 +67,23 @@ export class InicioPagePage implements OnInit {
           console.log(err);
         }
     );
+  }
+  
+  ionViewDidEnter(){
+    this.notificationPendienteParaGrupo();
+  }
+      
+
+  notificationPendienteParaGrupo() {
+    this.idUser = localStorage.getItem('idUser');
+    this.gruposService.getPostulacionesPendientesDeAceptar(this.idUser).subscribe(
+        res => {
+          this.isCargando = false;
+          this.postulacionesPendientesParaAceptar = res;
+          this.cantidadNotificaciones = this.postulacionesPendientesParaAceptar.length;
+        }),
+        err => {
+        };
   }
 
   //accion desplegar menu
