@@ -83,6 +83,7 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
               private competenciaService: CompetenciaService, public alertController: AlertController,
               public datepipe: DatePipe, private comparteDatosService: ComparteDatosService, private cdr: ChangeDetectorRef, private pronosticosService: PronosticosService) {
     this.isCargandoPartidos = true;
+    this.fechaHoy = new Date();
     this.messageLoaderStatus = 'Cargando datos de los partidos, aguarde por favor... ';
     this.obtenerPartidosYConcatenar();
     //ingreso timeout ya que tarda en realizar la funcion de obtenerPartidosYConcatenar 
@@ -91,9 +92,6 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
       this.filtrarPartidosPorFecha(this.fechaAVisualizarPorActualidad);
       this.isCargandoPartidos = false;
     }, 4000);
- 
-
-
   }
   
   // obtiene los enfrentamientos de la BD, que vienen desde inicio
@@ -235,8 +233,8 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
       diaActual = String(diaActual).padStart(2,'0').toString();
     }
     const fechaActual = anioActual+'-'+mesActual+'-'+diaActual+'T00:00:00+00:00';
-    this.fechaHoy = new Date(fechaActual);
-    
+    //this.fechaHoy = new Date(fechaActual);
+
     var json = partidos.map(function (partido) {
       return {round: partido.round, fechaEnfrentamiento: partido.fechaEnfrentamiento};
     });
@@ -327,6 +325,9 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
     //estadoFecha = 2 en curso
     //estadoFecha = 3 finalizado
     for (let i = 0; i <  part.length; i++) {
+      if(part[i].nameVisit.includes('Independiente')){
+        console.log();
+      }
       console.log(part[i]);
       let fechaPartido = new Date(part[i].fechaEnfrentamiento);
       // Calcular la diferencia en milisegundos
@@ -342,7 +343,7 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
       //3 finalizado
       if(horasDiff >= 0 && horasDiff <= 2.3){
         part[i].estadoFecha = 2;
-      } else if(horasDiff<-0.1){
+      } else if(horasDiff<0){
         part[i].estadoFecha = 1;
       } else {
         part[i].estadoFecha = 3;
@@ -353,12 +354,6 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
         part[i].puedePronosticar = true;
       } else{
         part[i].puedePronosticar = false;
-      }
-      
-      if(this.fechaHoy < fechaPartido){
-        part[i].estadoFecha = 1;
-      } else {
-        part[i].estadoFecha = 3;
       }
     }
     this.partidosAVisualizar = part;
