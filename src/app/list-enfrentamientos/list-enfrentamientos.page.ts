@@ -77,7 +77,9 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
   fechaHoy: Date;
   puedePronosticar: boolean;
   messageLoaderStatus: string;
-
+  listPartidosVisualizadosId =[];
+  isCargandoCambioFecha: boolean;
+  isVienePrimeraCarga: boolean;
   constructor(private toast: ToastController, private router: Router, private sharingService: SharingServiceService, private route: ActivatedRoute, private menuCtrl: MenuController,
               private authService: AuthService, private resultService: ResultsService,
               private competenciaService: CompetenciaService, public alertController: AlertController,
@@ -86,11 +88,11 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
     this.fechaHoy = new Date();
     this.messageLoaderStatus = 'Cargando datos de los partidos, aguarde por favor... ';
     this.obtenerPartidosYConcatenar();
+
     //ingreso timeout ya que tarda en realizar la funcion de obtenerPartidosYConcatenar 
     setTimeout(async () => {
       this.obtenerFechaDefault(this.partidosConcatenados);
-      this.filtrarPartidosPorFecha(this.fechaAVisualizarPorActualidad);
-      this.isCargandoPartidos = false;
+      this.filtrarPartidosPorFecha(this.fechaAVisualizarPorActualidad, true);
     }, 4000);
   }
   
@@ -313,12 +315,17 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
   }
 
 
-  filtrarPartidosPorFecha(fecha: string) {
+  filtrarPartidosPorFecha(fecha: string, isVienePrimeraCarga:boolean) {
+    if(!isVienePrimeraCarga){
+      this.isCargandoPartidos = true;
+    }
+    this.listPartidosVisualizadosId =[];
+    this.isCargandoCambioFecha = true;
     console.log('Seleccionaste esta fecha:', fecha);
     this.fecha = fecha.trim();
     this.partidos = [];
     let part = this.partidosConcatenados.filter(partido => partido.round ===this.fecha);
-    
+
     
     //REALIZA CALCULOS DE ESTADO DE PARTIDO (EN CURSO, FINALIZADO, POR JUGAR)
     //estadoFecha = 1 por jugar
@@ -355,8 +362,12 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
       } else{
         part[i].puedePronosticar = false;
       }
+      
+     // this.listPartidosVisualizadosId.push(part[i].idEnfrentamiento);
     }
-    this.partidosAVisualizar = part;
+    
+    //CONCATENA CON LA API LOS PARTIDOS A PRESENTAR EN PANTALLA
+    this.obtenerPartidosApiYConcatena(part);
   }
 
   convertirFecha (fechaString) {
@@ -697,7 +708,7 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
   async fechaEvent($event: any) {
     console.log($event);
     const fecha = $event.toString();
-    this.filtrarPartidosPorFecha(fecha);
+    this.filtrarPartidosPorFecha(fecha,false);
   }
 
   /*
@@ -759,6 +770,54 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
       alert.present();
     });
   }
+
+  private obtenerPartidosApiYConcatena(partidos: Enfrentamiento[]) {
+    let idCompetenciaSeleccionada = localStorage.getItem('idCompetenciaSeleccionada');
+    let idUser = localStorage.getItem('idUser');
+    let anioCompetenciaSeleccionada = localStorage.getItem('anioCompetenciaSeleccionada');
+    this.subscriptionCompetencia = this.competenciaService.getEnfrentamientosApi(idCompetenciaSeleccionada, anioCompetenciaSeleccionada).subscribe(
+        data => {
+          let partidosApi = data;
+          console.log(data.response);
+          console.log(partidos);
+          let partidosApiFecha = partidosApi.response.filter(item => {
+            return item.league.round.includes(this.fecha);
+          });
+          console.log(partidosApiFecha);
+          for (let i = 0; i < partidos.length; i++) {
+            for (let j = 0; j < partidosApiFecha.length; j++) {
+              if(partidos[i].idEnfrentamiento === partidosApiFecha[j].fixture.id){
+                partidos[i].elapsed = partidosApiFecha[j].fixture.status.elapsed;
+                partidos[i].long = partidosApiFecha[j].fixture.status.long;
+                partidos[i].estadoPartido = partidosApiFecha[j].fixture.status.short;
+                partidos[i].golLocal = partidosApiFecha[j].goals.home;
+                partidos[i].golVisit = partidosApiFecha[j].goals.away;
+              }
+              //PRONOSTICA EMPATE O GANA Y EL RESULTADO ES IDENTICO
+              if(partidos[i].golesLocalPronosticado === partidos[i].golLocal && partidos[i].golesVisitPronosticado === partidos[i].golVisit){
+                partidos[i].puntosSumados = 3;
+                //PRONOSTICA GANA LOCAL Y EL RESULTADO GANA PERO NO ES IDENTICO
+              } else if(partidos[i].golesLocalPronosticado > partidos[i].golesVisitPronosticado && partidos[i].golLocal > partidos[i].golVisit){
+                partidos[i].puntosSumados = 1;
+                //PRONOSTICA GANA VISITANTE Y EL RESULTADO GANA PERO NO ES IDENTICO
+              } else if(partidos[i].golesVisitPronosticado > partidos[i].golesLocalPronosticado &&  partidos[i].golVisit > partidos[i].golLocal) {
+                partidos[i].puntosSumados = 1;
+                //PRONOSTICA EMPATE, SALE EMPATE PERO DISTINTO
+              } else if(partidos[i].golesLocalPronosticado !== partidos[i].golLocal && partidos[i].golesVisitPronosticado !== partidos[i].golVisit && partidos[i].golLocal === partidos[i].golVisit){
+                partidos[i].puntosSumados = 1;
+              } else {
+                partidos[i].puntosSumados = 0;
+              }
+            }
+          }
+          this.partidosAVisualizar = partidos
+          this.isCargandoPartidos = false;
+          console.log(this.partidosAVisualizar);
+        },err => {
+          console.log(err);
+        });
+  }
   
+ 
 }
 

@@ -8,7 +8,7 @@ export class Enfrentamiento {
     idLiga: number;
     nameLiga: string;
     anioLiga: string;
-    round:string;
+    round: string;
     idLocal: number;
     nameLocal: string;
     logoLocal: string;
@@ -27,5 +27,8 @@ export class Enfrentamiento {
     golesVisitPronosticado: number;
     estadoFecha: number;
     puedePronosticar:Boolean;
-
+    elapsed:string;
+    long: string;
+    estadoPartido: string;
+    puntosSumados:number;
 }

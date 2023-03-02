@@ -123,6 +123,7 @@ export class InicioPagePage implements OnInit {
   }
 
   buscarCompetencias(idCompetenciaSeleccionada: string, anioCompetenciaSeleccionada: string) {
+    localStorage.setItem('anioCompetenciaSeleccionada', anioCompetenciaSeleccionada);
     this.fechasCompetencia = [];
     this.isCargando = true;
     if (idCompetenciaSeleccionada == '' || idCompetenciaSeleccionada == undefined) {

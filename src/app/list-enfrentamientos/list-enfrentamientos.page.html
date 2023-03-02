@@ -27,26 +27,28 @@
     <p style="margin-right: 1rem" class="text-white">Jornada: </p>
     <ion-select class="text-white ion-no-margin ion-no-padding" [value]="fechaAVisualizarPorActualidad" [(ngModel)]="fechaAVisualizarPorActualidad" (ngModelChange)="fechaEvent($event)" placeholder="Seleccione una fecha">
       <div class="ion-no-margin ion-no-padding" *ngFor="let fechaComp of this.fechasCompetencia">
-        <ion-select-option value="{{fechaComp}}" (click)="filtrarPartidosPorFecha(fechaComp)" class="text-white ion-no-margin ion-no-padding"> {{fechaComp}}</ion-select-option>
+        <ion-select-option value="{{fechaComp}}" (click)="filtrarPartidosPorFecha(fechaComp,false)" class="text-white ion-no-margin ion-no-padding"> {{fechaComp}}</ion-select-option>
       </div>
     </ion-select>
   </ion-row>
 </ion-col>
   <ion-card *ngFor="let part of partidosAVisualizar" class="ion-no-margin ion-no-padding">
-    <ion-grid>
+    <ion-grid *ngIf="!isCargandoPartidos">
       <ion-row class="row-fecha" class="ion-no-margin ion-no-padding">
         <ion-col [size]="12" class="ion-no-margin ion-no-padding">
           <ion-item  class="ion-no-margin ion-no-padding">
+            <!--
             <ion-badge *ngIf="part.estadoFecha === 1" slot="start" fill="outline" class="badge-color-por-jugar">Por jugar</ion-badge>
             <ion-badge *ngIf="part.estadoFecha === 2" slot="start" fill="outline" style="background-color: red">Jugando</ion-badge>
             <ion-badge *ngIf="part.estadoFecha === 3" slot="start" fill="outline" style="background-color: black">Finalizado</ion-badge>
-            <!--
-            <ion-badge *ngIf="part.short.includes('Time to be defined') || part.short.includes('Not Started')" slot="start" fill="outline" class="badge-color-por-jugar">Por jugar</ion-badge>
-            <ion-badge *ngIf="part.short.includes('Match Finished')" slot="start" fill="outline">Finalizado</ion-badge>
-            <ion-badge *ngIf="part.short.includes('Match Postponed')" slot="start" fill="outline">Postergado</ion-badge>
-            <ion-badge *ngIf="part.short.includes('1H') || part.short.includes('2H')" slot="start" fill="outline" style="background-color: red">Vivo</ion-badge>
-            <ion-badge *ngIf="part.short.includes('HT')" slot="start" fill="outline" style="background-color: red">Vivo - Entretiempo</ion-badge>
             -->
+            <ion-badge *ngIf="part.estadoPartido.includes('TBD') || part.estadoPartido.includes('NS') || part.long.includes('Not Started')" slot="start" fill="outline" class="badge-color-por-jugar">Por jugar</ion-badge>
+            <ion-badge *ngIf="part.estadoPartido.includes('TBD')" slot="start" fill="outline" class="badge-color-indefinido">Fecha y hora indefinida</ion-badge>
+            <ion-badge *ngIf="part.estadoPartido.includes('FT')" slot="start" fill="outline">Finalizado</ion-badge>
+            <ion-badge *ngIf="part.estadoPartido.includes('Match Postponed')" slot="start" fill="outline">Postergado</ion-badge>
+            <ion-badge *ngIf="part.estadoPartido.includes('1H') || part.estadoPartido.includes('2H')" slot="start" fill="outline" style="background-color: red">Vivo</ion-badge>
+            <ion-badge *ngIf="part.estadoPartido.includes('HT')" slot="start" fill="outline" style="background-color: red">Vivo - Entretiempo</ion-badge>
+            
             <ion-label slot="end" style="font-size: 0.8rem">  {{part.fechaEnfrentamiento | date :'dd/MM/yyyy HH:mm'}}  </ion-label>
             <!--<ion-button fill="outline" slot="end">View</ion-button>-->
           </ion-item>
@@ -62,10 +64,10 @@
       </ion-row>
       
       <ion-row class="general">
-        <ion-col *ngIf="part.short.includes('Finished') || part.short.includes('FT') || part.short.includes('PEN')"
+        <ion-col *ngIf="part.estadoPartido.includes('Finished') || part.estadoPartido.includes('FT') || part.estadoPartido.includes('PEN')"
           [size]="1" class=" ion-no-margin ion-no-padding col-puntaje">
           <ion-row class="puntaje-obtenido">
-            <p >0 PTS</p>
+            <p >{{part.puntosSumados}} PTS</p>
           </ion-row>
         </ion-col>
 
