@@ -9,7 +9,22 @@
   animation-duration: 1s;
   animation-iteration-count: initial;
 }
+.row-popups{
+  margin: 0.5rem 0.5rem 0rem 0.5rem;
+}
+.popup-edicion{
+  border-radius: 0.5rem;
+  background-color: #fbc30c;
+}
 
+.popup-recordario{
+  border-radius: 0.5rem;
+  background-color: var(--ion-color-primary);
+}
+
+.text-popup-edicion{
+  margin: 0.5rem;
+}
 @keyframes mover {
   from {left: 0px;}
   to {left: 50px;}

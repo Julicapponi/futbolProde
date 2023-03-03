@@ -31,4 +31,5 @@ export class Enfrentamiento {
     long: string;
     estadoPartido: string;
     puntosSumados:number;
+    modificoDatos: boolean;
 }

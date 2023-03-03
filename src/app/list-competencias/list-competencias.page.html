@@ -14,10 +14,20 @@
     <ion-searchbar class="ion-no-margin ion-no-padding searchbar" placeholder="Buscar..." [(ngModel)]="filterTerm"
                    animated="true"></ion-searchbar>
   <p class="ion-no-margin text-aclaracion">Seleccione las competencias que desea sumar para que el usuario pueda pronosticar</p>
-  <ion-col>
-    <ion-button (click)="irListaComp()" color="primary" expand="block">Ir a mi lista</ion-button>
-  </ion-col>
+  <ion-row *ngIf="!isAgregandoCompetencia">
+    <ion-col>
+      <ion-button (click)="irListaComp()" color="primary" expand="block">Ir a mi lista</ion-button>
+    </ion-col>
+  </ion-row>
+  
+  <ion-row  *ngIf="isAgregandoCompetencia" class="ion-margin-top">
+    <ion-col [size]="12" >
+      <ion-progress-bar color="primary" type="indeterminate"></ion-progress-bar>
+      <p>Aguarde, esto puedo llevar unos segundos...</p>
+    </ion-col>
+  </ion-row>
 </ion-header>
+
 
 
 
@@ -64,17 +74,21 @@
               <ion-label class="text-competencias">{{competencia.league.name}}</ion-label>
             </ion-col>
             <ion-col class='col-grid ion-no-margin ion-no-padding' [size]="1">
-              <ion-checkbox value="option" [(ngModel)]="competencia.league.isActiva" (click)="isChecked(competencia)" name="option"></ion-checkbox>
+              <ion-checkbox value="option" [disabled]="isAgregandoCompetencia" [(ngModel)]="competencia.league.isActiva" (click)="isChecked(competencia)" name="option"></ion-checkbox>
             </ion-col>
           </ion-row>
         </ion-item>
       </ion-list>
     </ion-col>
     <ion-col [size]="12" class="display-flex">
-      <ion-button class="margin-auto" size="medium" color="primary" (click)="verMas()">
-        <p>Ver más competencias</p>
-      </ion-button>
-    
+      <ion-row class="margin-auto ion-no-padding ion-no-margin">
+        <p> Si no se filtró tu búsqueda, oprimí: </p>
+      </ion-row>
+    </ion-col>
+    <ion-col [size]="12" class="display-flex ion-no-padding ion-no-margin">
+        <ion-button class="margin-auto" size="medium" color="primary" (click)="verMas()">
+          <p>Ver más competencias</p>
+        </ion-button>
     </ion-col>
     
   </ion-row>

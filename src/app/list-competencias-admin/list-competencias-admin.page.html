@@ -32,10 +32,29 @@
     </ion-col>
   </ion-row>
   <ion-row *ngIf="!isCargando">
-    <ion-col [size]="12">
-      <p class="ion-no-margin ion-no-padding"> Recordá desactivar las competencia que hayan culminado.</p>
-      <p class="ion-no-margin ion-no-padding"> Si desactivas alguna competencia que está en curso los enfrentamientos se borrarán </p>
-    </ion-col>
+    <ion-row class="ion-no-padding row-popups popup-recordario">
+      <ion-col [size]="10" class="ion-no-padding ion-no-margin">
+        <p class="text-popup-edicion ion-no-padding"> Recordá desactivar las competencia que hayan culminado.</p>
+        <p class="text-popup-edicion ion-no-padding"> Si desactivas alguna competencia que está en curso los enfrentamientos
+          se borrarán </p>
+      </ion-col>
+      <ion-col [size]="2" class="ion-no-padding ion-no-margin display-flex">
+        <ion-row class="margin-auto">
+          <ion-icon size="large" color="dark" name="information-circle-outline"></ion-icon>
+        </ion-row>
+
+      </ion-col>
+    </ion-row>
+    <ion-row class="ion-margin row-popups popup-edicion" >
+      <ion-col [size]="10" class="ion-no-padding ion-no-margin">
+        <p class="text-popup-edicion ion-no-padding">Para editar el nombre de una competencia hace click sobre el nombre y luego confirma en "editar".</p>
+      </ion-col>
+      <ion-col [size]="2" class="ion-no-padding ion-no-margin display-flex">
+        <ion-row class="margin-auto">
+          <ion-icon size="large" color="dark" name="information-circle-outline"></ion-icon>
+        </ion-row>
+      </ion-col>
+    </ion-row>
     <ion-col [size]="12">
         <ion-item [ngClass]="competencia.yaEdito?'visualiza-editado':''" *ngFor="let competencia of competenciasActivas | filter:filterTerm" style="padding-bottom: 1rem ">
             <ion-col class='col-grid ion-no-margin ion-no-padding' [size]="6">

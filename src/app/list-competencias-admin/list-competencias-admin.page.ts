@@ -4,6 +4,7 @@ import {CompetenciaService} from "../services/competencia.service";
 import {AlertController, MenuController, ToastController} from "@ionic/angular";
 import {AuthService} from "../services/auth.service";
 import {Competencia} from "../class/Competencia";
+import {NAVIGATE_LOGIN} from "../logueo/logueo.page";
 
 @Component({
   selector: 'app-list-competencias-admin',
@@ -40,21 +41,64 @@ export class ListCompetenciasAdminPage implements OnInit {
     this.router.navigate(['/inicio-administrador']);
   }
 
-    desactivarComp(Comp:Competencia) {
-      this.isCargando = true;
-      this.competenciaService.deshabilitarCompetencia(Comp.idcompetition).subscribe(res => {
-            console.log(res);
-            this.listaCompetenciasActivas();
-            this.showToastMessage('Competencia desactivada, los usuarios no podrán visualizarla', 'success', 'thumbs-up',1000);
-            this.isCargando = false;
-          },
-          err => {
-            this.showToastMessage(err, 'danger', 'thumbs-down',500);
-            console.log(err);
-          }
-      );
+    async desactivarComp(Comp: Competencia) {
+        
+        await this.alertController.create({
+            header: 'Desactivar competencia?',
+            // subHeader: 'Ocurrió ',
+            message: 'Se eliminarán los pronosticos realizados por el usuario y ya no visualizarán la competencia.',
+            buttons: [
+                {
+                    text: 'Aceptar',
+                    role: 'accept',
+                    handler: () => {
+                        this.isCargando = true;
+                        this.competenciaService.deshabilitarCompetencia(Comp.idcompetition).subscribe(res => {
+                                console.log(res);
+                                this.listaCompetenciasActivas();
+                                this.showToastMessage('Competencia desactivada, los usuarios no podrán visualizarla y sus pronosticos han sido eliminados', 'success', 'thumbs-up',1000);
+                                this.isCargando = false;
+                            },
+                            err => {
+                                this.showToastMessage(err, 'danger', 'thumbs-down',500);
+                                console.log(err);
+                            }
+                        );
+                    }
+                },
+                {
+                    text: 'Cancelar',
+                    role: 'cancel',
+                    handler: () => {
+                        
+                    }
+                }
+            ]
+        }).then(alert => {
+            alert.present();
+        });
+
+
+       
     }
 
+    async dialogError(message: string) {
+        await this.alertController.create({
+            header: 'Ups!',
+            // subHeader: 'Ocurrió ',
+            message: message,
+            buttons: [
+                {
+                    text: 'Aceptar',
+                    role: 'Cancelar',
+                    handler: () => {
+                        this.router.navigate([NAVIGATE_LOGIN], { replaceUrl: true });
+                    }
+                }]
+        }).then(alert => {
+            alert.present();
+        });
+    }
 
     async showToastMessage(message:string, color: string, icon: string, duration: number) {
         const toast = await this.toast.create({

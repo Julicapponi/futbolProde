@@ -4,7 +4,7 @@ import { AuthService } from '../services/auth.service';
 import { ResultsService } from '../services/results.service';
 import {GruposService} from "../services/grupos.service";
 import {Comp} from "../class/Comp";
-import {ModalController} from "@ionic/angular";
+import {AlertController, ModalController, ToastController} from "@ionic/angular";
 import {Grupo} from "../class/Grupo";
 
 @Component({
@@ -21,7 +21,7 @@ export class PartidosPage implements OnInit {
   postulacionesPendientesParaAceptar: any[];
   cantidadNotificaciones: number;
   
-  constructor(private modalCtrl: ModalController, private router: Router, private authService: AuthService, private gruposService: GruposService, private resultService: ResultsService, private modalCrontroller: ModalController) {
+  constructor(public alertController: AlertController,private toast: ToastController,  private modalCtrl: ModalController, private router: Router, private authService: AuthService, private gruposService: GruposService, private resultService: ResultsService, private modalCrontroller: ModalController) {
    
   }
   
@@ -71,20 +71,59 @@ export class PartidosPage implements OnInit {
         this.router.navigate(['/edit-group']);
     }
     
-  borrarGrupo(group: Grupo) {
-    console.log('borrando el grupo:', group);
-    this.isCargando = true;
-    this.gruposService.borrarGrupo(group).subscribe(
-        res => {
-          this.isCargando = false;
-          console.log(res);
-          //refresco la lista
-          this.ngOnInit();
-        }),
-        err => {
-        };
+  async borrarGrupo(group: Grupo) {
+      await this.alertController.create({
+          header: 'Eliminar grupo?',
+          // subHeader: 'Ocurrió ',
+          message: 'Se eliminarán todos los participantes del grupo',
+          buttons: [
+              {
+                  text: 'Aceptar',
+                  role: 'accept',
+                  handler: () => {
+                      console.log('borrando el grupo:', group);
+                      this.isCargando = true;
+                      this.gruposService.borrarGrupo(group).subscribe(
+                          res => {
+                              this.isCargando = false;
+                              this.showToastMessage('Grupo eliminado, los demás participantes tambien fueron eliminados y ya no visualizaran el grupo', 'success', 'thumbs-up',3000);
+                              console.log(res);
+                              //refresco la lista
+                              this.ngOnInit();
+                          }),
+                          err => {
+                          };
+                  }
+              },
+              {
+                  text: 'Cancelar',
+                  role: 'cancel',
+                  handler: () => {
+
+                  }
+              }
+          ]
+      }).then(alert => {
+          alert.present();
+      });
+      
   }
-  
+
+    async showToastMessage(message:string, color: string, icon: string, duracion: number) {
+        const toast = await this.toast.create({
+            message: message,
+            duration: duracion,
+            icon: icon, //https://ionic.io/ionicons
+            cssClass: '',
+            position: "bottom",
+            translucent: true,
+            animated: true,
+            mode: "md",  // md or ios
+            color: color //"danger" ｜ "dark" ｜ "light" ｜ "medium" ｜ "primary" ｜ "secondary" ｜ "success" ｜ "tertiary" ｜ "warning" ｜ string & Record<never, never> ｜ undefined
+        });
+        await toast.present();
+    }
+    
   volver() {
     this.router.navigate(['/inicioPage']);
   }

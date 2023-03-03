@@ -60,16 +60,10 @@ export class CompetenciaService {
         console.log(comp);
         const idComp = comp.league.id;
         this.seasons = comp.seasons;
-        /*
-        const result = this.formatDate(new Date());
-        let fechaFormat = result.split(' ')
-        this.fechaHoy= fechaFormat[0];
-         */
+  
         const date = new Date();
         this.anioActual = date.getFullYear();
         for(let season of this.seasons){
-            //season.current = true es la temporada actual / solo se va a poder activar las actuales
-           // if(season.current && season.year == this.anioActual){
             if(season.current){
                 this.temporadaActual = true;
                 this.json = {
@@ -139,6 +133,18 @@ export class CompetenciaService {
             anio: anioComp
         };
         return this.http.put(this._url + '/' +id , this.json);
+    }
+
+    editEnfrentamiento(enfrentamiento: Enfrentamiento) {
+        const id = enfrentamiento.idEnfrentamiento;
+        this.json = {
+            id: enfrentamiento.idEnfrentamiento,
+            nameLocal: enfrentamiento.nameLocal,
+            nameVisit: enfrentamiento.nameVisit,
+            golLocal: enfrentamiento.golLocal,
+            golVisit: enfrentamiento.golVisit
+        };
+        return this.http.put(this._urlEnfrentamientos + '/' +id , this.json);
     }
 }
 

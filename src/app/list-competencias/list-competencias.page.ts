@@ -20,6 +20,7 @@ export class ListCompetenciasPage implements OnInit {
     listaCompetenciasActivas=[];
     listAllCompetitions: any;
     isCargandoMasComp: boolean;
+    isAgregandoCompetencia = false;
   constructor(private toast: ToastController, private activatedRoute: ActivatedRoute, private competenciaService: CompetenciaService,private router: Router, private menuCtrl: MenuController, private authService: AuthService, public alertController: AlertController, private competitionsService: CompetenciaService) { 
     this.listCompetenciaActivas();
     this.listarCompetenciasPorId();
@@ -81,20 +82,14 @@ export class ListCompetenciasPage implements OnInit {
       } else {
           this.seActivoCompetencia = false;
       }
-      /*
-        if (event.detail.checked == true) {
-            this.seActivoCompetencia = true;
-        } else {
-            this.seActivoCompetencia = false;
-        }
-        
-       */
         this.activarODesactivarCompetencia(competencia, this.seActivoCompetencia);
     }
 
     activarODesactivarCompetencia(comp: any, compActiva: boolean) {
+      this.isAgregandoCompetencia = true;
             this.competenciaService.editStateCompetition(comp, compActiva).subscribe(
                 res => {
+                    this.isAgregandoCompetencia = false;
                     console.log(res);
                     if(res.message.includes('Competencia desactivada')){
                         this.showToastMessage('Competencia desactivada, los usuarios no podrán visualizar los enfrentamientos. Si desea activarla nuevamente, los enfrentamientos se visualizarán luego de las 00:00', "danger");

@@ -61,7 +61,7 @@ export class ModificarEnfrentamientosPage implements OnInit {
         if (this.enfrentamientos.length == 0) {
             setTimeout(async () => {
                 if (this.enfrentamientos.length == 0) {
-                    this.showToastMessage('Puede que no se visualicen enfrentamientos ya que la competencia fue activa el día de hoy, espere a las 00:00 hs. cuando se sincronicen los enfrentamientos', 'danger', 'thumbs-down');
+                    this.showToastMessage('Puede que no se visualicen enfrentamientos ya que la competencia fue activa el día de hoy, espere a las 00:00 hs. cuando se sincronicen los enfrentamientos', 'danger', 'thumbs-down', 5000);
                 }
             }, 2000);
         }
@@ -210,10 +210,10 @@ export class ModificarEnfrentamientosPage implements OnInit {
         return this.fechaAVisualizarPorActualidad
     }
     
-    async showToastMessage(message:string, color: string, icon: string) {
+    async showToastMessage(message:string, color: string, icon: string, duracion:number) {
         const toast = await this.toast.create({
             message: message,
-            duration: 5500,
+            duration: duracion,
             icon: icon, //https://ionic.io/ionicons
             cssClass: '',
             position: "bottom",
@@ -310,5 +310,26 @@ export class ModificarEnfrentamientosPage implements OnInit {
 
     presentPopover(e: Event) {
         
+    }
+
+    modificarDatosPartido(enfrent: Enfrentamiento) {
+        this.competenciaService.editEnfrentamiento(enfrent).subscribe(res => {
+                enfrent.modificoDatos = false;
+                this.showToastMessage('Modificado con exito', 'success', 'thumbs-up',500);
+            },
+            err => {
+                console.log(err);
+            }
+        );
+    }
+
+    isModifico(enfrent: Enfrentamiento) {
+        for (let i = 0; i < this.partidosAVisualizar.length; i++) {
+            if(this.partidosAVisualizar[i].idEnfrentamiento === enfrent.idEnfrentamiento){
+                this.partidosAVisualizar[i].modificoDatos = true;
+                break;
+            }
+        }
+
     }
 }
