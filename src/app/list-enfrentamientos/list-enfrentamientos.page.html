@@ -46,7 +46,7 @@
             <ion-badge *ngIf="part.estadoPartido.includes('TBD')" slot="start" fill="outline" class="badge-color-indefinido">Fecha y hora indefinida</ion-badge>
             <ion-badge *ngIf="part.estadoPartido.includes('FT')" slot="start" fill="outline">Finalizado</ion-badge>
             <ion-badge *ngIf="part.estadoPartido.includes('Match Postponed')" slot="start" fill="outline">Postergado</ion-badge>
-            <ion-badge *ngIf="part.estadoPartido.includes('1H') || part.estadoPartido.includes('2H')" slot="start" fill="outline" style="background-color: red">Vivo</ion-badge>
+            <ion-badge *ngIf="part.estadoPartido.includes('1H') || part.estadoPartido.includes('2H')" slot="start" fill="outline" style="background-color: red">Jugando</ion-badge>
             <ion-badge *ngIf="part.estadoPartido.includes('HT')" slot="start" fill="outline" style="background-color: red">Vivo - Entretiempo</ion-badge>
             
             <ion-label slot="end" style="font-size: 0.8rem">  {{part.fechaEnfrentamiento | date :'dd/MM/yyyy HH:mm'}}  </ion-label>
