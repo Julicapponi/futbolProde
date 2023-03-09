@@ -63,12 +63,15 @@
           <ion-button *ngIf="grupoResult.idUserCreador != this.idUserGreaGrupo && !grupoResult.yaPostulado " slot="end" (click)="postularseAGrupo(grupoResult)">
             UNIRSE
           </ion-button>
+          <ion-badge (click)="noPostularse(grupoResult)" fill="outline" slot="end" color="danger" *ngIf="grupoResult.yaPostulado ">
+            <p class="ion-no-padding text-white text-pendiente">Cancelar</p>
+          </ion-badge>
           
           <ion-badge fill="outline" slot="end" color="warning" *ngIf="grupoResult.yaPostulado ">
             <p class="ion-no-padding text-white text-pendiente">ACEPTACIÓN</p>
             <p class="ion-no-padding text-white text-pendiente">PENDIENTE</p>
           </ion-badge>
-          <ion-button *ngIf="grupoResult.idUserCreador == this.idUserGreaGrupo" color="danger" slot="end">
+          <ion-button *ngIf="grupoResult.idUserCreador == this.idUserGreaGrupo" color="dark" slot="end">
             TU ERES EL CREADOR
           </ion-button>
         </ion-item>

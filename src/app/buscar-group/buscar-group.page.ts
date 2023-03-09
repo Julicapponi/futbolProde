@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {ToastController} from "@ionic/angular";
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {AlertController, ToastController} from "@ionic/angular";
 import {Router} from "@angular/router";
 import {GruposService} from "../services/grupos.service";
 import {Grupo} from "../class/Grupo";
@@ -13,7 +13,8 @@ export class BuscarGroupPage implements OnInit {
   group: Grupo = {
     idGrupo: null,
     nameGrupo: "", 
-    idUserCreador: ""
+    idUserCreador: "",
+    idCompetencia: ""
   };
   resultBusquedaGrupos: any[];
   isCargando: boolean;
@@ -22,7 +23,7 @@ export class BuscarGroupPage implements OnInit {
   postulacionesEnGrupos = [];
   grupoBuscado: Grupo;
   
-  constructor(private toast: ToastController, private router: Router, private gruposService: GruposService) {
+  constructor(private cdr: ChangeDetectorRef, public alertController: AlertController, private toast: ToastController, private router: Router, private gruposService: GruposService) {
       this.getPostulacionDelUsuario();
   }
 
@@ -89,6 +90,7 @@ export class BuscarGroupPage implements OnInit {
     this.gruposService.postularAlGroup(group).subscribe(
         res => {
           console.log(res);
+            this.postulacionesEnGrupos.length += 1;
           this.showToastMessage('Genial, debes esperar a que el administrador acepte tu postulación.','success','thumbs-up', 3000)
           group.yaPostulado = true;
         }),
@@ -113,5 +115,48 @@ export class BuscarGroupPage implements OnInit {
         await toast.present();
     }
 
-  
+
+    async noPostularse(grupoResult: any) {
+        await this.alertController.create({
+            header: 'Seguro quieres rechazar la postulación',
+            message: 'Confirmar?',
+            buttons: [
+                {
+                    text: 'Cancelar',
+                    role: 'cancel',
+                    handler: () => {
+
+                    }
+                },
+                {
+                    text: 'Aceptar',
+                    role: 'accept',
+                    handler: () => {
+                        this.gruposService.despostularUserGroup(grupoResult).subscribe(
+                            res => {
+                                this.isCargando= true;
+                                setTimeout(async () => {
+                                    this.isCargando= false;
+                                    this.postulacionesEnGrupos.length -= 1;
+                                    grupoResult.yaPostulado = false;
+                                    this.showToastMessage('Postulación eliminada con éxito!', "success",'thumbs-up', 1500);
+                                }, 1500);
+                                console.log(res);
+                                this.group = {
+                                    idGrupo: null,
+                                    nameGrupo: "",
+                                    idUserCreador: "",
+                                    idCompetencia: ""
+                                };
+                            }),
+                            err => {
+                                this.showToastMessage('Error al crear grupo, reintente más tarde', "danger",'thumbs-down', 1500);;
+                            };
+                    }
+                }
+            ]
+        }).then(alert => {
+            alert.present();
+        });
+    }
 }

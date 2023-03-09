@@ -23,7 +23,8 @@ export class GruposService {
     group.idUserCreador = idUserGreaGrupo;
     this.json = {
       nameGrupo: group.nameGrupo,
-      idUserGreaGrupo: group.idUserCreador
+      idUserGreaGrupo: group.idUserCreador,
+      idCompetencia: group.idCompetencia
     };
     return this.http.post<any>(this._url + '/crear/', this.json);
   }
@@ -46,6 +47,17 @@ export class GruposService {
     };
     return this.http.post<any>(url, this.json);
   }
+
+  despostularUserGroup(group){
+    let idUser= localStorage.getItem('idUser');
+    console.log('Grupo a despostularse:', group);
+    let url = this._url + '/borrar/postulacion/';
+    this.json = {
+      userId: idUser,
+      groupId: group.idgrupo,
+    };
+    return this.http.post<any>(url, this.json);
+  }
   
   addPostulante(idUser, idGroup){
     let url = this._url + '/aceptar/postulante/';
@@ -53,6 +65,7 @@ export class GruposService {
       userId: idUser,
       groupId: idGroup,
     };
+ 
     return this.http.post<any>(url, this.json);
   }
   

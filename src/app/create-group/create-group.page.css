@@ -1,0 +1,32 @@
+.margin-text{
+    margin: 1rem 0rem 0rem 1rem;
+}
+
+.margin-inputs{
+    margin: 0rem 1rem 0rem 1rem;
+}
+
+.row-popups{
+    margin: 0.5rem 0.5rem 0rem 0.5rem;
+}
+.popup-edicion{
+    border-radius: 0.5rem;
+    background-color: #fbc30c;
+}
+
+.popup-recordario{
+    border-radius: 0.5rem;
+    background-color: var(--ion-color-primary);
+}
+
+.text-popup-edicion{
+    margin: 0.5rem;
+}
+
+.text-success{
+    color: var(--ion-color-primary);
+}
+
+.text-danger{
+    color: var(--ion-color-danger) ;
+}
