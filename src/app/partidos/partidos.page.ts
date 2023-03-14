@@ -178,5 +178,10 @@ export class PartidosPage implements OnInit {
        */
   }
 
-    
+
+    verPuntajes(grupo: any) {
+      console.log(grupo.idgrupo);
+      let idGrupo = grupo.idgrupo.toString();
+      this.router.navigate(['/puntajes-group'], { queryParams: { idGrupo: idGrupo, nameGrupo:grupo.nameGrupo.toString()} });
+    }
 }

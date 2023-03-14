@@ -22,6 +22,7 @@ import {BuscarGroupPage} from "./buscar-group/buscar-group.page";
 import {TerminosComponent} from "./terminos/terminos.component";
 import {PostulacionesPage} from "./postulaciones/postulaciones.page";
 import {EditGroupPage} from "./edit-group/edit-group.page";
+import {PuntajesGruposPage} from "./puntajes-grupos/puntajes-grupos.page";
 
 
 const routes: Routes = [
@@ -52,6 +53,7 @@ const routes: Routes = [
   {path: 'terminos', component: TerminosComponent},
   {path: 'postulaciones', component: PostulacionesPage},
   {path: 'edit-group', component: EditGroupPage},
+  {path: 'puntajes-group', component: PuntajesGruposPage},
   
   {
     path: 'prueba',
@@ -128,7 +130,12 @@ const routes: Routes = [
   {
     path: 'edit-group',
     loadChildren: () => import('./edit-group/edit-group.module').then( m => m.EditGroupPageModule)
+  },
+  {
+    path: 'puntajes-grupos',
+    loadChildren: () => import('./puntajes-grupos/puntajes-grupos.module').then( m => m.PuntajesGruposPageModule)
   }
+
 
 
 

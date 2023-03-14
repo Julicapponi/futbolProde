@@ -793,17 +793,33 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
                 partidos[i].golLocal = partidosApiFecha[j].goals.home;
                 partidos[i].golVisit = partidosApiFecha[j].goals.away;
               }
+              if(partidos[i].nameLocal.includes("Argentinos JRS") && partidos[i].nameVisit.includes("Arsenal Sarandi")){
+                console.log(partidos[i]);
+              }
               //PRONOSTICA EMPATE O GANA Y EL RESULTADO ES IDENTICO
+              if(partidos[i].golesLocalPronosticado === undefined || partidos[i].golesLocalPronosticado === null || partidos[i].golesVisitPronosticado === undefined || partidos[i].golesVisitPronosticado === null){
+                partidos[i].puntosSumados = 0;
+                continue;
+              }
               if(partidos[i].golesLocalPronosticado === partidos[i].golLocal && partidos[i].golesVisitPronosticado === partidos[i].golVisit){
                 partidos[i].puntosSumados = 3;
                 //PRONOSTICA GANA LOCAL Y EL RESULTADO GANA PERO NO ES IDENTICO
               } else if(partidos[i].golesLocalPronosticado > partidos[i].golesVisitPronosticado && partidos[i].golLocal > partidos[i].golVisit){
+                if(partidos[i].idEnfrentamiento === 988709){
+                  console.log();
+                }
                 partidos[i].puntosSumados = 1;
                 //PRONOSTICA GANA VISITANTE Y EL RESULTADO GANA PERO NO ES IDENTICO
               } else if(partidos[i].golesVisitPronosticado > partidos[i].golesLocalPronosticado &&  partidos[i].golVisit > partidos[i].golLocal) {
+                if(partidos[i].idEnfrentamiento === 988709){
+                  console.log();
+                }
                 partidos[i].puntosSumados = 1;
                 //PRONOSTICA EMPATE, SALE EMPATE PERO DISTINTO
               } else if(partidos[i].golesLocalPronosticado !== partidos[i].golLocal && partidos[i].golesVisitPronosticado !== partidos[i].golVisit && partidos[i].golLocal === partidos[i].golVisit){
+                if(partidos[i].idEnfrentamiento === 988709){
+                  console.log();
+                }
                 partidos[i].puntosSumados = 1;
               } else {
                 partidos[i].puntosSumados = 0;

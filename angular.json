@@ -150,8 +150,19 @@
     }
   },
   "cli": {
-    "schematicCollections": "@ionic/angular-toolkit",
-    "analytics": false
+    "analytics": "55503de8-ec81-4936-b06f-f6e59b19d21a",
+    "defaultCollection": "@ionic/angular-toolkit"
   },
-  "schematics": {}
+  "schematics": {},
+  "@schematics/angular:component": {
+    "styleext": "scss"
+  },
+  "@schematics/angular:module": {
+    "routing": true
+  },
+  "@schematics/angular:service": {
+  },
+  "@schematics/angular:page": {
+    "styleext": "scss"
+  }
 }

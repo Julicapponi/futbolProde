@@ -1,0 +1,78 @@
+<ion-header no-border>
+  <ion-toolbar color="primary">
+
+    <ion-button slot="start"(click)="volver()">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+
+    </ion-button>
+    <p>Puntajes del grupo: <b style="font-size: 1.1rem">{{nameGrupoSel}}</b></p>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="bg-image no-scroll">
+  <ion-row style="margin-top: 1rem;">
+    <ion-col size="12" class="display-flex" [size]="12">
+      <ion-row class="margin-auto">
+        <ion-chip [disabled]="false" [ngClass]="clickEventCargaGeneral?'select':'unselect' " (click)="cargaPuntajesGeneral()">General</ion-chip>
+        <ion-chip [disabled]="false" [ngClass]="clickEventCargaJornada?'select':'unselect' " (click)="cargaPuntajesJornada()">Jornadas</ion-chip>
+      </ion-row>
+    </ion-col>
+  </ion-row>
+  
+  <ion-row *ngIf="isCargando">
+    <ion-col [size]="1"></ion-col>
+    <ion-col [size]="10">
+      <p class="text-white text-carga"> Cargando, aguarde...</p>
+      <ion-progress-bar color="primary" class="barra-progreso" type="indeterminate"></ion-progress-bar>
+    </ion-col>
+    <ion-col [size]="1"></ion-col>
+  </ion-row>
+  <ion-row class="ion-margin">
+    <ion-col [size]="12" class="display-flex ion-no-padding ion-select desenfoque" *ngIf="clickEventCargaJornada">
+      <ion-row class="margin-auto ion-no-padding">
+        <ion-select class="text-white ion-no-margin ion-no-padding" [value]="fechaAVisualizarPorActualidad" [(ngModel)]="fechaAVisualizarPorActualidad" (ngModelChange)="fechaEvent($event)" placeholder="Seleccione una fecha">
+          <div class="ion-no-margin ion-no-padding" *ngFor="let fechaComp of this.fechasCompetencia">
+            <ion-select-option value="{{fechaComp}}" (click)="filtrarPuntajesPorFecha(fechaComp,false)" class="text-white ion-no-margin ion-no-padding"> {{fechaComp}}</ion-select-option>
+          </div>
+        </ion-select>
+      </ion-row>
+    </ion-col>
+  </ion-row>
+ 
+  
+  <div *ngIf="!isCargando && clickEventCargaGeneral">
+    <ion-row  *ngFor="let itemPuntaje of listPuntajesTablaGeneral; let i = index">
+      <ion-col [size]="12">
+          <ion-item class="ion-no-padding ion-no-margin" [ngClass]="itemPuntaje.name.includes(nameUserLogueado)?'desenfoque-user':''">
+              <ion-col class="ion-no-padding display-flex" [size]="2">
+                <p class=" ion-no-padding margin-auto text-white" > {{ i + 1 }} </p>
+              </ion-col>
+              <ion-col class="ion-no-padding ion-no-margin" [size]="8">
+                  <p class=" ion-no-padding ion-no-margin text-white" > {{itemPuntaje.name}} </p>
+              </ion-col>
+              <ion-col class="ion-no-padding ion-no-margin" [size]="2">
+                <p class="ion-no-padding ion-no-margin text-white" > {{itemPuntaje.puntos_acumulados}} </p>
+              </ion-col>
+          </ion-item>
+      </ion-col>
+    </ion-row>
+  </div>
+
+  <div *ngIf="!isCargando && clickEventCargaJornada">
+    <ion-row  *ngFor="let itemPuntaje of listPuntajesTablaPorFecha; let i = index">
+      <ion-col [size]="12">
+        <ion-item class="ion-no-padding ion-no-margin" [ngClass]="itemPuntaje.name.includes(nameUserLogueado)?'desenfoque-user':''">
+          <ion-col class="ion-no-padding display-flex" [size]="2">
+            <p class=" ion-no-padding margin-auto text-white" > {{ i + 1 }} </p>
+          </ion-col>
+          <ion-col class="ion-no-padding ion-no-margin" [size]="8">
+            <p class=" ion-no-padding ion-no-margin text-white" > {{itemPuntaje.name}} </p>
+          </ion-col>
+          <ion-col class="ion-no-padding ion-no-margin" [size]="2">
+            <p class="ion-no-padding ion-no-margin text-white" > {{itemPuntaje.puntos_acumulados}} </p>
+          </ion-col>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </div>
+</ion-content>

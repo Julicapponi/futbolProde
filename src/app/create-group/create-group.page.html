@@ -11,36 +11,10 @@
   </ion-toolbar>
 </ion-header>
 
+
+
 <ion-content class="bg-image no-scroll">
-  <ion-row class="ion-no-margin ion-no-padding">
-    <ion-col class="margin-text ion-no-padding">
-      <ion-label class="text-white label">Seleccione competencia:</ion-label>
-    </ion-col>
-      <ion-item class="margin-inputs ion-no-padding" [disabled]="isCargando">
-        <ion-select class="text-white" [(ngModel)]="compActivas" (ngModelChange)="ngMode($event)" placeholder="Selecciona una competencia">
-          <div *ngFor="let compActivas of competenciasActivas">
-            <ion-select-option class="text-white" [value]="compActivas"> {{compActivas.name}}</ion-select-option>
-          </div>
-        </ion-select>
-      </ion-item>
-  </ion-row>
-  <ion-row *ngIf="!isMuestraInformacion">
-    <ion-col [size]="11" class="ion-no-padding ion-no-margin display-flex">
-    <p class="ion-no-padding margin-auto text-success " >Competencia seleccionada con éxito</p>
-    </ion-col>
-  </ion-row>
-  <ion-row class="ion-no-padding row-popups popup-edicion" *ngIf="isMuestraInformacion">
-    <ion-col [size]="11" class="ion-no-padding ion-no-margin">
-      <p class="text-popup-edicion ion-no-padding"> Define bien que competencia quieres, no podrás modificarla una vez creado tu grupo.</p>
-    </ion-col>
-    <ion-col [size]="1" class="ion-no-padding ion-no-margin display-flex">
-      <ion-row class="margin-auto">
-        <ion-icon size="medium" color="dark" name="information-circle-outline"></ion-icon>
-      </ion-row>
-    </ion-col>
-  </ion-row>
-  
-  <form>
+
     <ion-grid>
       <ion-row>
         <ion-col class="margin-text ion-no-padding">
@@ -52,12 +26,36 @@
                        placeholder="Juan56"></ion-input>
             <p *ngIf=" group.nameGrupo.length<3" class="ion-no-padding margin-auto text-danger">3 caracteres o más </p>
           </ion-item>
+      </ion-row>
 
-
-          
-
+      <ion-row class="ion-no-margin ion-no-padding">
+        <ion-col class="margin-text ion-no-padding">
+          <ion-label class="text-white label">Seleccione competencia:</ion-label>
+        </ion-col>
+        <ion-item class="margin-inputs ion-no-padding" [disabled]="isCargando">
+          <ion-select class="text-white" [(ngModel)]="compActivas" (ngModelChange)="ngMode($event)" placeholder="Selecciona una competencia">
+            <div *ngFor="let compActivas of competenciasActivas">
+              <ion-select-option class="text-white" [value]="compActivas"> {{compActivas.name}}</ion-select-option>
+            </div>
+          </ion-select>
+        </ion-item>
       </ion-row>
       
+      <ion-row *ngIf="!isMuestraInformacion">
+        <ion-col [size]="11" class="ion-no-padding ion-no-margin display-flex">
+          <p class="ion-no-padding margin-auto text-success " >Competencia seleccionada con éxito</p>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-no-padding row-popups popup-edicion" *ngIf="isMuestraInformacion">
+        <ion-col [size]="11" class="ion-no-padding ion-no-margin">
+          <p class="text-popup-edicion ion-no-padding"> Define bien que competencia quieres, no podrás modificarla una vez creado tu grupo.</p>
+        </ion-col>
+        <ion-col [size]="1" class="ion-no-padding ion-no-margin display-flex">
+          <ion-row class="margin-auto">
+            <ion-icon size="medium" color="dark" name="information-circle-outline"></ion-icon>
+          </ion-row>
+        </ion-col>
+      </ion-row>
       <ion-row style="padding:0.2rem">
         <ion-col>
           <ion-button size="large" (click)="createGrupo(group)" [disabled]="isCargando" expand="block">Crear grupo</ion-button>
@@ -65,5 +63,7 @@
         </ion-col>
       </ion-row>
     </ion-grid>
-  </form>
+
+
+  
 </ion-content>

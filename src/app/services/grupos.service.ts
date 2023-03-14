@@ -4,6 +4,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable, throwError} from "rxjs";
 import {catchError, map, timeout} from "rxjs/operators";
 import {Grupo} from "../class/Grupo";
+import {Puntaje} from "../class/Puntaje";
 
 @Injectable({
   providedIn: 'root'
@@ -147,6 +148,18 @@ export class GruposService {
     let url = this._url + '/'+id;
     return this.http.get(url).pipe(timeout(100000), map((response) => <Grupo[]>this.extractData(response)),// this.extractDataZip(response)))this.extractData(response))
             catchError(this.handleError));
+  }
+
+  getPuntajesGeneralPorGrupo(idUser, idGrupo): Observable<Puntaje[]> {
+    let url = this._url + '/puntajes/general/'+idUser+'/'+idGrupo;
+    return this.http.get(url).pipe(timeout(100000), map((response) => <any[]>this.extractData(response)),// this.extractDataZip(response)))this.extractData(response))
+        catchError(this.handleError));
+  }
+
+  getPuntajesPorFechaPorGrupo(idGrupo, fecha): Observable<Puntaje[]> {
+    let url = this._url + '/puntajes/fecha/'+idGrupo+'/'+fecha;
+    return this.http.get(url).pipe(timeout(100000), map((response) => <any[]>this.extractData(response)),// this.extractDataZip(response)))this.extractData(response))
+        catchError(this.handleError));
   }
 
   extractData(res: any) {
