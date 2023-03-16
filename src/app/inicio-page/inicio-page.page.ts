@@ -144,6 +144,16 @@ export class InicioPagePage implements OnInit {
           console.log(err);
         }
       );
+
+      this.competenciaService.getTablaDePosicionesPorCompetencia(idCompetenciaSeleccionada, this.anioCompetenciaSeleccionada).subscribe(
+          data => {
+            this.sharingService.setearTablaPosiciones = data;
+            this.isCargando = false;
+          },
+          err => {
+            console.log(err);
+          }
+      );
     }
   }
   async dialogFailed(message: string) {
@@ -189,4 +199,18 @@ export class InicioPagePage implements OnInit {
     }
  
   }
+
+    tablaDePosiciones() {
+      if(this.idCompetenciaSeleccionada == '' || this.idCompetenciaSeleccionada == undefined) {
+        this.dialogFailed('Debe seleccionar alguna competencia');
+      } else {
+        //ENVIO LA DATA DE PARTIDOS A LIST-ENFRENTAMIENTOS
+        /*
+        await this.comparteDatosService.disparadorPartidosLiga.emit({
+          data: this.partidos
+        });
+         */
+        this.router.navigate(['/tabla-posiciones']);
+      }
+    }
 }

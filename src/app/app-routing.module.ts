@@ -23,6 +23,7 @@ import {TerminosComponent} from "./terminos/terminos.component";
 import {PostulacionesPage} from "./postulaciones/postulaciones.page";
 import {EditGroupPage} from "./edit-group/edit-group.page";
 import {PuntajesGruposPage} from "./puntajes-grupos/puntajes-grupos.page";
+import {TablaPosicionesLigaPage} from "./tabla-posiciones-liga/tabla-posiciones-liga.page";
 
 
 const routes: Routes = [
@@ -54,6 +55,7 @@ const routes: Routes = [
   {path: 'postulaciones', component: PostulacionesPage},
   {path: 'edit-group', component: EditGroupPage},
   {path: 'puntajes-group', component: PuntajesGruposPage},
+  {path: 'tabla-posiciones', component: TablaPosicionesLigaPage},
   
   {
     path: 'prueba',
@@ -134,7 +136,12 @@ const routes: Routes = [
   {
     path: 'puntajes-grupos',
     loadChildren: () => import('./puntajes-grupos/puntajes-grupos.module').then( m => m.PuntajesGruposPageModule)
+  },
+  {
+    path: 'tabla-posiciones-liga',
+    loadChildren: () => import('./tabla-posiciones-liga/tabla-posiciones-liga.module').then( m => m.TablaPosicionesLigaPageModule)
   }
+
 
 
 

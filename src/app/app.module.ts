@@ -10,7 +10,6 @@ import {CommonModule, DatePipe} from '@angular/common';
 import {AuthGuard } from './auth.guard';
 import {TokenInterceptorService } from './services/token-interceptor.service';
 import {ErrorTailorModule} from '@ngneat/error-tailor';
-import {SQLite, SQLiteObject} from '@awesome-cordova-plugins/sqlite/ngx';
 import {Ng2SearchPipeModule} from "ng2-search-filter";
 import {MenuComponent} from "./menu/menu.component";
 @NgModule({
@@ -39,7 +38,6 @@ import {MenuComponent} from "./menu/menu.component";
   ],
   providers: [
     AuthGuard,
-    SQLite,
     {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
     {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true},
     DatePipe,
@@ -47,6 +45,6 @@ import {MenuComponent} from "./menu/menu.component";
   bootstrap: [AppComponent],
 })
 export class AppModule {
-  constructor( private sqlite: SQLite) {
+  constructor() {
   }
 }

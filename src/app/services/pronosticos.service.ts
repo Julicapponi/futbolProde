@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Comp } from '../class/Comp';
 import { DbService } from './db.service';
 import {Partido} from "../class/Partido";
-import {SQLiteObject} from "@awesome-cordova-plugins/sqlite/ngx";
 
 @Injectable({
   providedIn: 'root'

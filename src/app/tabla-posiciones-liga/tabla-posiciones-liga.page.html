@@ -1,0 +1,42 @@
+<ion-header no-border>
+  <ion-toolbar color="primary">
+    <ion-button slot="start"(click)="volver()">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+    </ion-button>
+    <p>Tabla de posiciones</p>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="bg-image no-scroll">
+
+
+  <ion-row>
+    <ion-col *ngIf="isCargando" [size]="12">
+      <p class="text-carga text-white"> Cargando tabla de puntajes, aguarde por favor... </p>
+      <ion-progress-bar color="primary" class="barra-progreso" type="indeterminate"></ion-progress-bar>
+    </ion-col>
+  </ion-row>
+
+  <div *ngIf="!isCargando">
+    <ion-row  *ngFor="let equipo of tablaPosiciones">
+      <ion-col [size]="12">
+        <ion-list>
+          <ion-item class="border-light">
+            <p class="text-white"> {{equipo.rank}}</p>
+            <p class="text-white"> {{equipo.team.logo}}</p>
+            <p class="text-white"> {{equipo.team.name}}</p>
+            <p class="text-white"> {{equipo.points}}</p>
+            <p class="text-white"> Jugados: {{equipo.all.played}}</p>
+            <p class="text-white"> Ganados: {{equipo.all.win}}</p>
+            <p class="text-white"> Empatados: {{equipo.all.draw}}</p>
+            <p class="text-white"> Perdidos: {{equipo.all.lose}}</p>
+            <p class="text-white"> Goles: {{equipo.all.goals.for}}</p>
+            <p class="text-white"> Goles en contra: {{equipo.all.goals.against}}</p>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </div>
+
+</ion-content>
+
