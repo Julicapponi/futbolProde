@@ -20,14 +20,18 @@ export class AuthService {
     return this.http.post<any>(this._url, user);
   }
 
-  //iniciar sesion
-  signIn(user){
+  signIn(user,pass){
     console.log(user);
     const requestOptions = {
       headers: new HttpHeaders()
     }
-    return this.http.post<any>(this._url + '/signin/user/', user , requestOptions);
+    this.json = {
+      username: user,
+      password : pass
+    };
+    return this.http.post<any>(this._url + '/signin/user/', this.json , requestOptions);
   }
+  
 
   getUsers(){
     return this.http.get<any>(this._url + '/');

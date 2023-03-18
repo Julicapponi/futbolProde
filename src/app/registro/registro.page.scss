@@ -3,9 +3,34 @@
   --ion-background-color: #E1E1E1;
 }
 
+.form-style{
+  margin-top: 2rem;
+}
+
 ion-label{
   color: white;
   font-size: 1.1rem;
 }
 
+.item{
+  border-radius: 1rem;
+}
 
+.text-input{
+  color: white;
+  font-size: 1.2rem;
+}
+
+.fondo-label{
+  border-radius: 1rem;
+  background-color: black;
+}
+
+ion-input {
+  --placeholder-color: #555; /* change to the desired color */
+}
+
+ion-input::placeholder {
+  color: var(--placeholder-color);
+  opacity: 1; /* ensure the placeholder is fully visible */
+}

@@ -4,3 +4,5 @@
 3) ejecutar en console de webstorm "npx cap open android" y me abre android studio.
 4) ir a build, build bundles apk y build APK
 
+
+
