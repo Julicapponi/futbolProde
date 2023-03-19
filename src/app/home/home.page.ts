@@ -13,19 +13,19 @@ export class HomePage {
     this.menuCtrl.enable(false);
     setTimeout(async () => {
       this.router.navigate(['/logueoPage']);
-    }, 1000);
+    }, 2500);
   }
 
   ngOnInit(){
     setTimeout(async () => {
       this.router.navigate(['/logueoPage']);
-    }, 1000);
+    }, 2500);
   }
   
   ionViewDidEnter(){
     this.menuCtrl.enable(false);
     setTimeout(async () => {
       this.router.navigate(['/logueoPage']);
-    }, 1000);
+    }, 2500);
   }
 }

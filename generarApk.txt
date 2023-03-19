@@ -1,8 +1,10 @@
-
-1) npx cap add android y me genera carpeta "android"
-2) abrir android studio 
-3) ejecutar en console de webstorm "npx cap open android" y me abre android studio.
-4) ir a build, build bundles apk y build APK
+1) borrar carpeta android
+2) npm run build
+3) npx cap sync
+4) npx cap add android y me genera carpeta "android"
+5) abrir android studio 
+6) ejecutar en console de webstorm "npx cap open android" y me abre android studio.
+7) ir a build, build bundles apk y build APK
 
 
 

@@ -8,7 +8,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {HttpClient} from "@angular/common/http";
 import { NavController } from '@ionic/angular';
 import { NgControl } from '@angular/forms';
-
+import { Constantes } from '../Constantes';
 export const NAVIGATE_LOGIN = 'logueoPage';
 
 @Component({
@@ -19,7 +19,7 @@ export const NAVIGATE_LOGIN = 'logueoPage';
 
 
 export class LogueoPage implements OnInit {
-  _url = 'http://localhost:5000/api/users';
+  _url = Constantes.URL+'users';
   loginForm: FormGroup;
   loginError: string;
   usuario: User[];
@@ -27,6 +27,7 @@ export class LogueoPage implements OnInit {
   isCargando=false;
   isLogueando: boolean;
   passwordVisible = false;
+  audio = new Audio();
   constructor(  private formBuilder: FormBuilder, private http: HttpClient, private toast: ToastController, private router: Router, private menuCtrl: MenuController, private authService: AuthService, public alertController: AlertController) {
     this.menuCtrl.enable(false);
     this.loginForm = this.formBuilder.group({
@@ -36,10 +37,17 @@ export class LogueoPage implements OnInit {
   }
 
   ngOnInit() {
+    this.playSound();
     this.isLogueando = true;
     localStorage.clear();
   }
 
+  playSound() {
+    this.audio.src = '../../assets/sound/init.mp3';
+    this.audio.load();
+    this.audio.play();
+  }
+  
   login() {
     this.isCargando = true;
     this.isLogueando = true;

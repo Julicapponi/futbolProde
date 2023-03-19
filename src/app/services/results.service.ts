@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import {Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
+import {Constantes} from "../Constantes";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ResultsService {
-  _url = 'http://localhost:5000/api';
+  _url = Constantes.URL+'api';
   constructor(private router: Router, private http: HttpClient) {
 
   }

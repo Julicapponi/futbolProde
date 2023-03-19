@@ -1,80 +1,89 @@
 <ion-content class="bg-image no-scroll desenfoque">
   <ion-row>
-    <ion-col>
-      <div class="icon-login">
-        <img src="assets/img/football-icon-login.png">
+    <ion-col class="display-flex">
+      <div class="margin-auto">
+        <img class="slide-in-blurred-top" src="assets/img/football-icon-login.png">
       </div>
     </ion-col>
   </ion-row>
   <form [formGroup]="loginForm" (ngSubmit)="login()">
-    <ion-grid>
-      <ion-row justify-content-center>
-        <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
-          <div style="padding-bottom: 1rem">
-            <h1 style="text-align: center; color: #F26633; font-weight: bold;">BIENVENIDO</h1>
-          </div>
+    <ion-card style="background-color: transparent">
+      <ion-grid>
+        <ion-row justify-content-center>
+          <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
+            <div style="padding-bottom: 1rem">
+              <h1 class="text-focus-in" style="text-align: center; color: #F26633; font-weight: bold;">BIENVENIDO</h1>
+            </div>
+          </ion-col>
+        </ion-row>
+        <ion-list style="background-color: transparent">
+
+          <ion-row >
+            <ion-col align-self-center [size]="12">
+              <ion-item class="item">
+                <ion-input class="text-white form-control text-input" formControlName="username"
+                           placeholder="Julian97" type="text" required (input)="onUsernameInput()"></ion-input>
+                <ion-icon *ngIf="usernameHasError('required')" name="close-circle" color="danger"></ion-icon>
+                <ion-icon *ngIf="usernameHasError('invalidUsername')" name="close-circle" color="danger"></ion-icon>
+                <ion-icon *ngIf="usernameIsValid()" name="checkmark-circle" color="tertiary"></ion-icon>
+              </ion-item>
+       
+                <ion-col class="display-flex">
+                  <ion-text color="danger" class="margin-auto"
+                            *ngIf="usernameHasError('required')">El nombre de usuario es obligatorio.
+                  </ion-text>
+                  <ion-text color="danger" class="margin-auto"
+                            *ngIf="usernameHasError('invalidUsername')">El nombre de usuario debe tener entre 4 y 20
+                    caracteres y no debe contener caracteres especiales.
+                  </ion-text>
+                </ion-col>
+        
+
+            </ion-col>
+          </ion-row>
+
+          <ion-row style="background-color: transparent">
+            <ion-col style="background-color: transparent" align-self-center [size]="12">
+              <ion-item class="item">
+                <ion-input class="text-white form-control text-input" formControlName="password"
+                           placeholder="*****" [type]="passwordVisible ? 'text' : 'password'" required
+                           (input)="onPasswordInput()"></ion-input>
+                <ion-icon *ngIf="passwordHasError('required')" name="close-circle" color="danger"></ion-icon>
+                <ion-icon *ngIf="passwordHasError('invalidPassword')" name="close-circle" color="danger"></ion-icon>
+                <ion-icon *ngIf="passwordIsValid()" name="checkmark-circle" color="tertiary"></ion-icon>
+                <ion-icon name="eye" slot="end" color="light" *ngIf="!passwordVisible"
+                          (click)="passwordVisible = true"></ion-icon>
+                <ion-icon name="eye-off" slot="end" color="light" *ngIf="passwordVisible"
+                          (click)="passwordVisible = false"></ion-icon>
+              </ion-item>
+              <ion-row>
+                <ion-col class="display-flex">
+                  <ion-text color="danger" class="margin-auto"
+                            *ngIf="passwordHasError('required')">Contraseña requerida
+                  </ion-text>
+                  <ion-text color="danger" class="margin-auto"
+                            *ngIf="passwordHasError('invalidPassword')">La contraseña debe contener al menos una letra
+                    mayúscula, un número y tener al menos 5 caracteres
+                  </ion-text>
+                </ion-col>
+              </ion-row>
+            </ion-col>
+          </ion-row>
+        </ion-list>
+      </ion-grid>
+    </ion-card>
+      <ion-row style="padding:0.2rem">
+        <ion-col>
+          <ion-button (click)="login()" [disabled]="!loginForm.valid" type="submit" expand="block"> Iniciar sesión <i
+                  *ngIf="isCargando"> <img src="./assets/img/loading-gif.gif" class="margin-auto" height="30px"
+                                           width="30px"></i></ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button (click)="registro()" color="secondary" size="medium" expand="block"><i>Registrarse</i>
+          </ion-button>
         </ion-col>
       </ion-row>
-      <ion-list style="background-color: transparent">
 
-        <ion-row justify-content-center>
-          <ion-col align-self-center [size]="12">
-            <ion-item class="item">
-              <ion-input class="text-white form-control text-input" formControlName="username"
-                         placeholder="Julian97" type="text" required (input)="onUsernameInput()"></ion-input>
-              <ion-icon *ngIf="usernameHasError('required')" name="close-circle" color="danger"></ion-icon>
-              <ion-icon *ngIf="usernameHasError('invalidUsername')" name="close-circle" color="danger"></ion-icon>
-              <ion-icon *ngIf="usernameIsValid()" name="checkmark-circle" color="tertiary"></ion-icon>
-            </ion-item>
-            <ion-row>
-              <ion-col class="display-flex">
-                <ion-text color="danger" class="margin-auto" style="background-color: black; border-radius: 0.5rem"
-                          *ngIf="usernameHasError('required')">El nombre de usuario es obligatorio.
-                </ion-text>
-                <ion-text color="danger" class="margin-auto" style="background-color: black; border-radius: 0.5rem"
-                          *ngIf="usernameHasError('invalidUsername')">El nombre de usuario debe tener entre 4 y 20
-                  caracteres y no debe contener caracteres especiales.
-                </ion-text>
-              </ion-col>
-            </ion-row>
-
-          </ion-col>
-        </ion-row>
-
-        <ion-row style="background-color: transparent">
-          <ion-col style="background-color: transparent" align-self-center [size]="12">
-            <ion-item class="item">
-              <ion-input class="text-white form-control text-input" formControlName="password"
-                         placeholder="*****" [type]="passwordVisible ? 'text' : 'password'" required (input)="onPasswordInput()"></ion-input>
-              <ion-icon *ngIf="passwordHasError('required')" name="close-circle" color="danger"></ion-icon>
-              <ion-icon *ngIf="passwordHasError('invalidPassword')" name="close-circle" color="danger"></ion-icon>
-              <ion-icon *ngIf="passwordIsValid()" name="checkmark-circle" color="tertiary"></ion-icon>
-              <ion-icon name="eye" slot="end" color="light" *ngIf="!passwordVisible" (click)="passwordVisible = true"></ion-icon>
-              <ion-icon name="eye-off" slot="end" color="light" *ngIf="passwordVisible" (click)="passwordVisible = false"></ion-icon>
-            </ion-item>
-            <ion-row>
-              <ion-col class="display-flex">
-                <ion-text color="danger" class="margin-auto" style="background-color: black; border-radius: 0.5rem"
-                          *ngIf="passwordHasError('required')">Contraseña requerida
-                </ion-text>
-                <ion-text color="danger" class="margin-auto" style="background-color: black; border-radius: 0.5rem"
-                          *ngIf="passwordHasError('invalidPassword')">La contraseña debe contener al menos una letra
-                  mayúscula, un número y tener al menos 5 caracteres
-                </ion-text>
-              </ion-col>
-            </ion-row>
-          </ion-col>
-        </ion-row>
-      </ion-list>
-    </ion-grid>
-    <ion-row style="padding:0.2rem">
-      <ion-col>
-        <ion-button (click)="login()" [disabled]="!loginForm.valid"  type="submit" expand="block">  Iniciar sesión <i *ngIf="isCargando"> <img src="./assets/img/loading-gif.gif" class="margin-auto" height="30px" width="30px"></i></ion-button>
-      </ion-col>
-      <ion-col>
-        <ion-button (click)="registro()" color="secondary" size="medium" expand="block"><i>Registrarse</i></ion-button>
-      </ion-col>
-    </ion-row>
   </form>
 
   <ion-row>

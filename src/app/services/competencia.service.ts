@@ -5,13 +5,14 @@ import { Comp } from '../class/Comp';
 import { Observable } from 'rxjs';
 import {Competencia} from "../class/Competencia";
 import {Enfrentamiento} from "../class/Enfrentamiento";
+import {Constantes} from "../Constantes";
 
 @Injectable({
   providedIn: 'root'
 })
 export class CompetenciaService {
-  _url = 'http://localhost:5000/api/competitions';
-  _urlEnfrentamientos = 'http://localhost:5000/api/enfrentamientos';
+  _url = Constantes.URL+'competitions';
+  _urlEnfrentamientos = Constantes.URL+'enfrentamientos';
   public headers: Headers;
   json: any = JSON;
   seasons: any = Array;

@@ -1,11 +1,12 @@
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import {Constantes} from "../Constantes";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsuariosService {
-  _url = 'http://localhost:5000/api/usuarios/';
+  _url = Constantes.URL+'usuarios/';
   constructor(private http: HttpClient) {
   }
 

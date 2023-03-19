@@ -355,7 +355,9 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
       } else {
         part[i].estadoFecha = 3;
       }
-      
+      if(part[i].idEnfrentamiento===971446){
+        console.log();
+      }
       //30 minutos antes del arranco del partido para poder pronosticar
       if(horasDiff<-0.5){
         part[i].puedePronosticar = true;
@@ -787,6 +789,9 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
           for (let i = 0; i < partidos.length; i++) {
             for (let j = 0; j < partidosApiFecha.length; j++) {
               if(partidos[i].idEnfrentamiento === partidosApiFecha[j].fixture.id){
+                if(partidos[i].idEnfrentamiento===971446){
+                  console.log();
+                }
                 partidos[i].elapsed = partidosApiFecha[j].fixture.status.elapsed;
                 partidos[i].long = partidosApiFecha[j].fixture.status.long;
                 partidos[i].estadoPartido = partidosApiFecha[j].fixture.status.short;

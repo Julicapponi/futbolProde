@@ -4,9 +4,9 @@
       <ion-button (click)="volver()">
         <ion-icon name="arrow-back-outline"></ion-icon>
       </ion-button>
-      <ion-title class="text-header">Registro</ion-title>
+      <ion-title *ngIf="isAdmin" class="text-header">Alta de usuario</ion-title>
+      <ion-title *ngIf="!isAdmin" class="text-header">Registrarse</ion-title>
     </ion-buttons>
-    <p class="ion-no-margin ion-no-padding text-size-medium">Alta de usuario</p>
   </ion-toolbar>
 </ion-header>
 
@@ -41,10 +41,10 @@
 
                   <ion-row>
                     <ion-col class="display-flex">
-                      <ion-text color="danger" class="margin-auto" style=" border-radius: 0.5rem"
+                      <ion-text color="danger"  class="margin-auto" style=" border-radius: 0.5rem; font-size: 1.1rem"
                                 *ngIf="nameHasError('required')">El nombre es obligatorio
                       </ion-text>
-                      <ion-text color="danger" class="margin-auto" style="border-radius: 0.5rem"
+                      <ion-text color="danger" class="margin-auto" style="border-radius: 0.5rem; font-size: 1.1rem"
                                 *ngIf="nameHasError('minlength')">El nombre debe tener al menos 2 caracteres
                       </ion-text>
                     </ion-col>
@@ -65,10 +65,10 @@
                   </ion-item>
                   <ion-row>
                     <ion-col class="display-flex">
-                      <ion-text color="danger" class="margin-auto" style=" border-radius: 0.5rem"
+                      <ion-text color="danger" class="margin-auto" style=" border-radius: 0.5rem; font-size: 1.1rem"
                                 *ngIf="usernameHasError('required')">El nombre de usuario es obligatorio.
                       </ion-text>
-                      <ion-text color="danger" class="margin-auto" style=" border-radius: 0.5rem"
+                      <ion-text color="danger" class="margin-auto" style=" border-radius: 0.5rem; font-size: 1rem"
                                 *ngIf="usernameHasError('invalidUsername')">El nombre de usuario debe tener entre 4 y 20
                         caracteres y no debe contener caracteres especiales.
                       </ion-text>
@@ -89,12 +89,12 @@
                   </ion-item>
                   <ion-row>
                     <ion-col class="display-flex">
-                      <ion-text color="danger" class="margin-auto" *ngIf="emailHasError('required')">El correo
+                      <ion-text color="danger" class="margin-auto" *ngIf="emailHasError('required')" style="font-size: 1.1rem">El correo
                         electrónico
                         es
                         obligatorio
                       </ion-text>
-                      <ion-text color="danger" class="margin-auto" *ngIf="emailHasError('email')">Ingresa un correo
+                      <ion-text color="danger" class="margin-auto" *ngIf="emailHasError('email')" style="font-size: 1.1rem">Ingresa un correo
                         electrónico
                         válido
                       </ion-text>
@@ -118,10 +118,10 @@
                   </ion-item>
                   <ion-row>
                     <ion-col class="display-flex">
-                      <ion-text color="danger" class="margin-auto" style=" border-radius: 0.5rem"
+                      <ion-text color="danger" class="margin-auto" style=" border-radius: 0.5rem;font-size: 1.1rem" 
                                 *ngIf="passwordHasError('required')">Contraseña requerida
                       </ion-text>
-                      <ion-text color="danger" class="margin-auto" style="border-radius: 0.5rem"
+                      <ion-text color="danger" class="margin-auto" style="border-radius: 0.5rem; font-size: 1rem"
                                 *ngIf="passwordHasError('invalidPassword')">La contraseña debe contener al menos una letra
                         mayúscula, un número y tener al menos 8 caracteres
                       </ion-text>
@@ -144,10 +144,10 @@
                   </ion-item>
                   <ion-row>
                     <ion-col class="display-flex">
-                      <ion-text color="danger" class="margin-auto" style=" border-radius: 0.5rem"
+                      <ion-text color="danger" class="margin-auto" style=" border-radius: 0.5rem;font-size: 1.1rem"
                                 *ngIf="confirmPasswordHasError('required')">Repetir contraseña requerida
                       </ion-text>
-                      <ion-text color="danger" class="margin-auto" style="border-radius: 0.5rem"
+                      <ion-text color="danger" class="margin-auto" style="border-radius: 0.5rem;font-size: 1.1rem"
                                 *ngIf="confirmPasswordHasError('passwordMismatch')">Las contraseñas no coinciden
                       </ion-text>
                     </ion-col>

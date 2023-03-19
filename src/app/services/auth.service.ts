@@ -1,12 +1,13 @@
 import {EventEmitter, Injectable, Output} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Router} from "@angular/router";
+import {Constantes} from "../Constantes";
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   @Output() disparadorDeId: EventEmitter<any> = new EventEmitter<any>();
-  _url = 'http://localhost:5000/api/users';
+  _url = Constantes.URL+'users';
   
   public headers: Headers;
   json: any = JSON;

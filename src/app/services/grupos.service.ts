@@ -5,12 +5,13 @@ import {Observable, throwError} from "rxjs";
 import {catchError, map, timeout} from "rxjs/operators";
 import {Grupo} from "../class/Grupo";
 import {Puntaje} from "../class/Puntaje";
+import {Constantes} from "../Constantes";
 
 @Injectable({
   providedIn: 'root'
 })
 export class GruposService {
-  _url = 'http://localhost:5000/api/groups';
+  _url = Constantes.URL+'groups';
   public headers: HttpHeaders;
   TAG = 'grupos.services.ts';
   json: any = JSON;

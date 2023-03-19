@@ -1,0 +1,5 @@
+1) ver en backend, con el guardado de enfrentamientos, guarda pero nunca retorna status 200 o 400 o 500. verificar
+2)
+
+
+

@@ -20,7 +20,7 @@ export class RegistroPage implements OnInit {
   datos: any[];
   public userForm: FormGroup;
   errors: any = {};
-  isAdmin: boolean;
+  isAdmin = false;
   passwordVisible = false;
   passwordRepeatVisible = false;
   constructor(private formBuilder: FormBuilder, private router: Router, private activatedRoute: ActivatedRoute, private authService: AuthService, public alertController: AlertController) {
