@@ -12,8 +12,9 @@ import {TokenInterceptorService } from './services/token-interceptor.service';
 import {ErrorTailorModule} from '@ngneat/error-tailor';
 import {Ng2SearchPipeModule} from "ng2-search-filter";
 import {MenuComponent} from "./menu/menu.component";
+import { ReporteGruposComponent } from './reporte-grupos/reporte-grupos.component';
 @NgModule({
-    declarations: [AppComponent, MenuComponent],
+    declarations: [AppComponent, MenuComponent, ReporteGruposComponent],
   entryComponents: [],
   imports: [
     BrowserModule,

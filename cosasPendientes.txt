@@ -1,5 +1,26 @@
 1) ver en backend, con el guardado de enfrentamientos, guarda pero nunca retorna status 200 o 400 o 500. verificar
-2)
+2) ver en la modificacion de resultados por parte del admin, validar que pueda modificar resultados si es que no se calculo puntajes para ese resultado.
+3) Calcular cantidad de aciertos por grupo:
 
+Tengo una aplicacion  en ionic angular y el backend en node js y base de datos mysql.
+Tengo la tabla users con  iduser, name, userName, email y password
+Tengo la tabla grupos con su id, nameGrupo, cantidadusers, idUserCreador, idCompetencia.
+Tengo la tabla miembros_grupo con user_id y group_id
+tengo la tabla pronosticos con idpronostico, golesLocalPronsoticado, idUser, idEnfrentamiento, idLiga, isCalculoResultado, fechaYHoraCreado
+Tengo la tabla puntajes con su idpuntajes, id_User, id_Pronostico, puntosSumados, idEnfrentamiento, fechaYHoraCalculado, idComp, roundFecha
+Tengo la tabla competitions con su idcompetition, name, anio
+x cantidad de usuarios pertenecen a un grupo que pronostican sobre una competencia (competition) y suman puntos (puntajes) en los grupos que estan asociados (miembros_grupo) a x competencia unica.
+Entonces, la tabla puntajes tiene los puntajes de cada usuario y la columna puntosSumados es la cantidad de puntaje sumado, necesito lo siguiente:
+Por cada grupo, obtener la cantidad de aciertos (exactos) de lo pronosticado puntosSumados=3, la cantidad de no aciertos pero si acierto en el ganador o empate pero en numeros no exactos puntosSumados = 1, no acierto puntosSumados = 0.
 
+SELECT g.idgrupo, g.nameGrupo, 
+       SUM(CASE WHEN p.puntosSumados = 3 THEN 1 ELSE 0 END) as aciertos_exactos,
+       SUM(CASE WHEN p.puntosSumados = 1 THEN 1 ELSE 0 END) as aciertos_no_exactos,
+       SUM(CASE WHEN p.puntosSumados = 0 THEN 1 ELSE 0 END) as no_aciertos
+FROM grupos g
+JOIN miembros_grupo mg ON g.idgrupo = mg.group_id
+JOIN pronosticos pr ON pr.idUser = mg.user_id
+JOIN puntajes p ON p.id_Pronostico = pr.idpronostico
+GROUP BY g.idgrupo, g.nameGrupo
+ORDER BY aciertos_exactos DESC, aciertos_no_exactos DESC, no_aciertos DESC;
 

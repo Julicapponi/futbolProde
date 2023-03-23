@@ -3,7 +3,7 @@ import {Entity} from 'typeorm';
 @Entity()
 export class Enfrentamiento {
     idEnfrentamiento: number;
-    fechaEnfrentamiento: string;
+    fechaEnfrentamiento: Date;
     short: string;
     idLiga: number;
     nameLiga: string;
@@ -32,4 +32,5 @@ export class Enfrentamiento {
     estadoPartido: string;
     puntosSumados:number;
     modificoDatos: boolean;
+    idCompetencia: string;
 }

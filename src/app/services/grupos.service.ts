@@ -172,6 +172,14 @@ export class GruposService {
     console.log('Buscando usuarios del grupo con id:', groupId);
     return this.http.get<any>(this._url + '/listar/user/', groupId);
   }
+  
+
+  reporteGrupos(): Observable<Grupo[]> {
+    return this.http.get<Grupo[]>(this._url + '/reporte/').pipe(
+        timeout(100000),
+        catchError(this.handleError)
+    );
+  }
 
 
 }

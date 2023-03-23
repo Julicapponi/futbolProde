@@ -2,13 +2,17 @@ import {EventEmitter, Injectable, Output} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {Constantes} from "../Constantes";
+import {Grupo} from "../class/Grupo";
+import {catchError, timeout} from "rxjs/operators";
+import {User} from "../class/User";
+import {throwError} from "rxjs";
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   @Output() disparadorDeId: EventEmitter<any> = new EventEmitter<any>();
   _url = Constantes.URL+'users';
-  
+  TAG = 'auth.services.ts';
   public headers: Headers;
   json: any = JSON;
   constructor(private router: Router, private http: HttpClient) {
@@ -32,10 +36,18 @@ export class AuthService {
     };
     return this.http.post<any>(this._url + '/signin/user/', this.json , requestOptions);
   }
-  
+
+  private handleError(error:  any) {
+    console.log(this.TAG, 'error-> error.status ' , JSON.stringify(error));    // return throwError(error); // <= B
+    return throwError(error);
+  }
 
   getUsers(){
     return this.http.get<any>(this._url + '/');
+    return this.http.get<User[]>(this._url + '/').pipe(
+        timeout(100000),
+        catchError(this.handleError)
+    );
   }
 
   getUserId(id){

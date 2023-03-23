@@ -150,8 +150,8 @@
     }
   },
   "cli": {
-    "analytics": "55503de8-ec81-4936-b06f-f6e59b19d21a",
-    "defaultCollection": "@ionic/angular-toolkit"
+    "defaultCollection": "@angular-eslint/schematics",
+    "analytics": false
   },
   "schematics": {},
   "@schematics/angular:component": {

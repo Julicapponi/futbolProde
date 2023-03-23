@@ -55,4 +55,8 @@ export class InicioAdministradorPage implements OnInit {
     localStorage.clear();
     this.router.navigate(['/home']);
   }
+
+    irReporteGrupos() {
+      this.router.navigate(['/reporte-grupos']);
+    }
 }

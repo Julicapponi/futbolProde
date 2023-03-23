@@ -29,20 +29,19 @@ export class ListUsersPage implements OnInit {
     this.router.navigate(['/inicio-administrador']);
   }
 
-  listarUsuarios(){
+  async listarUsuarios(): Promise<void> {
     this.isCargando = true;
-    this.authService.getUsers().subscribe(
-      res => {
-        this.isCargando = false;
-        console.log(res);
-        this.listUsers = res;
-        console.log('Lista de usuarios', this.listUsers);
-      },
-      err => {
-        console.log(err);
-        alert(err.error);
-      }
-    );
+    return await new Promise(async resolve => {
+      try{
+      this.authService.getUsers().subscribe(async res => {
+          this.isCargando = false;
+          console.log(res);
+          this.listUsers = res;
+          console.log('Lista de usuarios', this.listUsers);
+          });
+        } catch (e) {
+        }
+    });
   }
 
   async editarUser(user: User){

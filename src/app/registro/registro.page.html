@@ -1,11 +1,11 @@
 <ion-header no-border>
-  <ion-toolbar color="primary" style="-webkit-border-radius: 0px 0px 6px 6px">
+  <ion-toolbar color="primary">
     <ion-buttons slot="start">
       <ion-button (click)="volver()">
         <ion-icon name="arrow-back-outline"></ion-icon>
       </ion-button>
-      <ion-title *ngIf="isAdmin" class="text-header">Alta de usuario</ion-title>
-      <ion-title *ngIf="!isAdmin" class="text-header">Registrarse</ion-title>
+      <p *ngIf="isAdmin" class="text-header">Alta de usuario</p>
+      <p *ngIf="!isAdmin" class="text-header">Registro de usuario</p>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -27,10 +27,10 @@
           <ion-row justify-content-center>
             <ion-col align-self-center class="desenfoque" style="border-radius: 0.5rem" [size]="12">
               <ion-row>
-                <ion-label>Nombre personal</ion-label>
+                <ion-label>Nombre y apellido </ion-label>
                 <ion-col [size]="12">
                   <ion-item class="item" lines="full">
-                    <ion-input class=" form-control text-input" type="text" required formControlName="name"
+                    <ion-input class=" form-control text-input" placeholder="Julián Capponi" type="text" required formControlName="name"
                                (input)="onNameInput()"></ion-input>
                     <ion-icon *ngIf="nameHasError('required')" name="close-circle" color="danger"></ion-icon>
                     <ion-icon *ngIf="nameHasError('minlength')" name="close-circle" color="danger"></ion-icon>
@@ -82,7 +82,7 @@
                 <ion-label>Correo electrónico</ion-label>
                 <ion-col [size]="12">
                   <ion-item class="item" lines="full">
-                    <ion-input type="email" formControlName="email" (input)="onEmailInput()"></ion-input>
+                    <ion-input type="email" placeholder="porejemplo@gmail.com" formControlName="email" (input)="onEmailInput()"></ion-input>
                     <ion-icon name="checkmark-circle" color="tertiary" *ngIf="emailIsValid()"></ion-icon>
                     <ion-icon name="close-circle" color="danger" *ngIf="emailHasError('required')"></ion-icon>
                     <ion-icon name="close-circle" color="danger" *ngIf="emailHasError('email')"></ion-icon>

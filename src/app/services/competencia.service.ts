@@ -115,7 +115,8 @@ export class CompetenciaService {
             golesLocal: part.golesLocalPronosticado,
             golesVisit: part.golesVisitPronosticado,
             idUser: idUser,
-            idEnfrentamiento: part.idEnfrentamiento
+            idEnfrentamiento: part.idEnfrentamiento,
+            idLiga : part.idCompetencia
         };
         return this.http.post<any>(this._urlEnfrentamientos + '/guardar/pronostico/', this.json);
     }
@@ -151,5 +152,7 @@ export class CompetenciaService {
         };
         return this.http.put(this._urlEnfrentamientos + '/' +id , this.json);
     }
+
+ 
 }
 

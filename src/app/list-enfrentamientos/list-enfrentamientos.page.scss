@@ -2,7 +2,9 @@
   background-color: orange;
   margin-top: 1rem;
 }
-
+ion-grid{
+  margin: 0.3rem 0.3rem 0.3rem 0.3rem;
+}
 .col-button{
   display: flex;
   justify-content: center;
@@ -69,7 +71,17 @@ display: flex;
 
 .puntaje-obtenido{
   text-align: center;
-  padding-top: 31px;
+}
+.color-puntajes-positivo{
+  background-color: #25D366;
+}
+.color-puntajes-negativo{
+  background-color: #ff4961;
+}
+.text-puntos-sumados{
+  font-size: 0.9rem;
+  font-weight: bold;
+  padding: 0.1rem;
 }
 
 .text-resultado-culminado{
@@ -170,4 +182,8 @@ ion-grid{
 }
 .text-normal{
   font-size: 0.8rem
+}
+
+.tachado{
+  text-decoration: line-through;
 }

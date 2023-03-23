@@ -80,6 +80,8 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
   listPartidosVisualizadosId =[];
   isCargandoCambioFecha: boolean;
   isVienePrimeraCarga: boolean;
+  idCompetenciaSeleccionada: string;
+  private isCargandoFiltro = false;
   constructor(private toast: ToastController, private router: Router, private sharingService: SharingServiceService, private route: ActivatedRoute, private menuCtrl: MenuController,
               private authService: AuthService, private resultService: ResultsService,
               private competenciaService: CompetenciaService, public alertController: AlertController,
@@ -316,6 +318,7 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
 
 
   filtrarPartidosPorFecha(fecha: string, isVienePrimeraCarga:boolean) {
+    this.isCargandoFiltro = true;
     if(!isVienePrimeraCarga){
       this.isCargandoPartidos = true;
     }
@@ -324,7 +327,9 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
     console.log('Seleccionaste esta fecha:', fecha);
     this.fecha = fecha.trim();
     this.partidos = [];
+    this.isCargandoFiltro = false;
     let part = this.partidosConcatenados.filter(partido => partido.round ===this.fecha);
+    
 
     
     //REALIZA CALCULOS DE ESTADO DE PARTIDO (EN CURSO, FINALIZADO, POR JUGAR)
@@ -337,6 +342,7 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
       }
       console.log(part[i]);
       let fechaPartido = new Date(part[i].fechaEnfrentamiento);
+      part[i].fechaEnfrentamiento = new Date(part[i].fechaEnfrentamiento);
       // Calcular la diferencia en milisegundos
       const diferencia = this.fechaHoy.getTime() - fechaPartido.getTime();
       
@@ -431,7 +437,7 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
       part.golesLocalPronosticado = 0;
       part.golesVisitPronosticado = 0;
     }
-    
+    part.idCompetencia = this.idCompetenciaSeleccionada;
      
     await this.competenciaService.guardarPronosticos(part).subscribe(
         data => {
@@ -495,52 +501,6 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
           // AGREGA UN NUEVO PRONOSTICO EN EL CASO QUE NO HAYA ENCONTRADO ALGUN PRONOSTICO DE ESTE PARTIDO EN LA LISTA
           if(this.list.pronosticos.length === this.index){
             
-            /*
-            if(idPartido != undefined){
-              var pronostico_idPartido = idPartido;
-              var pronostico_userName = localStorage.getItem('userName');
-              var pronostico_idEquipoVisitante = idEquipoVisitante;
-              var pronostico_idEquipoLocal = idEquipoLocal;
-            }
-            this.golesLocal = 0;
-            this.golesVisitante = 0;
-            if (isLocal) {
-              if (isSuma) {
-                this.golesLocal = this.golesLocal + 1;
-                break;
-              } else {
-                if (this.golesLocal > 0) {
-                  this.golesLocal = this.golesLocal - 1;
-                  break;
-                }
-              }
-            } else if (!isLocal) {
-              if (isSuma) {
-                this.golesVisitante = this.golesVisitante + 1;
-                break;
-              } else {
-                if (this.golesVisitante > 0) {
-                  this.golesVisitante = this.golesVisitante - 1;
-                }
-              }
-            }
-
-            this.list.pronosticos.push({
-              "idPartido": pronostico_idPartido,
-              "userName": pronostico_userName,
-              //"userId": ,
-              //"ganaLocal": ,
-              //"ganaVisitante": ,
-              "golLocal": this.golesLocal,
-              "golVisitante": this.golesVisitante,
-              "idEquipoLocal": pronostico_idEquipoLocal,
-              "idEquipoVisitante": pronostico_idEquipoVisitante,
-              //"nombreEquipoLocal": ,
-              //"nombreEquipoVisitante": ,
-
-            });
-            
-             */
           } else{
             continue;
           }
@@ -590,87 +550,7 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
         console.log(this.list.pronosticos);
       
     }
-    /*
-    if(!this.realizoCalculo) {
-      if(idPartido != undefined){
-        var pronostico_idPartido = idPartido;
-        var pronostico_userName = localStorage.getItem('userName');
-        var pronostico_idEquipoVisitante = idEquipoVisitante;
-        var pronostico_idEquipoLocal = idEquipoLocal;
-      }
-      if (isLocal) {
-        if (isSuma) {
-          this.golesLocal = this.golesLocal + 1;
-        } else {
-          if (this.golesLocal > 0) {
-            this.golesLocal = this.golesLocal - 1;
-          }
-        }
-      } else if (!isLocal) {
-        if (isSuma) {
-          this.golesVisitante = this.golesVisitante + 1;
-        } else {
-          if (this.golesVisitante > 0) {
-            this.golesVisitante = this.golesVisitante - 1;
-          }
-        }
-      }
-
-      this.list.pronosticos.push({
-        "idPartido": pronostico_idPartido,
-        "userName": pronostico_userName,
-        //"userId": ,
-        //"ganaLocal": ,
-        //"ganaVisitante": ,
-        "golLocal": this.golesLocal,
-        "golVisitante": this.golesVisitante,
-        "idEquipoLocal": pronostico_idEquipoLocal,
-        "idEquipoVisitante": pronostico_idEquipoVisitante,
-        //"nombreEquipoLocal": ,
-        //"nombreEquipoVisitante": ,
-
-      });
-      console.log(this.list.pronosticos);
-    }
-    
-     */
     console.log(JSON.stringify(this.list.pronosticos));
-
-    /*
-    if (this.idPartido !== 0 && this.idPartido !== idPartido && this.idEquipoLocal !== idEquipo || this.idEquipoVisitante !== idEquipo) {
-      console.log('se cambio de partido');
-      console.log('construir json idequipo, golesPronosticados');
-      this.golesLocal = 0;
-      this.golesVisitante = 0;
-      this.i = this.i + 1;
-    }
-    this.idPartido = idPartido;
-    if (isLocal) {
-      this.idEquipoLocal = idEquipo;
-      if (isSuma) {
-        this.golesLocal = this.golesLocal + 1;
-      } else {
-        if (this.golesLocal > 0) {
-          this.golesLocal = this.golesLocal - 1;
-        }
-      }
-      this.pronostico[this.i].idEquipoLocal = this.idEquipoLocal;
-      this.pronostico[this.i].golLocal = this.golesLocal;
-    } else if (!isLocal) {
-      this.idEquipoVisitante = idEquipo;
-      if (isSuma) {
-        this.golesVisitante = this.golesVisitante + 1;
-      } else {
-        if (this.golesVisitante > 0) {
-          this.golesVisitante = this.golesVisitante - 1;
-        }
-      }
-      this.pronostico[this.i].idEquipoVisitante = this.idEquipoVisitante;
-      this.pronostico[this.i].golVisitante = this.golesVisitante;
-    }
-     */
-    
-
   }
 
   guardarPronosticos() {
@@ -697,14 +577,7 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
       pronostico.golVisitante = 5;
       params.push(pronostico);
     }
-    /*
-    this.pronosticosService.sync(params).then(() => {
-    this.pronosticosService.get().then((data: Partido[]) => {
-      console.log('Datos que se han insertado en tabla:', data);
-      this.partidosPronosticados = data;
-    }).catch(e => console.log(e));
-    }).catch(e => console.log(e));
-     */
+   
   }
 
   async fechaEvent($event: any) {
@@ -712,32 +585,6 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
     const fecha = $event.toString();
     this.filtrarPartidosPorFecha(fecha,false);
   }
-
-  /*
-  guardarPronostico(idPartido: number, idEquipoLocal: number, idEquipoVisitante: number, ganoLocal: boolean, ganoVisitante: boolean, golesLocal: number, golesVisitante: number) {
-    
-    console.log('GUARDADO DE PRONOSTICO');
-    console.log('Id Partido:', idPartido);
-    console.log('idEquipoLocal:', idEquipoLocal);
-    console.log('idEquipoVisitante:', idEquipoVisitante);
-    console.log('gana Local:', ganoLocal);
-    console.log('gana Visitante:', ganoVisitante);
-    console.log('golesLocal:', golesLocal);
-    console.log('golesVisitante:', golesVisitante);
-
-    this.resultService.altaResultado(idPartido).subscribe(
-      res => {
-
-        this.dialogSucess('Resultados guardados con exito');
-      },
-      err => {
-        console.log(err);
-        this.dialogError('No se pudo guardar, reintentalo');
-      }
-    );
-  }
-  
-   */
 
   async dialogError(message: string) {
     await this.alertController.create({
@@ -775,6 +622,7 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
 
   private obtenerPartidosApiYConcatena(partidos: Enfrentamiento[]) {
     let idCompetenciaSeleccionada = localStorage.getItem('idCompetenciaSeleccionada');
+    this.idCompetenciaSeleccionada = localStorage.getItem('idCompetenciaSeleccionada');
     let idUser = localStorage.getItem('idUser');
     let anioCompetenciaSeleccionada = localStorage.getItem('anioCompetenciaSeleccionada');
     this.subscriptionCompetencia = this.competenciaService.getEnfrentamientosApi(idCompetenciaSeleccionada, anioCompetenciaSeleccionada).subscribe(
@@ -831,7 +679,9 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
               }
             }
           }
+          partidos.sort((a, b) => a.fechaEnfrentamiento.getTime() - b.fechaEnfrentamiento.getTime());
           this.partidosAVisualizar = partidos
+          console.log(JSON.stringify(this.partidosAVisualizar));
           this.isCargandoPartidos = false;
           console.log(this.partidosAVisualizar);
         },err => {

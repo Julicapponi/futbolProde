@@ -33,112 +33,125 @@
   </ion-row>
 </ion-col>
   <ion-card *ngFor="let part of partidosAVisualizar" class="ion-no-margin ion-no-padding">
-    <ion-grid *ngIf="!isCargandoPartidos">
-      <ion-row class="row-fecha" class="ion-no-margin ion-no-padding">
-        <ion-col [size]="12" class="ion-no-margin ion-no-padding">
-          <ion-item  class="ion-no-margin ion-no-padding">
-            <!--
-            <ion-badge *ngIf="part.estadoFecha === 1" slot="start" fill="outline" class="badge-color-por-jugar">Por jugar</ion-badge>
-            <ion-badge *ngIf="part.estadoFecha === 2" slot="start" fill="outline" style="background-color: red">Jugando</ion-badge>
-            <ion-badge *ngIf="part.estadoFecha === 3" slot="start" fill="outline" style="background-color: black">Finalizado</ion-badge>
-            -->
-            <ion-badge *ngIf="part.estadoPartido.includes('TBD') || part.estadoPartido.includes('NS') || part.long.includes('Not Started')" slot="start" fill="outline" class="badge-color-por-jugar">Por jugar</ion-badge>
-            <ion-badge *ngIf="part.estadoPartido.includes('TBD')" slot="start" fill="outline" class="badge-color-indefinido">Fecha y hora indefinida</ion-badge>
-            <ion-badge *ngIf="part.estadoPartido.includes('FT')" slot="start" fill="outline">Finalizado</ion-badge>
-            <ion-badge *ngIf="part.estadoPartido.includes('Match Postponed')" slot="start" fill="outline">Postergado</ion-badge>
-            <ion-badge *ngIf="part.estadoPartido.includes('1H') || part.estadoPartido.includes('2H')" slot="start" fill="outline" style="background-color: red">Jugando</ion-badge>
-            <ion-badge *ngIf="part.estadoPartido.includes('HT')" slot="start" fill="outline" style="background-color: red">Vivo - Entretiempo</ion-badge>
-            
-            <ion-label slot="end" style="font-size: 0.8rem">  {{part.fechaEnfrentamiento | date :'dd/MM/yyyy HH:mm'}}  </ion-label>
-            <!--<ion-button fill="outline" slot="end">View</ion-button>-->
-          </ion-item>
-        </ion-col>
-      </ion-row>
-      <ion-row class="ion-no-padding ion-no-margin">
-        <ion-col [size]="8" class="ion-no-padding ion-no-margin">
+    <ion-row class="ion-no-padding ion-no-margin" *ngIf="!isCargandoPartidos">
+      <ion-grid class="ion-no-padding">
+        <ion-row class="row-fecha" class="ion-no-margin ion-no-padding">
+          <ion-col [size]="12" class="ion-no-margin ion-no-padding">
+            <ion-item class="ion-no-margin ion-no-padding">
+              <!--
+              <ion-badge *ngIf="part.estadoFecha === 1" slot="start" fill="outline" class="badge-color-por-jugar">Por jugar</ion-badge>
+              <ion-badge *ngIf="part.estadoFecha === 2" slot="start" fill="outline" style="background-color: red">Jugando</ion-badge>
+              <ion-badge *ngIf="part.estadoFecha === 3" slot="start" fill="outline" style="background-color: black">Finalizado</ion-badge>
+              -->
+              <ion-badge
+                      *ngIf="part.estadoPartido.includes('TBD') || part.estadoPartido.includes('NS') || part.long.includes('Not Started')"
+                      slot="start" fill="outline" class="badge-color-por-jugar">Por jugar
+              </ion-badge>
+              <ion-badge *ngIf="part.estadoPartido.includes('TBD')" slot="start" fill="outline"
+                         class="badge-color-indefinido">Fecha y hora indefinida
+              </ion-badge>
+              <ion-badge *ngIf="part.estadoPartido.includes('FT')" slot="start" fill="outline">Finalizado</ion-badge>
+              <ion-badge *ngIf="part.estadoPartido.includes('Match Postponed')" slot="start" fill="outline">Postergado
+              </ion-badge>
+              <ion-badge *ngIf="part.estadoPartido.includes('1H') || part.estadoPartido.includes('2H')" slot="start"
+                         fill="outline" style="background-color: red">Jugando
+              </ion-badge>
+              <ion-badge *ngIf="part.estadoPartido.includes('HT')" slot="start" fill="outline"
+                         style="background-color: red">Vivo - Entretiempo
+              </ion-badge>
 
-        </ion-col>
-        <ion-col size="4" class="ion-no-padding ion-no-margin">
-            <p  class="ion-no-margin text-tu-pronostico" *ngIf="part.golesVisitPronosticado != null || part.golesLocalPronosticado != null">TU PRONÓSTICO</p>
-        </ion-col>
-      </ion-row>
-      
-      <ion-row class="general">
-        <ion-col *ngIf="part.estadoPartido.includes('Finished') || part.estadoPartido.includes('FT') || part.estadoPartido.includes('PEN')"
-          [size]="1" class=" ion-no-margin ion-no-padding col-puntaje">
-          <ion-row class="puntaje-obtenido">
-            <p >{{part.puntosSumados}} PTS</p>
-          </ion-row>
-        </ion-col>
+              <ion-label slot="end" style="font-size: 0.8rem"
+                         [ngClass]="part.estadoPartido.includes('TBD')?'tachado':''">  {{part.fechaEnfrentamiento | date :'dd/MM/yyyy HH:mm'}}  </ion-label>
+              <!--<ion-button fill="outline" slot="end">View</ion-button>-->
+            </ion-item>
+          </ion-col>
+        </ion-row>
 
-        <ion-col [size]="11">
-          <ion-row>
-            <ion-col [size]="1">
-              <ion-row>
-                <ion-label class="text-resultado-culminado">{{part.golLocal}}</ion-label>
-                <ion-label class="text-resultado-culminado-penales" *ngIf="part.penalesLocal!= null || part.penalesLocal != undefined">{{part.penalesLocal}}</ion-label>
-              </ion-row>
-            </ion-col>
-            <ion-col [size]="8" class="col-equipos">
-              <ion-item class="ion-activated">
-                <ion-label [ngClass]="part.ganaLocal?'text-negrita ':'text-normal'"> <img class="logo-equipo" src="{{part.logoLocal}}"> {{part.nameLocal}}</ion-label>
-              </ion-item>
-            </ion-col>
-            <ion-col [size]="1" class="col-equipos">
-              <ion-button size="small" (click)="guardarPronosticosHechos(part, false, true)" [disabled]="!part.puedePronosticar || restarsumar_ocupado" fill="clear" class="icon-operacion-result ion-no-margin ion-no-padding">
-                <ion-icon class="icon-operacion-result" name="remove-circle-outline" size="small"
-                          ></ion-icon>
-              </ion-button>
-            </ion-col>
-            <ion-col [size]="1" class="col-equipos">
-              <ion-label class="label-result-pronosticado"><p class="number-result-pronosticado" *ngIf="part.golesLocalPronosticado != null || part.golesLocalPronosticado != undefined">{{part.golesLocalPronosticado}}</p></ion-label>
-            </ion-col>
-
-            <ion-col [size]="1" class="col-equipos">
-              <ion-button size="small" (click)="guardarPronosticosHechos(part, true, true)" [disabled]="!part.puedePronosticar || restarsumar_ocupado" fill="clear" class="icon-operacion-result ion-no-margin ion-no-padding">
-                <ion-icon  name="add-circle-outline" size="small"
-                          ></ion-icon>
-              </ion-button>
-            </ion-col>
-          </ion-row>
-
-          <ion-row>
-            <ion-col [size]="1">
-              <ion-row>
-                <ion-label class="text-resultado-culminado">{{part.golVisit}}</ion-label>
-                <ion-label class="text-resultado-culminado-penales" *ngIf="part.penalesVisit!= null || part.penalesVisit != undefined">{{part.penalesVisit}}</ion-label>
-              </ion-row>
-            </ion-col>
-            <ion-col [size]="8" class="col-equipos">
-              <ion-item class="ion-activated">
-                <ion-label [ngClass]="part.ganaVisit?'text-negrita ':'text-normal'"><img class="logo-equipo"
-                                                                                         src="{{part.logoVisit}}"> {{part.nameVisit}}
+        <ion-row class="general">
+          <ion-col [size]="12">
+            <ion-row>
+              <ion-col [size]="1">
+                <ion-row>
+                  <ion-label class="text-resultado-culminado">{{part.golLocal}}</ion-label>
+                  <ion-label class="text-resultado-culminado-penales"
+                             *ngIf="part.penalesLocal!= null || part.penalesLocal != undefined">{{part.penalesLocal}}</ion-label>
+                </ion-row>
+              </ion-col>
+              <ion-col [size]="8" class="col-equipos">
+                <ion-item class="ion-activated">
+                  <ion-label [ngClass]="part.ganaLocal?'text-negrita ':'text-normal'"><img class="logo-equipo"
+                                                                                           src="{{part.logoLocal}}"> {{part.nameLocal}}
+                  </ion-label>
+                </ion-item>
+              </ion-col>
+              <ion-col [size]="1" class="col-equipos">
+                <ion-button size="small" (click)="guardarPronosticosHechos(part, false, true)" fill="clear"
+                            class="icon-operacion-result ion-no-margin ion-no-padding">
+                  <ion-icon class="icon-operacion-result" name="remove-circle-outline" size="small"
+                  ></ion-icon>
+                </ion-button>
+              </ion-col>
+              <ion-col [size]="1" class="col-equipos">
+                <ion-label class="label-result-pronosticado"><p class="number-result-pronosticado"
+                                                                *ngIf="part.golesLocalPronosticado != null || part.golesLocalPronosticado != undefined">{{part.golesLocalPronosticado}}</p>
                 </ion-label>
-              </ion-item>
-            </ion-col>
-            <ion-col [size]="1" class="col-equipos">
-              <ion-button (click)="guardarPronosticosHechos(part, false, false)" [disabled]="!part.puedePronosticar || restarsumar_ocupado"
-                          size="small" fill="clear" class="icon-operacion-result ion-no-margin ion-no-padding">
-                <ion-icon name="remove-circle-outline" size="small"></ion-icon>
-              </ion-button>
-            </ion-col>
-            <ion-col [size]="1" class="col-equipos">
-              <ion-label class="label-result-pronosticado"><p class="number-result-pronosticado"
-                                                              *ngIf="part.golesVisitPronosticado != null || part.golesVisitPronosticado != undefined">{{part.golesVisitPronosticado}}</p>
-              </ion-label>
-            </ion-col>
+              </ion-col>
 
-            <ion-col [size]="1" class="col-equipos">
-              <ion-button (click)="guardarPronosticosHechos(part, true, false)" [disabled]="!part.puedePronosticar || restarsumar_ocupado"
-                          size="small" fill="clear" class="icon-operacion-result ion-no-margin ion-no-padding">
-                <ion-icon name="add-circle-outline" size="small"></ion-icon>
-              </ion-button>
-            </ion-col>
-          </ion-row>
-        </ion-col>
-      </ion-row>
-      
-    </ion-grid>
+              <ion-col [size]="1" class="col-equipos">
+                <ion-button size="small" (click)="guardarPronosticosHechos(part, true, true)" fill="clear"
+                            class="icon-operacion-result ion-no-margin ion-no-padding">
+                  <ion-icon name="add-circle-outline" size="small"
+                  ></ion-icon>
+                </ion-button>
+              </ion-col>
+            </ion-row>
+
+            <ion-row>
+              <ion-col [size]="1">
+                <ion-row>
+                  <ion-label class="text-resultado-culminado">{{part.golVisit}}</ion-label>
+                  <ion-label class="text-resultado-culminado-penales"
+                             *ngIf="part.penalesVisit!= null || part.penalesVisit != undefined">{{part.penalesVisit}}</ion-label>
+                </ion-row>
+              </ion-col>
+              <ion-col [size]="8" class="col-equipos">
+                <ion-item class="ion-activated">
+                  <ion-label [ngClass]="part.ganaVisit?'text-negrita ':'text-normal'"><img class="logo-equipo"
+                                                                                           src="{{part.logoVisit}}"> {{part.nameVisit}}
+                  </ion-label>
+                </ion-item>
+              </ion-col>
+              <ion-col [size]="1" class="col-equipos">
+                <ion-button (click)="guardarPronosticosHechos(part, false, false)"
+                            size="small" fill="clear" class="icon-operacion-result ion-no-margin ion-no-padding">
+                  <ion-icon name="remove-circle-outline" size="small"></ion-icon>
+                </ion-button>
+              </ion-col>
+              <ion-col [size]="1" class="col-equipos">
+                <ion-label class="label-result-pronosticado"><p class="number-result-pronosticado"
+                                                                *ngIf="part.golesVisitPronosticado != null || part.golesVisitPronosticado != undefined">{{part.golesVisitPronosticado}}</p>
+                </ion-label>
+              </ion-col>
+
+              <ion-col [size]="1" class="col-equipos">
+                <ion-button (click)="guardarPronosticosHechos(part, true, false)"
+                            size="small" fill="clear" class="icon-operacion-result ion-no-margin ion-no-padding">
+                  <ion-icon name="add-circle-outline" size="small"></ion-icon>
+                </ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <ion-col *ngIf=" part.puntosSumados != undefined || part.puntosSumados != null" [size]="12"
+               [ngClass]="part.puntosSumados === 1 || part.puntosSumados === 3?'color-puntajes-positivo':'color-puntajes-negativo'"
+               class="ion-no-margin ion-no-padding">
+        <ion-row class="puntaje-obtenido ion-no-margin ion-no-padding display-flex"
+                 *ngIf="part.estadoPartido.includes('Finished') || part.estadoPartido.includes('FT') || part.estadoPartido.includes('PEN')">
+          <p class="margin-auto text-white text-puntos-sumados">{{part.puntosSumados}} PUNTOS OBTENIDOS</p>
+        </ion-row>
+      </ion-col>
+    </ion-row>
   </ion-card>
 
 </ion-content>
