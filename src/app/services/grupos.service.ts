@@ -12,6 +12,7 @@ import {Constantes} from "../Constantes";
 })
 export class GruposService {
   _url = Constantes.URL+'groups';
+  _url_prod_groups = Constantes.URL_PROD+'groups';
   public headers: HttpHeaders;
   TAG = 'grupos.services.ts';
   json: any = JSON;

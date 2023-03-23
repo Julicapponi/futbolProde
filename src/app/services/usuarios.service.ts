@@ -7,6 +7,7 @@ import {Constantes} from "../Constantes";
 })
 export class UsuariosService {
   _url = Constantes.URL+'usuarios/';
+  _url_prod_usuarios = Constantes.URL_PROD+'usuarios/'
   constructor(private http: HttpClient) {
   }
 

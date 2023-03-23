@@ -20,6 +20,7 @@ export const NAVIGATE_LOGIN = 'logueoPage';
 
 export class LogueoPage implements OnInit {
   _url = Constantes.URL+'users';
+  _url_prod = Constantes.URL_PROD+'users';
   loginForm: FormGroup;
   loginError: string;
   usuario: User[];

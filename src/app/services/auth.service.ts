@@ -12,6 +12,7 @@ import {throwError} from "rxjs";
 export class AuthService {
   @Output() disparadorDeId: EventEmitter<any> = new EventEmitter<any>();
   _url = Constantes.URL+'users';
+  _url_prod = Constantes.URL_PROD+'users';
   TAG = 'auth.services.ts';
   public headers: Headers;
   json: any = JSON;

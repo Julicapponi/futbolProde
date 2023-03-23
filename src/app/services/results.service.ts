@@ -8,6 +8,7 @@ import {Constantes} from "../Constantes";
 })
 export class ResultsService {
   _url = Constantes.URL+'api';
+  _url_prod = Constantes.URL_PROD+'api';
   constructor(private router: Router, private http: HttpClient) {
 
   }

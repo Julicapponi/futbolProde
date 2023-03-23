@@ -12,7 +12,9 @@ import {Constantes} from "../Constantes";
 })
 export class CompetenciaService {
   _url = Constantes.URL+'competitions';
+  _url_prod_competitions = Constantes.URL_PROD+'competitions';
   _urlEnfrentamientos = Constantes.URL+'enfrentamientos';
+  _url_prod_enfrentamientos = Constantes.URL_PROD+'enfrentamientos';
   public headers: Headers;
   json: any = JSON;
   seasons: any = Array;
