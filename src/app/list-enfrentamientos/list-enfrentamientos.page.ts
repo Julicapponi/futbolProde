@@ -669,8 +669,8 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
                 }
                 partidos[i].puntosSumados = 1;
                 //PRONOSTICA EMPATE, SALE EMPATE PERO DISTINTO
-              } else if(partidos[i].golesLocalPronosticado !== partidos[i].golLocal && partidos[i].golesVisitPronosticado !== partidos[i].golVisit && partidos[i].golLocal === partidos[i].golVisit){
-                if(partidos[i].idEnfrentamiento === 988709){
+              } else if(partidos[i].golesLocalPronosticado !== partidos[i].golLocal && partidos[i].golesVisitPronosticado !== partidos[i].golVisit && partidos[i].golLocal === partidos[i].golVisit && partidos[i].golesLocalPronosticado === partidos[i].golesVisitPronosticado){
+                if(partidos[i].nameVisit.includes('Velez')){
                   console.log();
                 }
                 partidos[i].puntosSumados = 1;
