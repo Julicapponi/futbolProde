@@ -7,7 +7,7 @@ import {ResultsService} from "../services/results.service";
 import {CompetenciaService} from "../services/competencia.service";
 import {DatePipe} from "@angular/common";
 import {ComparteDatosService} from "../services/comparte-datos.service";
-import {PronosticosService} from "../services/pronosticos.service";
+
 import {GruposService} from "../services/grupos.service";
 import {Observable} from "rxjs";
 import {Grupo} from "../class/Grupo";
@@ -29,7 +29,7 @@ export class ReporteGruposComponent implements OnInit {
   constructor(private gruposService: GruposService, private toast: ToastController, private router: Router, private sharingService: SharingServiceService, private route: ActivatedRoute, private menuCtrl: MenuController,
               private authService: AuthService, private resultService: ResultsService,
               private competenciaService: CompetenciaService, public alertController: AlertController,
-              public datepipe: DatePipe, private comparteDatosService: ComparteDatosService, private cdr: ChangeDetectorRef, private pronosticosService: PronosticosService) { }
+              public datepipe: DatePipe, private comparteDatosService: ComparteDatosService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.obtenerReporte();

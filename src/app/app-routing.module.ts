@@ -30,34 +30,52 @@ import {ReporteGruposComponent} from "./reporte-grupos/reporte-grupos.component"
 const routes: Routes = [
   {path: 'home', loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)},
   {path: '', redirectTo: 'home', pathMatch: 'full'},
-  {path: NAVIGATE_REGISTRO, component: RegistroPage, pathMatch: 'full'},
-  {path: 'registroPage', component: RegistroPage},
+    
+//USER
   { path: NAVIGATE_LOGIN, component: LogueoPage, pathMatch: 'full'},
   {path: 'logueoPage', component: LogueoPage},
-  {path: 'inicioPage', component: InicioPagePage},
+  {path: NAVIGATE_REGISTRO, component: RegistroPage, pathMatch: 'full'},
+  {path: 'registroPage', component: RegistroPage},
   {path: 'resetPassPage', component: ResetPassPage},
+    
+//PRINCIPAL USUARIO
+  {path: 'inicioPage', component: InicioPagePage},
+//PRINCIPAL ADMINISTRADOR
   {path: 'inicio-administrador', component: InicioAdministradorPage},
+    
   {path: 'list-users', component: ListUsersPage},
   { path: NAVIGATE_LIST_USER, component: ListUsersPage, pathMatch: 'full'},
   {path: 'partidosPage', component: PartidosPage},
   { path: NAVIGATE_EDITAR_USER, component: EditUserPage, pathMatch: 'full'},
   {path: 'editUserPage/:id', component: EditUserPage},
   {path: 'partidos', component: PartidosPage},
+    
+//COMPETENCIAS
   {path: 'altaCompetencia', component: AltaCompetenciaPage},
-  //{path: 'listEnfrentamientos/:id/:anio', component: ListEnfrentamientosPage},
-  {path: 'listEnfrentamientos', component: ListEnfrentamientosPage},
   {path: 'list-competencias', component: ListCompetenciasPage},
-  {path: 'detallePartido', component: DetallePartidoPage},
   {path: 'list-competencias-admin', component: ListCompetenciasAdminPage},
+  //{path: 'listEnfrentamientos/:id/:anio', component: ListEnfrentamientosPage},
+    
+//ENFRENTAMIENTOS
   {path: 'modificar-enfrentamientos', component: ModificarEnfrentamientosPage},
+  {path: 'listEnfrentamientos', component: ListEnfrentamientosPage},
+
+  {path: 'detallePartido', component: DetallePartidoPage},
+
+//GRUPOS
   {path: 'crear-grupo', component: CreateGroupPage},
   {path: 'buscar-group', component: BuscarGroupPage},
-  {path: 'terminos', component: TerminosComponent},
-  {path: 'postulaciones', component: PostulacionesPage},
   {path: 'edit-group', component: EditGroupPage},
   {path: 'puntajes-group', component: PuntajesGruposPage},
-  {path: 'tabla-posiciones', component: TablaPosicionesLigaPage},
   {path: 'reporte-grupos', component: ReporteGruposComponent},
+  {path: 'postulaciones', component: PostulacionesPage},
+  {path: 'tabla-posiciones', component: TablaPosicionesLigaPage},
+    
+    //TERMINOS Y CONDICIONES
+  {path: 'terminos', component: TerminosComponent},
+    
+
+
   
   {
     path: 'prueba',

@@ -18,10 +18,16 @@
       </ion-row>
     </ion-col>
   </ion-row>
+  <ion-row *ngIf="sinPuntajes" >
+    <ion-col [size]="12" class="display-flex">
+      <p  class="text-white text-carga margin-auto"> Sin puntajes por el momento.</p>
+    </ion-col>
+  </ion-row>
   
   <ion-row *ngIf="isCargando">
     <ion-col [size]="1"></ion-col>
     <ion-col [size]="10">
+      
       <p class="text-white text-carga"> Cargando, aguarde...</p>
       <ion-progress-bar color="primary" class="barra-progreso" type="indeterminate"></ion-progress-bar>
     </ion-col>

@@ -11,7 +11,6 @@ import {ResultsService} from '../services/results.service';
 import {ComparteDatosService} from '../services/comparte-datos.service';
 import {SharingServiceService} from '../services/sharing-service.service';
 import {Partido} from "../class/Partido";
-import { PronosticosService } from '../services/pronosticos.service';
 import {User} from "../class/User";
 import {Enfrentamiento} from "../class/Enfrentamiento";
 
@@ -85,7 +84,7 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
   constructor(private toast: ToastController, private router: Router, private sharingService: SharingServiceService, private route: ActivatedRoute, private menuCtrl: MenuController,
               private authService: AuthService, private resultService: ResultsService,
               private competenciaService: CompetenciaService, public alertController: AlertController,
-              public datepipe: DatePipe, private comparteDatosService: ComparteDatosService, private cdr: ChangeDetectorRef, private pronosticosService: PronosticosService) {
+              public datepipe: DatePipe, private comparteDatosService: ComparteDatosService, private cdr: ChangeDetectorRef) {
     this.isCargandoPartidos = true;
     this.fechaHoy = new Date();
     this.messageLoaderStatus = 'Cargando datos de los partidos, aguarde por favor... ';
@@ -310,8 +309,10 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
         const minDate = new Date(item.minFechaEnfrentamiento);
         return minDate > currentDate;
       });
-      this.fechaAVisualizarPorActualidad = upcomingRound.round;
-      console.log(upcomingRound.round);
+      if(upcomingRound.round != undefined || upcomingRound.round != null) {
+        this.fechaAVisualizarPorActualidad = upcomingRound.round;
+        console.log(upcomingRound.round);
+      }
     }
     return this.fechaAVisualizarPorActualidad
   }

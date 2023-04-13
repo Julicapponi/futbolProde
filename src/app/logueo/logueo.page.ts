@@ -38,7 +38,7 @@ export class LogueoPage implements OnInit {
   }
 
   ngOnInit() {
-    this.playSound();
+    //this.playSound();
     this.isLogueando = true;
     localStorage.clear();
   }

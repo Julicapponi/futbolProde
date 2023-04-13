@@ -53,18 +53,40 @@ export class PartidosPage implements OnInit {
     });
   }
 
-  salirDelGrupo(group: Grupo) {
+  async salirDelGrupo(group: Grupo) {
     console.log('saliendo del grupo:', group);
-    this.isCargando = true;
-    this.gruposService.salirDelGrupo(group).subscribe(
-        res => {
-          this.isCargando = false;
-          console.log(res);
-          //refresco la lista
-          this.ngOnInit();
-        }),
-        err => {
-        };
+      await this.alertController.create({
+          header: 'Seguro quieres salir de este grupo?',
+          message: 'Confirmar?',
+          buttons: [
+              {
+                  text: 'Cancelar',
+                  role: 'cancel',
+                  handler: () => {
+
+                  }
+              },
+              {
+                  text: 'Aceptar',
+                  role: 'accept',
+                  handler: () => {
+                      this.isCargando = true;
+                      this.gruposService.salirDelGrupo(group).subscribe(
+                          res => {
+                              this.isCargando = false;
+                              console.log(res);
+                              //refresco la lista
+                              this.ngOnInit();
+                          }),
+                          err => {
+                              this.showToastMessage('Error al salir del grupo, reintente más tarde', "danger",'thumbs-down', 1500);;
+                          };
+                  }
+              }
+          ]
+      }).then(alert => {
+          alert.present();
+      });
   }
 
     editarGrupo(grupo: any) {

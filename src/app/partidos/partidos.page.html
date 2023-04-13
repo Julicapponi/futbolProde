@@ -44,11 +44,11 @@
     
     <div *ngIf="!isCargando">
         <ion-row  *ngFor="let grupo of gruposDelUser">
-            <ion-col [size]="12">
+            <ion-col [size]="12" >
                 <ion-list>
-                    <ion-item class="border-light" (click)="verPuntajes(grupo)">
+                    <ion-item class="border-light" >
                         <a *ngIf="grupo.idUserCreador == this.idUserGreaGrupo"> <ion-badge class="text-white" style="margin-right: 1rem">Creador </ion-badge> </a>
-                        <p class="text-white"> {{grupo.nameGrupo}}</p>
+                        <p class="text-white" (click)="verPuntajes(grupo)"> {{grupo.nameGrupo}}</p>
                         <ion-button *ngIf="grupo.idUserCreador != this.idUserGreaGrupo" (click)="salirDelGrupo(grupo)" slot="end" color="warning">
                             SALIR
                         </ion-button>

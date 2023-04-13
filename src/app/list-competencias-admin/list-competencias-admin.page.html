@@ -6,18 +6,15 @@
         <ion-title class="text">Competencias activas</ion-title>
       </ion-button>
     </ion-buttons>
-    <p class="ion-no-margin ion-no-padding text-size-medium">Lista de competencias activas</p>
   </ion-toolbar>
 </ion-header>
 
-<ion-header *ngIf="!isCargando">
-  <ion-searchbar class="ion-no-margin ion-no-padding searchbar" placeholder="Buscar competencia..." [(ngModel)]="filterTerm"
-                 animated="true"></ion-searchbar>
-</ion-header>
 
 
 
-<ion-content [fullscreen]="true">
+
+<ion-content class="bg-image no-scroll" [fullscreen]="true">
+  
   <ion-row>
     <ion-col [size]="12" *ngIf="isCargando">
       <ion-progress-bar color="primary" type="indeterminate"></ion-progress-bar>
@@ -32,22 +29,27 @@
     </ion-col>
   </ion-row>
   <ion-row *ngIf="!isCargando">
+    <ion-col [size]="12">
+      <ion-searchbar class="ion-no-margin ion-no-padding text-white searchbar" placeholder="Buscar competencia..." [(ngModel)]="filterTerm"
+                     animated="true"></ion-searchbar>
+    </ion-col>
+  </ion-row>
+  <ion-row *ngIf="!isCargando">
     <ion-row class="ion-no-padding row-popups popup-recordario">
       <ion-col [size]="10" class="ion-no-padding ion-no-margin">
-        <p class="text-popup-edicion ion-no-padding"> Recordá desactivar las competencia que hayan culminado.</p>
-        <p class="text-popup-edicion ion-no-padding"> Si desactivas alguna competencia que está en curso los enfrentamientos
+        <p class="text-popup-edicion text-white ion-no-padding"> Recordá desactivar las competencia que hayan culminado.</p>
+        <p class="text-popup-edicion text-white ion-no-padding"> Si desactivas alguna competencia que está en curso los enfrentamientos
           se borrarán </p>
       </ion-col>
       <ion-col [size]="2" class="ion-no-padding ion-no-margin display-flex">
         <ion-row class="margin-auto">
           <ion-icon size="large" color="dark" name="information-circle-outline"></ion-icon>
         </ion-row>
-
       </ion-col>
     </ion-row>
     <ion-row class="ion-margin row-popups popup-edicion" >
       <ion-col [size]="10" class="ion-no-padding ion-no-margin">
-        <p class="text-popup-edicion ion-no-padding">Para editar el nombre de una competencia hace click sobre el nombre y luego confirma en "editar".</p>
+        <p class="text-popup-edicion ion-no-padding text-white">Para editar el nombre de una competencia hace click sobre el nombre y luego confirma en "editar".</p>
       </ion-col>
       <ion-col [size]="2" class="ion-no-padding ion-no-margin display-flex">
         <ion-row class="margin-auto">
@@ -58,7 +60,7 @@
     <ion-col [size]="12">
         <ion-item [ngClass]="competencia.yaEdito?'visualiza-editado':''" *ngFor="let competencia of competenciasActivas | filter:filterTerm" style="padding-bottom: 1rem ">
             <ion-col class='col-grid ion-no-margin ion-no-padding' [size]="6">
-              <ion-input (click)="cambioNombre(competencia)" [(ngModel)]="competencia.name" class="text-competencias"></ion-input>
+              <ion-input (click)="cambioNombre(competencia)" [(ngModel)]="competencia.name" class="text-competencias text-white"></ion-input>
             </ion-col>
           <ion-col [size]="3">
             <ion-button size="small" class="button-disable-comp" color="warning" [disabled]="!competencia.cambioNombre" (click)="editComp(competencia)">EDITAR</ion-button>

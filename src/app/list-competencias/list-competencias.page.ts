@@ -76,18 +76,19 @@ export class ListCompetenciasPage implements OnInit {
         this.router.navigate(['/inicio-administrador']);
     }
 
-    isChecked(competencia: Competencia) {
+    async isChecked(competencia: Competencia) {
       if(competencia.league.isActiva){
           this.seActivoCompetencia = true;
       } else {
           this.seActivoCompetencia = false;
       }
-        this.activarODesactivarCompetencia(competencia, this.seActivoCompetencia);
+      await this.activarODesactivarCompetencia(competencia, this.seActivoCompetencia);
+
     }
 
-    activarODesactivarCompetencia(comp: any, compActiva: boolean) {
+    async activarODesactivarCompetencia(comp: any, compActiva: boolean) {
       this.isAgregandoCompetencia = true;
-            this.competenciaService.editStateCompetition(comp, compActiva).subscribe(
+        const res = await this.competenciaService.editStateCompetition(comp, compActiva).subscribe(
                 res => {
                     this.isAgregandoCompetencia = false;
                     console.log(res);
@@ -102,9 +103,14 @@ export class ListCompetenciasPage implements OnInit {
                     } else {
                         this.isActivateCheckbox = false;
                     }
+                    return res;
                 },
                 err => {
-                    console.log(err);
+                    this.showToastMessage(err.error.message, "danger");
+                    this.isAgregandoCompetencia = false;
+                    this.isActivateCheckbox = false;
+                    comp.league.isActiva = false;
+                    return err;
                 }
             );
     }

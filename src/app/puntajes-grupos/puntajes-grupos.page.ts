@@ -13,7 +13,7 @@ import {ResultsService} from "../services/results.service";
 import {CompetenciaService} from "../services/competencia.service";
 import {DatePipe} from "@angular/common";
 import {ComparteDatosService} from "../services/comparte-datos.service";
-import {PronosticosService} from "../services/pronosticos.service";
+
 import {Puntaje} from "../class/Puntaje";
 
 @Component({
@@ -89,10 +89,11 @@ export class PuntajesGruposPage implements OnInit {
   listPuntajesTablaGeneral: Puntaje[];
   nameUserLogueado: string;
   listPuntajesTablaPorFecha: Puntaje[];
+  sinPuntajes = false;
   constructor(private toast: ToastController, private router: Router, private sharingService: SharingServiceService, private route: ActivatedRoute, private menuCtrl: MenuController,
               private authService: AuthService, private resultService: ResultsService,
               private competenciaService: CompetenciaService, public alertController: AlertController, public gruposService: GruposService,
-              public datepipe: DatePipe, private comparteDatosService: ComparteDatosService, private cdr: ChangeDetectorRef, private pronosticosService: PronosticosService) {
+              public datepipe: DatePipe, private comparteDatosService: ComparteDatosService, private cdr: ChangeDetectorRef) {
 
   }
 
@@ -113,6 +114,9 @@ export class PuntajesGruposPage implements OnInit {
       this.isCargando = true;
       await this.gruposService.getPuntajesGeneralPorGrupo(this.idUserGreaGrupo, idGrupo).subscribe(async respuesta => {
         this.listPuntajesTablaGeneral = respuesta;
+        if(respuesta.length === 0){
+          this.sinPuntajes = true;
+        }
         this.isCargando = false;
       });
     });
@@ -124,6 +128,9 @@ export class PuntajesGruposPage implements OnInit {
       this.isCargando = true;
       await this.gruposService.getPuntajesPorFechaPorGrupo(idGrupo, this.fechaAVisualizarPorActualidad).subscribe(async respuesta => {
         this.listPuntajesTablaPorFecha = respuesta;
+        if(respuesta.length === 0){
+          this.sinPuntajes = true;
+        }
         this.isCargando = false;
       });
     });

@@ -75,7 +75,7 @@
     </ion-card>
       <ion-row style="padding:0.2rem">
         <ion-col>
-          <ion-button (click)="login()" [disabled]="!loginForm.valid" type="submit" expand="block"> Iniciar sesión <i
+          <ion-button [disabled]="!loginForm.valid" type="submit" expand="block"> Iniciar sesión <i
                   *ngIf="isCargando"> <img src="./assets/img/loading-gif.gif" class="margin-auto" height="30px"
                                            width="30px"></i></ion-button>
         </ion-col>

@@ -2,6 +2,18 @@
   text-align: right;
 }
 
+/* Selector para el placeholder del ion-searchbar */
+ion-searchbar::-webkit-input-placeholder {
+  color: white;
+  opacity: 1;
+}
+
+/* Selector para el icono de búsqueda */
+ion-searchbar .searchbar-search-icon {
+  color: white;
+  opacity: 1;
+}
+
 .visualiza-editado{
   background-color: lightgreen;
   position: relative;

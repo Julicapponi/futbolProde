@@ -70,7 +70,7 @@ export class CompetenciaService {
             if(season.current){
                 this.temporadaActual = true;
                 this.json = {
-                    id: comp.league.id,
+                    idcompetition: comp.league.id,
                     name: comp.league.name,
                     anio: season.year
                 };
@@ -85,7 +85,6 @@ export class CompetenciaService {
                 return this.http.delete(this._url + '/' + idComp);
             } else {
                 return this.http.post<any>(this._url + '/', this.json);
-        
             }
         }
     }
