@@ -14,19 +14,26 @@
   width: 100%;
 }
 .color-ion-checkbox {
-  border: 2px solid white;
+  border: 2px solid var(--ion-color-primary);
   border-radius: 16px;
 }
 
 .color-ion-checkbox-activa {
-  border: 2px solid var(--ion-color-primary);;
+  border: 2px solid var(--ion-color-primary);
+  border-radius: 16px;
+}
+
+.color-ion-checkbox-no-habilitada {
+  border: 6px solid red;
   border-radius: 16px;
 }
 
 .text-header-table{
   padding: 5px;
 }
-
+.tachado{
+  text-decoration: line-through;
+}
 .header-table-row{
   background-color: var(--ion-color-primary);
   border-radius: 5px;

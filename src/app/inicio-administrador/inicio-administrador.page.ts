@@ -25,9 +25,6 @@ export class InicioAdministradorPage implements OnInit {
   listaDeUsers(){
     this.router.navigate(['/list-users']);
   }
-  competencias(){
-    this.router.navigate(['/altaCompetencia']);
-  }
 
     listaDeCompetencias() {
     this.router.navigate(['/list-competencias']);

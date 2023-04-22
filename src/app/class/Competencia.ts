@@ -1,7 +1,7 @@
 export class Competencia {
   country: Country;
   league: League;
-  seasons: Season;
+  seasons: Season[];
   fixture: string;
   logo: string;
   id: string;
@@ -13,6 +13,7 @@ export class Competencia {
   activa: boolean;
   cambioNombre = false;
   yaEdito = false;
+  isAlta: boolean;
 }
 
 interface Season {
@@ -54,4 +55,6 @@ interface League {
   type: string;
   logo: string;
   isActiva: boolean;
+  isAlta: boolean;
+  anioActualOReciente:boolean;
 }

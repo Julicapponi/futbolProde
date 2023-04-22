@@ -11,7 +11,6 @@ import {InicioAdministradorPage} from './inicio-administrador/inicio-administrad
 import {ListUsersPage, NAVIGATE_LIST_USER} from './list-users/list-users.page';
 import {PartidosPage} from './partidos/partidos.page';
 import {EditUserPage, NAVIGATE_EDITAR_USER} from './edit-user/edit-user.page';
-import {AltaCompetenciaPage} from './alta-competencia/alta-competencia.page';
 import {ListEnfrentamientosPage} from "./list-enfrentamientos/list-enfrentamientos.page";
 import {DetallePartidoPage} from "./detalle-partido/detalle-partido.page";
 import {ListCompetenciasPage} from "./list-competencias/list-competencias.page";
@@ -51,7 +50,6 @@ const routes: Routes = [
   {path: 'partidos', component: PartidosPage},
     
 //COMPETENCIAS
-  {path: 'altaCompetencia', component: AltaCompetenciaPage},
   {path: 'list-competencias', component: ListCompetenciasPage},
   {path: 'list-competencias-admin', component: ListCompetenciasAdminPage},
   //{path: 'listEnfrentamientos/:id/:anio', component: ListEnfrentamientosPage},
@@ -112,10 +110,6 @@ const routes: Routes = [
   {
     path: 'editUserPage',
     loadChildren: () => import('./edit-user/edit-user.module').then( m => m.EditUserPageModule)
-  },
-  {
-    path: 'alta-competencia',
-    loadChildren: () => import('./alta-competencia/alta-competencia.module').then( m => m.AltaCompetenciaPageModule)
   },
   {
     path: 'list-enfrentamientos',

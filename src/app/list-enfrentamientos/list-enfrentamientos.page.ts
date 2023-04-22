@@ -309,7 +309,7 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
         const minDate = new Date(item.minFechaEnfrentamiento);
         return minDate > currentDate;
       });
-      if(upcomingRound.round != undefined || upcomingRound.round != null) {
+      if(upcomingRound!=undefined || upcomingRound.round != undefined || upcomingRound.round != null) {
         this.fechaAVisualizarPorActualidad = upcomingRound.round;
         console.log(upcomingRound.round);
       }

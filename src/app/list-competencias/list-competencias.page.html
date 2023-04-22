@@ -1,12 +1,11 @@
 <ion-header no-border>
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-button (click)="volver()">
+      <ion-button (click)="volver()" [disabled]="isAgregandoCompetencia">
         <ion-icon name="arrow-back-outline"></ion-icon>
-        <ion-title class="text">Competencias</ion-title>
+        <ion-title class="text">Competencias del mundo</ion-title>
       </ion-button>
     </ion-buttons>
-    <p class="ion-no-margin ion-no-padding text-size-medium">Competencias del mundo</p>
   </ion-toolbar>
 </ion-header>
 
@@ -26,28 +25,30 @@
   </ion-row>
   
   <ion-row *ngIf="!isCargando" class="ion-no-margin">
+    <ion-col [size]="12" class="ion-no-padding display-flex" style="margin-left: 0.2rem">
+      <h5 class="text-white margin-auto">
+        Seleccione la competencia que desea sumar a su lista para luego activarla
+      </h5>
+    </ion-col>
     <ion-col [size]="12" class="ion-no-margin ion-no-padding">
       <ion-row *ngIf="!isCargando" class="ion-no-margin">
-        <ion-col [size]="7" class="ion-no-margin ion-no-padding">
-          <ion-searchbar class="ion-no-margin ion-no-padding text-white searchbar" placeholder="Buscar..." [(ngModel)]="filterTerm"
+        <ion-col [size]="7" class="ion-no-margin ion-no-padding" >
+          <ion-searchbar class="ion-no-margin searchbar text-white ion-no-padding desenfoque" placeholder="Buscar..." [(ngModel)]="filterTerm"
                          animated="true"></ion-searchbar>
         </ion-col>
-        <ion-col [size]="5" *ngIf="!isAgregandoCompetencia" class="ion-no-margin ion-no-padding display-flex">
-          <ion-button class="margin-auto ion-no-padding" (click)="irListaComp()" color="primary" expand="block">
-            <p class="ion-no-padding ion-margin text-white">Mis competencias</p>
+        <ion-col [size]="5" class="ion-no-margin ion-no-padding display-flex">
+          <ion-button [disabled]="isAgregandoCompetencia" size="small" class="margin-auto ion-no-padding" (click)="irListaComp()" color="primary" expand="block">
+            <p class="ion-no-padding ion-margin text-white">Ir  "Mis competencias"</p>
           </ion-button>
         </ion-col>
       </ion-row>
     </ion-col>
-
-    <p class="ion-no-margin text-white text-aclaracion">Seleccione las competencias que desea sumar para que el usuario pueda pronosticar</p>
-
-    <ion-row  *ngIf="isAgregandoCompetencia" class="ion-margin-top">
-      <ion-col [size]="12" >
-        <ion-progress-bar color="primary" type="indeterminate"></ion-progress-bar>
-        <p>Aguarde, esto puedo llevar unos segundos...</p>
-      </ion-col>
-    </ion-row>
+  </ion-row>
+  <ion-row  *ngIf="isAgregandoCompetencia" class="display-flex">
+    <ion-col [size]="12" class="margin-auto">
+      <ion-progress-bar color="primary" type="indeterminate"></ion-progress-bar>
+      <p class="ion-no-padding ion-no-margin text-white ">Aguarde unos segundos más...</p>
+    </ion-col>
   </ion-row>
   <ion-row *ngIf="!isCargando">
     <ion-col [size]="12">
@@ -64,24 +65,37 @@
             </ion-col>
             <!-- Nombre de liga -->
             <ion-col class='col-grid ion-no-margin ion-no-padding' [size]="7">
-              <p class="text-competencias text-white">{{competencia.league.name}}</p>
+              <p class="text-competencias text-white" [ngClass]="{'tachado': !competencia.league.anioActualOReciente}">{{competencia.league.name}}</p>
             </ion-col>
             <!-- Checkbox por liga, acción: checkear checkbox activa la competencia, descheckear desactiva la competencia -->
-            <ion-col class='col-grid ion-no-margin ion-no-padding' [size]="1">
-              <ion-checkbox value="option" [disabled]="isAgregandoCompetencia" [(ngModel)]="competencia.league.isActiva" [ngClass]="competencia.league.isActiva?'color-ion-checkbox-activa':'color-ion-checkbox'" class="color-ion-checkbox" (click)="isChecked(competencia)" name="option"></ion-checkbox>
+            <ion-col class='col-grid ion-no-margin ion-no-padding' [size]="1" >
+              <ion-checkbox value="option" [disabled]="isAgregandoCompetencia || !competencia.league.anioActualOReciente" [(ngModel)]="competencia.league.isAlta" [ngClass]="competencia.league.isAlta ? 'color-ion-checkbox-activa' : 'color-ion-checkbox'" 
+                            class="color-ion-checkbox" (touchstart)="mostrarDesabilitado(competencia)" (click)="isChecked(competencia)" name="option"></ion-checkbox>
             </ion-col>
           </ion-row>
         </ion-item>
     </ion-col>
-    <ion-col [size]="12" class="display-flex">
+    
+    <ion-row>
+      <ion-col [size]="12" *ngIf="isCargandoMasComp">
+        <ion-progress-bar color="primary" type="indeterminate"></ion-progress-bar>
+        <p class="text-white">Cargando mas competencias, aguarde...</p>
+      </ion-col>
+    </ion-row>
+    
+    <ion-col *ngIf="faltaCargarTodasLasCompetencias" [size]="12" class="display-flex">
       <ion-row class="margin-auto ion-no-padding ion-no-margin text-white">
-        <p>¿No encontraste tu competencia? Selecciona acá para ver más: </p>
+        <p>¿No encontraste nada? Selecciona acá para listar mas competencias: </p>
       </ion-row>
     </ion-col>
-    <ion-col [size]="12" class="display-flex ion-no-padding ion-no-margin">
-        <ion-button class="margin-auto" size="medium" color="primary" (click)="verMas()">
+    <ion-col [size]="12" *ngIf="faltaCargarTodasLasCompetencias" class="display-flex ion-no-padding ion-no-margin">
+        <ion-button [disabled]="isAgregandoCompetencia" class="margin-auto" size="medium" color="primary" (click)="verMas()">
           <p>Ver más competencias</p>
         </ion-button>
+    </ion-col>
+
+    <ion-col [size]="12" *ngIf="!faltaCargarTodasLasCompetencias" class="display-flex ion-no-padding ion-no-margin">
+        <p class="text-white">Todas las competencias fueron cargadas y listadas. Asegurese de filtrar correctamente el nombre.</p>
     </ion-col>
     
   </ion-row>

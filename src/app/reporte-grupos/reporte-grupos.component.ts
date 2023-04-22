@@ -25,6 +25,50 @@ export class ReporteGruposComponent implements OnInit {
   mostrarGrilla = true;
   verMasInfo = true;
   textInfo = "Ocultar info";
+  aciertos_exactos: string[];
+  aciertos_no_exactos: string[];
+  no_aciertos: string[];
+  cantDePartidosPorLiga= 20;
+  chartOptions = {
+    maintainAspectRatio: false,
+    height: 600, // Altura del gráfico en píxeles
+    plugins: {
+      title: {
+        display: true,
+        //text: 'Desempeño de aciertos de grupos',
+        color: 'white' // agregado para cambiar el color del título
+      },
+      legend: {
+        labels: {
+          color: 'white' // agregado para cambiar el color de las etiquetas de leyenda
+        }
+      },
+    },
+    responsive: true,
+    scales: {
+      x: {
+        stacked: true,
+        ticks: {
+          color: 'white' // agregado para cambiar el color de las etiquetas del eje x
+        }
+      },
+      y: {
+        stacked: true,
+        ticks: {
+          color: 'white', // agregado para cambiar el color de las etiquetas del eje x
+
+          /*  callback: function(val, index) {
+              // Hide every 2nd tick label
+              let array = [100, 90, 80, 70, 60, 50, 40, 30, 20, 10, 0];
+              return array;
+            },
+            
+           */
+        }
+      }
+    }
+  };
+  
 
   constructor(private gruposService: GruposService, private toast: ToastController, private router: Router, private sharingService: SharingServiceService, private route: ActivatedRoute, private menuCtrl: MenuController,
               private authService: AuthService, private resultService: ResultsService,
@@ -46,12 +90,22 @@ export class ReporteGruposComponent implements OnInit {
         await this.gruposService.reporteGrupos().subscribe(async respuesta => {
           this.gruposReport = respuesta;
           this.isCargando = false;
+          this.calcularPorcentajes(this.gruposReport);
           this.visualizarGrafico();
         });
       } catch (e) {
         
       }
     });
+  }
+
+  private calcularPorcentajes(gruposReport: Grupo[]) {
+    for (const grupo of gruposReport) {
+      console.log(grupo);
+      grupo.aciertos_exactos1 = grupo.aciertos_exactos * 100 / this.cantDePartidosPorLiga;
+      grupo.aciertos_no_exactos1 = grupo.aciertos_no_exactos * 100 / this.cantDePartidosPorLiga;
+      grupo.no_aciertos1 = grupo.no_aciertos * 100 / this.cantDePartidosPorLiga;
+    }
   }
   
   visualizarGrafico() {
@@ -61,16 +115,16 @@ export class ReporteGruposComponent implements OnInit {
         labels: this.gruposReport.map(grupo => grupo.nameGrupo),
         datasets: [
           {
-            label: 'Aciertos Exactos',
-            data: this.gruposReport.map(grupo => grupo.aciertos_exactos),
+            label: 'Aciertos exactos',
+            data: this.gruposReport.map(grupo => grupo.aciertos_exactos1),
             backgroundColor: 'rgba(75,192,192,0.2)',
             borderColor: 'rgba(75,192,192,1)',
             borderWidth: 1,
             stack: 'Stack 0'
           },
           {
-            label: 'Aciertos no Exactos',
-            data: this.gruposReport.map(grupo => grupo.aciertos_no_exactos),
+            label: 'Aciertos parcial',
+            data: this.gruposReport.map(grupo => grupo.aciertos_no_exactos1),
             backgroundColor: 'rgba(255, 206, 86, 0.2)',
             borderColor: 'rgba(255, 206, 86, 1)',
             borderWidth: 1,
@@ -78,7 +132,7 @@ export class ReporteGruposComponent implements OnInit {
           },
           {
             label: 'No Aciertos',
-            data: this.gruposReport.map(grupo => grupo.no_aciertos),
+            data: this.gruposReport.map(grupo => grupo.no_aciertos1),
             backgroundColor: 'rgba(255, 99, 132, 0.2)',
             borderColor: 'rgba(255, 99, 132, 1)',
             borderWidth: 1,
@@ -86,35 +140,7 @@ export class ReporteGruposComponent implements OnInit {
           }
         ]
       },
-      options: {
-        plugins: {
-          title: {
-            display: true,
-            text: 'Desempeño de aciertos de grupos',
-            color: 'white' // agregado para cambiar el color del título
-          },
-          legend: {
-            labels: {
-              color: 'white' // agregado para cambiar el color de las etiquetas de leyenda
-            }
-          }
-        },
-        responsive: true,
-        scales: {
-          x: {
-            stacked: true,
-            ticks: {
-              color: 'white' // agregado para cambiar el color de las etiquetas del eje x
-            }
-          },
-          y: {
-            stacked: true,
-            ticks: {
-              color: 'white' // agregado para cambiar el color de las etiquetas del eje x
-            }
-          }
-        }
-      }
+      options: this.chartOptions
     });
   }
 
@@ -135,4 +161,6 @@ export class ReporteGruposComponent implements OnInit {
       this.textInfo = "Ocultar Info";
     }
   }
+
+
 }

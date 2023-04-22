@@ -100,7 +100,16 @@ export class AuthService {
     localStorage.clear();
     this.router.navigate(['/home']);
   }
-  
+
+  resetPassword(email){
+    const requestOptions = {
+      headers: new HttpHeaders()
+    }
+    this.json = {
+      email: email
+    };
+    return this.http.post<any>(this._url + '/recuperarPass/', this.json , requestOptions);
+  }
   
 
 

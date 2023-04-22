@@ -9,49 +9,46 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ion-content fullscreen>
+<ion-content class="bg-image no-scroll">
+
     <ion-row>
       <ion-col>
         <ion-item>
-          <ion-label>Nombre:</ion-label>
-          <ion-input [(ngModel)]="userEdit.name"></ion-input>
+          <p class="text-white">Nombre:</p>
+          <ion-input class="text-white"[(ngModel)]="userEdit.name"></ion-input>
         </ion-item>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col>
         <ion-item>
-          <ion-label>Usuario:</ion-label>
-          <ion-input [(ngModel)]="userEdit.userName"></ion-input>
+          <p class="text-white">Usuario:</p>
+          <ion-input class="text-white"[(ngModel)]="userEdit.userName"></ion-input>
         </ion-item>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col>
         <ion-item>
-          <ion-label>Email:</ion-label>
-          <ion-input [(ngModel)]="userEdit.email"></ion-input>
+          <p class="text-white">Email:</p>
+          <ion-input class="text-white"[(ngModel)]="userEdit.email"></ion-input>
         </ion-item>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col>
         <ion-item>
-          <ion-label>Password:</ion-label>
-          <ion-input type="password" name="password" id="password" [(ngModel)]="userEdit.password"></ion-input>
-          <button (click)="mostrarPass()">Mostrar contraseña</button>
+          <p class="text-white">Password:</p>
+          <ion-input class="text-white" type="password" name="password" id="password" [(ngModel)]="userEdit.password"></ion-input>
         </ion-item>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col style="text-align: center">
-        <ion-button (click)="editarUser(userEdit)">
-          Editar
+        <ion-button  color="tertiary" (click)="editarUser(userEdit)">
+          Confirmar
         </ion-button>
       </ion-col>
     </ion-row>
-
-  </ion-content>
 
 </ion-content>

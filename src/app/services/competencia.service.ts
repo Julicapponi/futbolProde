@@ -57,18 +57,17 @@ export class CompetenciaService {
         );
     }
 
-   
-    
-    editStateCompetition(comp: Competencia, estaCheckeada: any) {
-        console.log(comp);
+
+
+    altaOBajaService(comp: Competencia, estaCheckeada: any) {
         const idComp = comp.league.id;
         this.seasons = comp.seasons;
-  
         const date = new Date();
         this.anioActual = date.getFullYear();
         for(let season of this.seasons){
             if(season.current){
                 this.temporadaActual = true;
+                //Armado de Json que se envia en la solicitud http
                 this.json = {
                     idcompetition: comp.league.id,
                     name: comp.league.name,
@@ -78,8 +77,7 @@ export class CompetenciaService {
                 this.temporadaActual = false;
             }
         }
-        console.log(this.json);
-        //fue checkeada, por lo tanto se agrega a la tabla de activas
+        // peticiones
         if (this.temporadaActual) {
             if (estaCheckeada == true) {
                 return this.http.delete(this._url + '/' + idComp);
@@ -121,19 +119,40 @@ export class CompetenciaService {
         };
         return this.http.post<any>(this._urlEnfrentamientos + '/guardar/pronostico/', this.json);
     }
-   
+
+        getCompetenciasAltas(){
+            return this.http.get<any>(this._url + '/list/altas/');
+        }
+    
       getCompetenciasActivas(){
         return this.http.get<any>(this._url + '/list/activas/');
       }
 
+    habilitarCompetencia(idCompetencia){
+        const id = idCompetencia;
+        this.json = {
+            activa: 1,
+        };
+        return this.http.put(this._url + '/estado/' +id , this.json);
+    }
+    
     deshabilitarCompetencia(idCompetencia){
-        return this.http.delete(this._url + '/'+idCompetencia);
+        const id = idCompetencia;
+        this.json = {
+            activa: 0,
+        };
+        return this.http.put(this._url + '/estado/' +id , this.json);
+    }
+
+    eliminarCompetencia(idComp){
+        return this.http.delete(this._url + '/' + idComp);
     }
 
     editCompetition(compEditada: Competencia) {
         const id = compEditada.idcompetition;
         const nameEdit = compEditada.name;
         const anioComp = compEditada.anio;
+        //armo json para peticion
         this.json = {
             idcompetition: id,
             name: nameEdit,

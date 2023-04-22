@@ -3,9 +3,9 @@
     <ion-buttons slot="start">
       <ion-button (click)="volver()">
         <ion-icon name="arrow-back-outline"></ion-icon>
-        <ion-title class="text">Competencias activas</ion-title>
       </ion-button>
     </ion-buttons>
+    <ion-title class="text-white">Mi lista de competencias</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -37,13 +37,11 @@
   <ion-row *ngIf="!isCargando">
     <ion-row class="ion-no-padding row-popups popup-recordario">
       <ion-col [size]="10" class="ion-no-padding ion-no-margin">
-        <p class="text-popup-edicion text-white ion-no-padding"> Recordá desactivar las competencia que hayan culminado.</p>
-        <p class="text-popup-edicion text-white ion-no-padding"> Si desactivas alguna competencia que está en curso los enfrentamientos
-          se borrarán </p>
+        <p class="text-popup-edicion text-white ion-no-padding"> Para sumar una competencia a tu lista, debes darla de alta desde "Competencias del mundo"</p>
       </ion-col>
       <ion-col [size]="2" class="ion-no-padding ion-no-margin display-flex">
         <ion-row class="margin-auto">
-          <ion-icon size="large" color="dark" name="information-circle-outline"></ion-icon>
+          <ion-button expand="block" color="primary" (click)="irCompetenciasDelMundo()"> <p class="text-white ion-no-margin ion-no-padding text-size-medium">Ir</p></ion-button>
         </ion-row>
       </ion-col>
     </ion-row>
@@ -57,18 +55,40 @@
         </ion-row>
       </ion-col>
     </ion-row>
-    <ion-col [size]="12">
-        <ion-item [ngClass]="competencia.yaEdito?'visualiza-editado':''" *ngFor="let competencia of competenciasActivas | filter:filterTerm" style="padding-bottom: 1rem ">
+    <ion-col class="desenfoque" [size]="12" *ngIf="!isCargando">
+      <!-- recorro la lista de competencias dadas de alta -->
+        <ion-item [ngClass]="competencia.yaEdito?'visualiza-editado':''" *ngFor="let competencia of competenciasAltas | filter:filterTerm" style="padding-bottom: 1rem ">
             <ion-col class='col-grid ion-no-margin ion-no-padding' [size]="6">
               <ion-input (click)="cambioNombre(competencia)" [(ngModel)]="competencia.name" class="text-competencias text-white"></ion-input>
             </ion-col>
-          <ion-col [size]="3">
-            <ion-button size="small" class="button-disable-comp" color="warning" [disabled]="!competencia.cambioNombre" (click)="editComp(competencia)">EDITAR</ion-button>
+          <ion-col [size]="2" class="ion-no-padding ion-no-padding">
+            <!-- boton estado competencia -->
+            <ion-toggle [checked]="competencia.activa==1" size="small" [disabled]="false" (click)="estadoCompetencia(competencia)"></ion-toggle>
           </ion-col>
-            <ion-col [size]="3">
-              <ion-button size="small" class="button-disable-comp" color="primary" (click)="desactivarComp(competencia)">DESACTIVAR</ion-button>
-            </ion-col>
+          <ion-col [size]="2" class="ion-no-padding ion-no-padding">
+            <!-- boton edicion de competencia -->
+            <ion-button size="small" class="button-disable-comp" color="warning" [disabled]="!competencia.cambioNombre" (click)="editComp(competencia)">
+              <ion-icon name="pencil" size="medium"></ion-icon>
+            </ion-button>
+          </ion-col>
+          <ion-col [size]="2" class="ion-no-padding ion-no-padding">
+            <!-- Boton baja de competencia -->
+            <ion-button size="small" color="danger" (click)="deleteCompetition(competencia)">
+              <ion-icon name="trash" size="medium"></ion-icon>
+            </ion-button>
+          </ion-col>
         </ion-item>
+    </ion-col>
+  </ion-row>
+  <ion-row  style="padding-top: 11rem" *ngIf="!isCargando && competenciasAltas.length===0" >
+    <ion-col [size]="12" class="display-flex">
+      <ion-icon class="text-white margin-auto" color="danger" size="large" name="sad-outline"></ion-icon>
+    </ion-col>
+    <ion-col [size]="12" class="display-flex">
+      <h3 class="text-white margin-auto">Sin competencias dadas de alta.</h3>
+    </ion-col>
+    <ion-col [size]="12" class="display-flex">
+      <ion-button class="text-white margin-auto" color="primary" (click)="irAltaCompetencias()">Ir alta de competencias</ion-button>
     </ion-col>
   </ion-row>
 </ion-content>

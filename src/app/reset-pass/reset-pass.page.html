@@ -5,32 +5,54 @@
         <ion-icon name="arrow-back-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
+    <ion-title class="text-white">Resetear contraseña</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <form>
-    <ion-grid>
-      <ion-row justify-content-center>
-        <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
-          <div text-center>
-            <h3>Restablecer contraseña</h3>
-          </div>
-          <div padding>
-            <p>Ingresar correo para recuperar contraseña: </p>
-            <ion-item>
-              <ion-input name="email" type="email" placeholder="julicapponi@hotmail.com" ngModel required></ion-input>
-            </ion-item>
-          </div>
-          <div style="padding: 0.2rem">
-            <p>Le enviaremos una nueva contraseña a su correo asociado</p>
-          </div>
-          <div padding>
-            <ion-button (click)="resetearPass()" size="large" type="submit" expand="block">Resetear contraseña</ion-button>
-          </div>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </form>
+<ion-content class="bg-image no-scroll">
+  <ion-row class="form-style">
+    <ion-col [size]="12" class="ion-no-padding ion-no-margin">
+ 
+      <form [formGroup]="userForm">
+        <ion-row justify-content-center>
+          <ion-col align-self-center class="desenfoque" style="border-radius: 0.5rem" [size]="12">
+            <ion-row class="ion-no-padding ion-no-margin">
+              <ion-col class="display-flex ion-no-padding">
+                <p class="text-white margin-auto">Vamos a necesitar tu correo electronico para poder enviarte el usuario y contraseña.</p>
+              </ion-col>
+            </ion-row>
+            <ion-row style="padding-top: 1rem">
+              <ion-label class="text-white">Correo electrónico</ion-label>
+              <ion-col [size]="12">
+                <ion-item class="item" lines="full">
+                  <ion-input type="email" class="text-white" placeholder="porejemplo@gmail.com" formControlName="email" (input)="onEmailInput()"></ion-input>
+                  <ion-icon name="checkmark-circle" color="tertiary" *ngIf="emailIsValid()"></ion-icon>
+                  <ion-icon name="close-circle" color="danger" *ngIf="emailHasError('required')"></ion-icon>
+                  <ion-icon name="close-circle" color="danger" *ngIf="emailHasError('email')"></ion-icon>
+                </ion-item>
+                <ion-row>
+                  <ion-col class="display-flex">
+                    <ion-text color="danger" class="margin-auto" *ngIf="emailHasError('required')" style="font-size: 1.1rem">El correo
+                      electrónico
+                      es
+                      obligatorio
+                    </ion-text>
+                    <ion-text color="danger" class="margin-auto" *ngIf="emailHasError('email')" style="font-size: 1.1rem">Ingresa un correo
+                      electrónico
+                      válido
+                    </ion-text>
+                  </ion-col>
+                </ion-row>
+              </ion-col>
+            </ion-row>
+            <ion-button expand="block" color="primary" (click)="resetearPass()" [disabled]="!userForm.valid || !userForm.dirty">Resetear contraseña</ion-button>
+
+          </ion-col>
+        </ion-row>
+      </form>
+    </ion-col>
+  </ion-row>
+  
+
 </ion-content>
 

@@ -14,30 +14,31 @@ export class ListCompetenciasPage implements OnInit {
     private listCompetitions: Competencia[];
     filterTerm: string;
     isCargando: boolean;
-    seActivoCompetencia: boolean;
+    isAltaCompetencia: boolean;
     isActivateCheckbox: boolean;
     competenciasActivas: Competencia;
-    listaCompetenciasActivas=[];
-    listAllCompetitions: any;
+    competenciasDadasDeAlta=[];
+    listAllCompetitions: any[];
     isCargandoMasComp: boolean;
     isAgregandoCompetencia = false;
+    faltaCargarTodasLasCompetencias=true;
   constructor(private toast: ToastController, private activatedRoute: ActivatedRoute, private competenciaService: CompetenciaService,private router: Router, private menuCtrl: MenuController, private authService: AuthService, public alertController: AlertController, private competitionsService: CompetenciaService) { 
-    this.listCompetenciaActivas();
+    this.listCompetenciaAltas();
     this.listarCompetenciasPorId();
   }
 
   ngOnInit() {
   }
 
-   async listCompetenciaActivas(){
+   async listCompetenciaAltas(){
         return await new Promise(async resolve => {
-            this.competenciaService.getCompetenciasActivas().subscribe(res => {
+            this.competenciaService.getCompetenciasAltas().subscribe(res => {
                     console.log(res);
                     for (let comp of res) {
                         console.log(comp);
-                        this.listaCompetenciasActivas.push(comp.idcompetition);
+                        this.competenciasDadasDeAlta.push(comp.idcompetition);
                     }
-                    resolve (this.listaCompetenciasActivas);
+                    resolve (this.competenciasDadasDeAlta);
                 },
                 err => {
                     console.log(err);
@@ -46,22 +47,24 @@ export class ListCompetenciasPage implements OnInit {
         });
     }
     
-  listarCompetenciasPorId(){
-      this.isCargando = true;
-    this.competitionsService.getLigas().subscribe(
+  async listarCompetenciasPorId(){
+    this.isCargando = true;
+    await this.competitionsService.getLigas().subscribe(
         data => {
           this.listAllCompetitions = data.response;
             for (var i = 0; i < this.listAllCompetitions.length; i++) {
-                for (var j = 0; j < this.listaCompetenciasActivas.length; j++) {
-                    if (this.listAllCompetitions[i].league.id == this.listaCompetenciasActivas[j]) {
-                        this.listAllCompetitions[i].league.isActiva = true;
+                for (var j = 0; j < this.competenciasDadasDeAlta.length; j++) {
+                    if (this.listAllCompetitions[i].league.id == this.competenciasDadasDeAlta[j]) {
+                        this.listAllCompetitions[i].league.isAlta = true;
                         continue;
                     }
                 }
             }
+          this.validarActual(this.listAllCompetitions);
           this.listCompetitions = this.listAllCompetitions.slice(0,15);
-          console.log(this.listaCompetenciasActivas);
+          console.log(this.competenciasDadasDeAlta);
           console.log('Lista de competencias', JSON.stringify(this.listCompetitions));
+     
           this.isCargando = false;
         },
         err => {
@@ -69,35 +72,54 @@ export class ListCompetenciasPage implements OnInit {
           alert(err.error);
         }
     );
+   
   }
     
+    validarActual(competencias :Competencia[]){
+        //para validar si la habilito o no si es actual o no
+        const currentDate = new Date().getUTCFullYear(); // paso 1
+        for (let objeto of competencias) {
+            if(objeto.league.id === 128){
+                console.log('aca');
+            }
+            const seasons = objeto.seasons.map(season => season.year); // obtenemos una lista de los años de cada season
+            const league = objeto.league; // obtenemos la propiedad league del objeto
+            if (seasons.includes(currentDate) || seasons.includes(currentDate - 1) || seasons.includes(currentDate + 1)) { // paso 3
+                league.anioActualOReciente = true;
+            } else {
+                league.anioActualOReciente = false;
+            }
+        }
+    }
   
     volver() {
         this.router.navigate(['/inicio-administrador']);
     }
 
     async isChecked(competencia: Competencia) {
-      if(competencia.league.isActiva){
-          this.seActivoCompetencia = true;
+      if(competencia.league.isAlta){
+          this.isAltaCompetencia = true;
       } else {
-          this.seActivoCompetencia = false;
+          this.isAltaCompetencia = false;
       }
-      await this.activarODesactivarCompetencia(competencia, this.seActivoCompetencia);
-
+      await this.altaOBajaCompetencia(competencia, this.isAltaCompetencia);
     }
 
-    async activarODesactivarCompetencia(comp: any, compActiva: boolean) {
+    async altaOBajaCompetencia(comp: any, isAlta: boolean) {
       this.isAgregandoCompetencia = true;
-        const res = await this.competenciaService.editStateCompetition(comp, compActiva).subscribe(
+      // Servicio que va a realizar la petición al backend de
+        const res = await this.competenciaService.altaOBajaService(comp, isAlta).subscribe(
                 res => {
                     this.isAgregandoCompetencia = false;
+                    //Respuesta del servicio
                     console.log(res);
-                    if(res.message.includes('Competencia desactivada')){
-                        this.showToastMessage('Competencia desactivada, los usuarios no podrán visualizar los enfrentamientos. Si desea activarla nuevamente, los enfrentamientos se visualizarán luego de las 00:00', "danger");
+                    if(res.message.includes('Competencia dada de baja.')){
+                        this.showToastMessage('Competencia eliminada de su lista.', "danger");
                     }
-                    if(res.message.includes('Competencia activada')){
-                        this.showToastMessage('Competencia activada con éxito, ahora los usuarios podrán visualizarla', "success");
+                    if(res.message.includes('Competencia dada de alta con éxito')){
+                        this.showToastMessage('Competencia agregada con éxito a su lista, recordá activarla para que los usuarios la visualicen', "success");
                     }
+                    //estados checkbox
                     if(res.checkbox){
                         this.isActivateCheckbox = true;
                     } else {
@@ -106,10 +128,11 @@ export class ListCompetenciasPage implements OnInit {
                     return res;
                 },
                 err => {
+                    // Se muestra error en el caso que la petición falle
                     this.showToastMessage(err.error.message, "danger");
                     this.isAgregandoCompetencia = false;
                     this.isActivateCheckbox = false;
-                    comp.league.isActiva = false;
+                    comp.league.isAlta = false;
                     return err;
                 }
             );
@@ -136,6 +159,17 @@ export class ListCompetenciasPage implements OnInit {
 
     verMas() {
       this.isCargandoMasComp = true;
+        setTimeout(async () => {
+            this.isCargandoMasComp = false;
+        }, 3000);
+      this.faltaCargarTodasLasCompetencias = false;
       this.listCompetitions = this.listAllCompetitions;
+    }
+
+    mostrarDesabilitado(competencia:Competencia) {
+        if(!competencia.league.anioActualOReciente){
+            this.showToastMessage('No puedes habilitar, no hay competencia en la actualidad', "danger");
+        }
+        return;
     }
 }
