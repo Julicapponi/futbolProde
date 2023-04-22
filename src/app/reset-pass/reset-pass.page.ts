@@ -54,7 +54,7 @@ export class ResetPassPage implements OnInit {
             if(res.message.includes('Hemos enviado')){
               this.showToastMessage(res.message, 'success', 'mail', 6000,"bottom");
               this.userForm.reset();
-            } else {
+            } else if(res.message.includes('Tuvimos un error')) {
               this.showToastMessage(res.message, 'danger', 'close', 6000,"bottom");
             }
           },
