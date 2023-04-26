@@ -11,7 +11,7 @@
 
 <ion-content class="bg-image no-scroll">
     <ion-row class="margin-contenedor">
-        <ion-col [size]="12" class="ion-no-padding ion-no-margin">
+        <ion-col [size]="12" class="ion-no-padding ion-no-margin" *ngIf="!sinReportes">
             <ion-grid class="ion-no-padding ion-no-margin desenfoque">
                 <ion-row>
                     
@@ -39,6 +39,7 @@
                         </ion-col>
                     </ion-item>
                 </ion-row>
+                
                 <ion-row *ngFor="let grupo of gruposReport; let i = index">
                     <ion-item class="ion-no-margin ion-no-padding">
                         <ion-col [size]="1" class="display-flex">
@@ -60,9 +61,12 @@
                 </ion-row>
             </ion-grid>
         </ion-col>
+        <ion-col [size]="12" *ngIf="sinReportes" class="ion-no-padding ion-no-margin">
+            <h4 class="text-white"> Sin reportes, puede que no hubo puntajes calculados en ninguno de los grupos. Verifique, por favor.</h4>
+        </ion-col>
     </ion-row>
     
-    <ion-row class="ion-no-padding ion-no-margin desenfoque" >
+    <ion-row class="ion-no-padding ion-no-margin desenfoque" *ngIf="!sinReportes" >
         <ion-col class="ion-no-padding ion-no-margin">
             <h5 class="text-white " style="padding-left: 1rem"> Porcentaje de desempeño de aciertos de grupos</h5>
             <div class="display-flex">

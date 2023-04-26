@@ -68,6 +68,7 @@ export class ReporteGruposComponent implements OnInit {
       }
     }
   };
+   sinReportes: boolean;
   
 
   constructor(private gruposService: GruposService, private toast: ToastController, private router: Router, private sharingService: SharingServiceService, private route: ActivatedRoute, private menuCtrl: MenuController,
@@ -89,6 +90,9 @@ export class ReporteGruposComponent implements OnInit {
       try {
         await this.gruposService.reporteGrupos().subscribe(async respuesta => {
           this.gruposReport = respuesta;
+          if(this.gruposReport.length==0){
+            this.sinReportes = true;
+          }
           this.isCargando = false;
           this.calcularPorcentajes(this.gruposReport);
           this.visualizarGrafico();

@@ -12,7 +12,7 @@
 <ion-row class="ion-no-margin ion-no-padding">
     <ion-col [size]="12">
         <ion-item class="color-3">
-            <ion-select class="text-white" [(ngModel)]="compActivas" (ngModelChange)="ngMode($event)" placeholder="Selecciona una competencia">
+            <ion-select class="text-white" [(ngModel)]="compActivas" (ngModelChange)="ngMode($event)" placeholder="Selecciona una competencia (debe estar activa)">
                 <div *ngFor="let compActivas of competenciasActivas">
                     <ion-select-option class="text-white" [value]="compActivas"> {{compActivas.name}}</ion-select-option>
                 </div>

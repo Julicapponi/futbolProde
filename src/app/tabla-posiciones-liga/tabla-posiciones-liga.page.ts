@@ -23,19 +23,27 @@ export class TablaPosicionesLigaPage implements OnInit {
   constructor(private toast: ToastController, private router: Router, private sharingService: SharingServiceService, private route: ActivatedRoute, private menuCtrl: MenuController,
               private authService: AuthService, private resultService: ResultsService,
               private competenciaService: CompetenciaService, public alertController: AlertController,
-              public datepipe: DatePipe, private comparteDatosService: ComparteDatosService, private cdr: ChangeDetectorRef) { }
+              public datepipe: DatePipe, private comparteDatosService: ComparteDatosService, private cdr: ChangeDetectorRef) { 
+    this.obtenerPuntajes();
+  }
 
   ngOnInit() {
-    this.isCargando = true;
-    this.sharingService.obtenerTablaPosiciones.subscribe((data: TablaPosiciones[]) => {
-      this.tablaPosiciones = data;
-      this.isCargando = false;
-      console.log('tabla posiciones:', JSON.stringify(this.tablaPosiciones));
-    });
+    
   }
   
   
+    obtenerPuntajes(){
+      this.isCargando = true;
+      this.sharingService.obtenerTablaPosiciones.subscribe((data: TablaPosiciones) => {
+        setTimeout(async () => {
+          this.tablaPosiciones = data[1];
+          this.isCargando = false;
+        }, 2000);
 
+        console.log('tabla posiciones:', JSON.stringify(this.tablaPosiciones));
+      });
+    }
+    
     volver() {
       this.router.navigate(['/inicioPage']);
     }

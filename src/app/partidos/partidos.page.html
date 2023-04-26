@@ -31,7 +31,7 @@
     </ion-row>
     <ion-row *ngIf="sinGruposUnido">
         <ion-col [size]="12">
-            <p class="text-white text-size-medium">Aun no pertences a ningun grupo, busca y comenzá a competir</p>
+            <p class="text-white text-size-medium">Aun no perteneces a ningun grupo, busca o crea y comenzá a competir con tus amigos!</p>
         </ion-col>
     </ion-row>
    
@@ -42,7 +42,7 @@
         </ion-col>
     </ion-row>
     
-    <div *ngIf="!isCargando">
+
         <ion-row  *ngFor="let grupo of gruposDelUser">
             <ion-col [size]="12" >
                 <ion-list>
@@ -62,6 +62,6 @@
                 </ion-list>
             </ion-col>
         </ion-row>
-    </div>
+
    
 </ion-content>

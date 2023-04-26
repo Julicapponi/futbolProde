@@ -11,15 +11,15 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="bg-image no-scroll">
   <form>
     <ion-grid>
       <ion-row>
         <ion-col style="text-align: center">
-          <ion-label class="label">Nombre grupo:</ion-label>
+          <ion-label class="label text-white">Nombre grupo:</ion-label>
         </ion-col>
         <ion-item>
-          <ion-input name="nameGrupo" [(ngModel)]="group.nameGrupo" type="text" class="form-control"
+          <ion-input name="nameGrupo" [(ngModel)]="group.nameGrupo" type="text" class="form-control text-white"
                      placeholder="Juan56"></ion-input>
         </ion-item>
       </ion-row>
@@ -35,7 +35,7 @@
   <ion-row *ngIf="isCargando">
     <ion-col [size]="1"></ion-col>
     <ion-col [size]="10">
-      <p class="text-carga" > Cargando grupos, aguarde... </p>
+      <p class="text-carga text-white" > Cargando grupos, aguarde... </p>
       <ion-progress-bar color="primary" class="barra-progreso" type="indeterminate"></ion-progress-bar>
     </ion-col>
     <ion-col [size]="1"></ion-col>
@@ -43,13 +43,13 @@
   
   <ion-row class="row-message-alert" *ngIf="!isCargando && postulacionesEnGrupos.length>0">
     <ion-col [size]="12" class="display-flex">
-      <p class="ion-no-padding margin-auto"><ion-icon name="alert-circle-outline"></ion-icon> Tienes <b style="font-size: 1.2rem">{{postulacionesEnGrupos.length}}</b> postulación pendiente, aguarda a que el administrador del grupo te acepte. </p>
+      <p class="ion-no-padding margin-auto text-white"><ion-icon name="alert-circle-outline"></ion-icon> Tienes <b style="font-size: 1.2rem">{{postulacionesEnGrupos.length}}</b> postulación pendiente, aguarda a que el administrador del grupo te acepte. </p>
     </ion-col>
   </ion-row>
   
   <ion-row *ngIf="resultBusquedaGrupos?.length">
     <ion-col [size]="12">
-      <h4 class="ion-color-dark">Resultado de la busqueda </h4>
+      <h4 class="text-white ">Resultado de la busqueda </h4>
     </ion-col>
   </ion-row>
   
@@ -57,9 +57,8 @@
 
   <ion-row *ngFor="let grupoResult of resultBusquedaGrupos">
     <ion-col [size]="12">
-      <ion-list>
         <ion-item >
-          <ion-label slot="start"> {{grupoResult.nameGrupo}}</ion-label>
+          <p slot="start" class="text-white"> {{grupoResult.nameGrupo}}</p>
           <ion-button *ngIf="grupoResult.idUserCreador != this.idUserGreaGrupo && !grupoResult.yaPostulado " slot="end" (click)="postularseAGrupo(grupoResult)">
             UNIRSE
           </ion-button>
@@ -75,7 +74,6 @@
             TU ERES EL CREADOR
           </ion-button>
         </ion-item>
-      </ion-list>
     </ion-col>
   </ion-row>
 </ion-content>

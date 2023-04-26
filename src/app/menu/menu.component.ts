@@ -16,7 +16,6 @@ export class MenuComponent implements OnInit {
     {name:'Inicio', ruta:'/home', icon:'home-outline'},
     {name:'Como jugar?', ruta:'/terminos', icon:'information-circle-outline'},
     {name:'Compartir app', ruta:'/home', icon:'share-social-outline'},
-    {name:'Configuración', ruta:'/home', icon:'construct-outline'},
     {name:'Contacto', ruta:'/home', icon:'logo-whatsapp'},
   ]
   constructor( private menuCtrl: MenuController, private router: Router) {

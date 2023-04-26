@@ -61,7 +61,7 @@ export class BuscarGroupPage implements OnInit {
             this.isCargando = false;
             console.log(res);
             this.idUserGreaGrupo = localStorage.getItem('idUser');
-            this.resultBusquedaGrupos = res;
+            this.resultBusquedaGrupos = res;    
             if (this.resultBusquedaGrupos.length === 0) {
                 this.showToastMessage('No se encontraron resultados para la búsqueda del grupo', 'danger', 'thumbs-down', 3000);
                 return;

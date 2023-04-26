@@ -6,3 +6,7 @@
 .text-pendiente{
     margin: auto;
 }
+
+ion-item{
+    background-color: transparent; 
+}

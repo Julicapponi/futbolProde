@@ -33,7 +33,7 @@
     <ion-col [size]="12" class="ion-no-margin ion-no-padding">
       <ion-row *ngIf="!isCargando" class="ion-no-margin">
         <ion-col [size]="7" class="ion-no-margin ion-no-padding" >
-          <ion-searchbar class="ion-no-margin searchbar text-white ion-no-padding desenfoque" placeholder="Buscar..." [(ngModel)]="filterTerm"
+          <ion-searchbar class="ion-no-margin searchbar ion-no-padding desenfoque" placeholder="Buscar..." [(ngModel)]="filterTerm"
                          animated="true"></ion-searchbar>
         </ion-col>
         <ion-col [size]="5" class="ion-no-margin ion-no-padding display-flex">
@@ -79,7 +79,7 @@
     <ion-row>
       <ion-col [size]="12" *ngIf="isCargandoMasComp">
         <ion-progress-bar color="primary" type="indeterminate"></ion-progress-bar>
-        <p class="text-white">Cargando mas competencias, aguarde...</p>
+        <p class="text-white">Cargando mas competencias, aguarde...}</p>
       </ion-col>
     </ion-row>
     
