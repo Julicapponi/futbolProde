@@ -168,7 +168,8 @@ export class CompetenciaService {
             nameLocal: enfrentamiento.nameLocal,
             nameVisit: enfrentamiento.nameVisit,
             golLocal: enfrentamiento.golLocal,
-            golVisit: enfrentamiento.golVisit
+            golVisit: enfrentamiento.golVisit,
+            isModificado : true
         };
         return this.http.put(this._urlEnfrentamientos + '/' +id , this.json);
     }

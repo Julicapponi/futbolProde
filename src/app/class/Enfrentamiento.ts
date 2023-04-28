@@ -21,7 +21,7 @@ export class Enfrentamiento {
     golVisit: number;
     penalesLocal: number;
     penalesVisit: number;
-    isModificado: boolean; 
+    isModificado; 
     isComparado: boolean;
     golesLocalPronosticado: number;
     golesVisitPronosticado: number;

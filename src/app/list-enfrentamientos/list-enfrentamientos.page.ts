@@ -309,7 +309,7 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
         const minDate = new Date(item.minFechaEnfrentamiento);
         return minDate > currentDate;
       });
-      if(upcomingRound!=undefined || upcomingRound.round != undefined || upcomingRound.round != null) {
+      if(upcomingRound!=undefined || upcomingRound?.round != undefined || upcomingRound?.round != null) {
         this.fechaAVisualizarPorActualidad = upcomingRound.round;
         console.log(upcomingRound.round);
       }
@@ -362,7 +362,7 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
       } else {
         part[i].estadoFecha = 3;
       }
-      if(part[i].idEnfrentamiento===971446){
+      if(part[i].idEnfrentamiento===979200){
         console.log();
       }
       //30 minutos antes del arranco del partido para poder pronosticar
@@ -641,11 +641,19 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
                 if(partidos[i].idEnfrentamiento===971446){
                   console.log();
                 }
+                if(partidos[i].idEnfrentamiento===971446){
+                  console.log();
+                }
                 partidos[i].elapsed = partidosApiFecha[j].fixture.status.elapsed;
                 partidos[i].long = partidosApiFecha[j].fixture.status.long;
                 partidos[i].estadoPartido = partidosApiFecha[j].fixture.status.short;
-                partidos[i].golLocal = partidosApiFecha[j].goals.home;
-                partidos[i].golVisit = partidosApiFecha[j].goals.away;
+                if(partidos[i].idEnfrentamiento == 971495){
+                  console.log('filtro por id enfrentamiento para log');
+                }
+                if(partidos[i].isModificado != 1) {
+                  partidos[i].golLocal = partidosApiFecha[j].goals.home;
+                  partidos[i].golVisit = partidosApiFecha[j].goals.away;
+                }
               }
               if(partidos[i].nameLocal.includes("Argentinos JRS") && partidos[i].nameVisit.includes("Arsenal Sarandi")){
                 console.log(partidos[i]);

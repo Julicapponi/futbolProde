@@ -5,7 +5,7 @@
         <ion-icon name="arrow-back-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <p class="ion-no-margin ion-no-padding">Enfrentamientos</p>
+    <ion-title class="text-white">Tus pronosticos de partidos</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -54,7 +54,7 @@
               <ion-badge *ngIf="part.estadoPartido.includes('Match Postponed')" slot="start" fill="outline">Postergado
               </ion-badge>
               <ion-badge *ngIf="part.estadoPartido.includes('1H') || part.estadoPartido.includes('2H')" slot="start"
-                         fill="outline" style="background-color: red">Jugando
+                         fill="outline" style="background-color: red"> <img src="assets/img/ball-movimiento.gif" style="height: 15px"> Jugando
               </ion-badge>
               <ion-badge *ngIf="part.estadoPartido.includes('HT')" slot="start" fill="outline"
                          style="background-color: red">Vivo - Entretiempo
@@ -85,7 +85,7 @@
                 </ion-item>
               </ion-col>
               <ion-col [size]="1" class="col-equipos">
-                <ion-button size="small" (click)="guardarPronosticosHechos(part, false, true)" fill="clear"
+                <ion-button [disabled]="!part.puedePronosticar || restarsumar_ocupado" size="small" (click)="guardarPronosticosHechos(part, false, true)" fill="clear"
                             class="icon-operacion-result ion-no-margin ion-no-padding">
                   <ion-icon class="icon-operacion-result" name="remove-circle-outline" size="small"
                   ></ion-icon>
@@ -98,7 +98,7 @@
               </ion-col>
 
               <ion-col [size]="1" class="col-equipos">
-                <ion-button size="small" (click)="guardarPronosticosHechos(part, true, true)" fill="clear"
+                <ion-button [disabled]="!part.puedePronosticar || restarsumar_ocupado" size="small" (click)="guardarPronosticosHechos(part, true, true)" fill="clear"
                             class="icon-operacion-result ion-no-margin ion-no-padding">
                   <ion-icon name="add-circle-outline" size="small"
                   ></ion-icon>
@@ -122,7 +122,7 @@
                 </ion-item>
               </ion-col>
               <ion-col [size]="1" class="col-equipos">
-                <ion-button (click)="guardarPronosticosHechos(part, false, false)"
+                <ion-button [disabled]="!part.puedePronosticar || restarsumar_ocupado" (click)="guardarPronosticosHechos(part, false, false)"
                             size="small" fill="clear" class="icon-operacion-result ion-no-margin ion-no-padding">
                   <ion-icon name="remove-circle-outline" size="small"></ion-icon>
                 </ion-button>
@@ -134,7 +134,7 @@
               </ion-col>
 
               <ion-col [size]="1" class="col-equipos">
-                <ion-button (click)="guardarPronosticosHechos(part, true, false)"
+                <ion-button [disabled]="!part.puedePronosticar || restarsumar_ocupado" (click)="guardarPronosticosHechos(part, true, false)"
                             size="small" fill="clear" class="icon-operacion-result ion-no-margin ion-no-padding">
                   <ion-icon name="add-circle-outline" size="small"></ion-icon>
                 </ion-button>
