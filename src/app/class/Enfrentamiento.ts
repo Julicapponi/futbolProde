@@ -22,7 +22,7 @@ export class Enfrentamiento {
     penalesLocal: number;
     penalesVisit: number;
     isModificado; 
-    isComparado: boolean;
+    isComparado:number;
     golesLocalPronosticado: number;
     golesVisitPronosticado: number;
     estadoFecha: number;
@@ -33,4 +33,5 @@ export class Enfrentamiento {
     puntosSumados:number;
     modificoDatos: boolean;
     idCompetencia: string;
+    status : number;
 }

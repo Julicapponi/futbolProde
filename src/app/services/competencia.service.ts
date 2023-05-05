@@ -2,10 +2,12 @@ import { Injectable } from '@angular/core';
 import {Router} from "@angular/router";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import { Comp } from '../class/Comp';
-import { Observable } from 'rxjs';
+import {Observable, throwError} from 'rxjs';
 import {Competencia} from "../class/Competencia";
 import {Enfrentamiento} from "../class/Enfrentamiento";
 import {Constantes} from "../Constantes";
+import {Puntaje} from "../class/Puntaje";
+import {catchError, map, timeout} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +24,7 @@ export class CompetenciaService {
   fechaActual: Date;
   anioActual: number;
   fechaHoy: string;
+  TAG = 'competencia.services.ts';
     fechaHoys: string[];
     repuestaFallida: any = JSON;
   constructor(private router: Router, private http: HttpClient) {
@@ -173,7 +176,20 @@ export class CompetenciaService {
         };
         return this.http.put(this._urlEnfrentamientos + '/' +id , this.json);
     }
+    actualizacionPartidos(): Observable<Enfrentamiento> {
+        let url = this._urlEnfrentamientos + '/guardar/enfrentamientos/';
+        return this.http.get(url).pipe(timeout(100000), map((response) => <any>this.extractData(response)),
+            catchError(this.handleError));
+    }
 
- 
+    private handleError(error:  any) {
+        console.log(this.TAG, 'error-> error.status ' , JSON.stringify(error));
+        return throwError(error);
+    }
+    
+    extractData(res: any) {
+        const body = res;
+        return body || {};
+    }
 }
 

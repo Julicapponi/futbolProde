@@ -47,6 +47,11 @@
                       *ngIf="part.estadoPartido.includes('TBD') || part.estadoPartido.includes('NS') || part.long.includes('Not Started')"
                       slot="start" fill="outline" class="badge-color-por-jugar">Por jugar
               </ion-badge>
+              <ion-badge
+                      *ngIf="part.short.includes('Match Postponed')"
+                      slot="start" fill="outline" class="badge-color-indefinido">Suspendido - Postergado
+              </ion-badge>
+  
               <ion-badge *ngIf="part.estadoPartido.includes('TBD')" slot="start" fill="outline"
                          class="badge-color-indefinido">Fecha y hora indefinida
               </ion-badge>

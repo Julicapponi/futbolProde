@@ -6,6 +6,7 @@ import {catchError, map, timeout} from "rxjs/operators";
 import {Grupo} from "../class/Grupo";
 import {Puntaje} from "../class/Puntaje";
 import {Constantes} from "../Constantes";
+import {Competencia} from "../class/Competencia";
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,7 @@ export class GruposService {
   public headers: HttpHeaders;
   TAG = 'grupos.services.ts';
   json: any = JSON;
+   idUser: string;
   constructor(private router: Router, private http: HttpClient) { 
     
   }
@@ -33,8 +35,9 @@ export class GruposService {
   }
 
   buscarGroup(nameGroup){
-    console.log('Grupo a buscar:', nameGroup);
-    let url = this._url + '/buscar/'+nameGroup;
+    let idUser = localStorage.getItem('idUser');
+    console.log('Grupo a buscar:', nameGroup,);
+    let url = this._url + '/buscar/'+nameGroup+'/'+idUser;
     console.log(url);
     return this.http.get(url).pipe(timeout(100000), map((response) => <Grupo[]>this.extractData(response)),// this.extractDataZip(response)))this.extractData(response))
         catchError(this.handleError));
@@ -158,8 +161,13 @@ export class GruposService {
         catchError(this.handleError));
   }
 
-  getPuntajesPorFechaPorGrupo(idGrupo, fecha): Observable<Puntaje[]> {
-    let url = this._url + '/puntajes/fecha/'+idGrupo+'/'+fecha;
+  getCompetenciaDelGrupo(idGrupo): Observable<Competencia[]> {
+    let url = this._url + '/competencia/'+idGrupo;
+    return this.http.get(url).pipe(timeout(100000), map((response) => <any[]>this.extractData(response)),// this.extractDataZip(response)))this.extractData(response))
+        catchError(this.handleError));
+  }
+  getPuntajesFechasPorGrupo(idGrupo): Observable<Puntaje[]> {
+    let url = this._url + '/puntajes/fechas/'+idGrupo+'/';
     return this.http.get(url).pipe(timeout(100000), map((response) => <any[]>this.extractData(response)),// this.extractDataZip(response)))this.extractData(response))
         catchError(this.handleError));
   }

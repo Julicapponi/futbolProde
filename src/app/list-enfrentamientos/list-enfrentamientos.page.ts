@@ -655,7 +655,7 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
                   partidos[i].golVisit = partidosApiFecha[j].goals.away;
                 }
               }
-              if(partidos[i].nameLocal.includes("Argentinos JRS") && partidos[i].nameVisit.includes("Arsenal Sarandi")){
+              if(partidos[i].nameLocal.includes("Union") && partidos[i].nameVisit.includes("Lanus")){
                 console.log(partidos[i]);
               }
               //PRONOSTICA EMPATE O GANA Y EL RESULTADO ES IDENTICO

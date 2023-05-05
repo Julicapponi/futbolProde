@@ -7,6 +7,8 @@ import {Enfrentamiento} from "../class/Enfrentamiento";
 import {Comp} from "../class/Comp";
 import {Observable, Subscription} from "rxjs";
 import {SharingServiceService} from "../services/sharing-service.service";
+import {Puntaje} from "../class/Puntaje";
+import {catchError, map, timeout} from "rxjs/operators";
 
 @Component({
   selector: 'app-modificar-enfrentamientos',
@@ -38,9 +40,11 @@ export class ModificarEnfrentamientosPage implements OnInit {
     fechaAVisualizarPorActualidad: any;
     prueba: Enfrentamiento[];
     isOpen = false;
+    horarioQueActualizo: Date;
   
   constructor(private toast: ToastController, private activatedRoute: ActivatedRoute, private competenciaService: CompetenciaService, private sharingService: SharingServiceService, private router: Router, private menuCtrl: MenuController, private authService: AuthService, public alertController: AlertController, private competitionsService: CompetenciaService) {
       this.competenciasActiv();
+      //this.actualizarPartidosAntesModificar();
   }
 
   ngOnInit() {
@@ -323,7 +327,12 @@ export class ModificarEnfrentamientosPage implements OnInit {
         );
     }
 
-    isModifico(enfrent: Enfrentamiento) {
+    isModifico(enfrent: Enfrentamiento, event) {
+        if (enfrent.isComparado == 1) {
+            event.preventDefault(); // detiene la propagación del evento click
+            this.showToastMessage('Este resultado ya calculó puntajes en los usuarios, ya no podés modificarlo.', 'warning', 'thumbs-down', 3000);
+            return; // no hace nada si isComparado es igual a 1
+        }
         for (let i = 0; i < this.partidosAVisualizar.length; i++) {
             if(this.partidosAVisualizar[i].idEnfrentamiento === enfrent.idEnfrentamiento){
                 this.partidosAVisualizar[i].modificoDatos = true;
@@ -331,5 +340,34 @@ export class ModificarEnfrentamientosPage implements OnInit {
             }
         }
 
+    }
+
+    async actualizarPartidosAntesModificar(): Promise<any> {
+        this.isCargando = true;
+
+        const horarioQueActualizo = localStorage.getItem('fechaActualizancionEnfrentamientos')
+            ? new Date(localStorage.getItem('fechaActualizancionEnfrentamientos'))
+            : null;
+
+        if (!horarioQueActualizo || this.haPasadoTiempoSuficienteDesdeUltimaActualizacion(horarioQueActualizo)) {
+            const res = await this.competenciaService.actualizacionPartidos().toPromise();
+            console.log(res);
+            if (res.status === 200) {
+                localStorage.setItem('fechaActualizancionEnfrentamientos', new Date().toString());
+            }
+            this.isCargando = false;
+            return res;
+        } else {
+            this.isCargando = false;
+
+            return null;
+        }
+    }
+
+    haPasadoTiempoSuficienteDesdeUltimaActualizacion(horarioQueActualizo: Date): boolean {
+        const actualFecha = new Date();
+        const diferenciaEnMinutosActualizacion = (actualFecha.getTime() - horarioQueActualizo.getTime()) / 60000;
+
+        return diferenciaEnMinutosActualizacion > 15;
     }
 }
