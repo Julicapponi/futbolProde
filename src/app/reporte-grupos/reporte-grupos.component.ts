@@ -49,22 +49,18 @@ export class ReporteGruposComponent implements OnInit {
       x: {
         stacked: true,
         ticks: {
-          color: 'white' // agregado para cambiar el color de las etiquetas del eje x
+          color: 'white'
         }
       },
       y: {
         stacked: true,
         ticks: {
-          color: 'white', // agregado para cambiar el color de las etiquetas del eje x
-
-          /*  callback: function(val, index) {
-              // Hide every 2nd tick label
-              let array = [100, 90, 80, 70, 60, 50, 40, 30, 20, 10, 0];
-              return array;
-            },
-            
-           */
-        }
+          callback: function(value, index, values) {
+            return value + '%';
+          },
+          color: 'white',
+        },
+        max: 100
       }
     }
   };
@@ -90,6 +86,7 @@ export class ReporteGruposComponent implements OnInit {
       try {
         await this.gruposService.reporteGrupos().subscribe(async respuesta => {
           this.gruposReport = respuesta;
+          console.log(JSON.stringify(respuesta))
           if(this.gruposReport.length==0){
             this.sinReportes = true;
           }
@@ -106,17 +103,20 @@ export class ReporteGruposComponent implements OnInit {
   private calcularPorcentajes(gruposReport: Grupo[]) {
     for (const grupo of gruposReport) {
       console.log(grupo);
-      grupo.aciertos_exactos1 = grupo.aciertos_exactos * 100 / this.cantDePartidosPorLiga;
-      grupo.aciertos_no_exactos1 = grupo.aciertos_no_exactos * 100 / this.cantDePartidosPorLiga;
-      grupo.no_aciertos1 = grupo.no_aciertos * 100 / this.cantDePartidosPorLiga;
-    }
+      // deberiamos calcular el porcentaje de acuerdo al total de partidos pronosticados y calculados por los usuarios del grupo.
+      grupo.totalPartidosPronosticadosYCalculados = grupo.aciertos_exactos + grupo.aciertos_parciales + grupo.no_aciertos;
+      grupo.aciertos_exactos1 = grupo.aciertos_exactos * 100 / grupo.totalPartidosPronosticadosYCalculados;
+      grupo.aciertos_parciales1 = grupo.aciertos_parciales * 100 / grupo.totalPartidosPronosticadosYCalculados;
+      grupo.no_aciertos1 = grupo.no_aciertos * 100 / grupo.totalPartidosPronosticadosYCalculados;
+
+    } 
   }
   
   visualizarGrafico() {
     new Chart('myChart', {
       type: 'bar',
       data: {
-        labels: this.gruposReport.map(grupo => grupo.nameGrupo),
+        labels: this.gruposReport.map(grupo => grupo.nameGrupo + ' (' + grupo.totalPartidosPronosticadosYCalculados + ')'),
         datasets: [
           {
             label: 'Aciertos exactos',
@@ -128,7 +128,7 @@ export class ReporteGruposComponent implements OnInit {
           },
           {
             label: 'Aciertos parcial',
-            data: this.gruposReport.map(grupo => grupo.aciertos_no_exactos1),
+            data: this.gruposReport.map(grupo => grupo.aciertos_parciales1),
             backgroundColor: 'rgba(255, 206, 86, 0.2)',
             borderColor: 'rgba(255, 206, 86, 1)',
             borderWidth: 1,
