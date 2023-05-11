@@ -6,6 +6,8 @@ import {GruposService} from "../services/grupos.service";
 import {Comp} from "../class/Comp";
 import {AlertController, ModalController, ToastController} from "@ionic/angular";
 import {Grupo} from "../class/Grupo";
+import {EditUserPage} from "../edit-user/edit-user.page";
+import {EditGroupPage} from "../edit-group/edit-group.page";
 
 @Component({
   selector: 'app-partidos',
@@ -89,8 +91,17 @@ export class PartidosPage implements OnInit {
       });
   }
 
-    editarGrupo(grupo: any) {
-        this.router.navigate(['/edit-group']);
+    async editarGrupo(grupo: any) {
+        const profileModal = await this.modalCtrl.create({
+            component: EditGroupPage,
+            cssClass: 'modal_popup',
+            showBackdrop: true,
+            backdropDismiss: false,
+            componentProps: {
+                grupo: grupo,
+            },
+        });
+        profileModal.present();
     }
     
   async borrarGrupo(group: Grupo) {

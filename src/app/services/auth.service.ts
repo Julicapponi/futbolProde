@@ -111,6 +111,4 @@ export class AuthService {
     return this.http.post<any>(this._url + '/recuperarPass/', this.json , requestOptions);
   }
   
-
-
 }

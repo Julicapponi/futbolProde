@@ -10,10 +10,47 @@
 </ion-header>
 
 <ion-content class="bg-image no-scroll">
-  <form>
-    <ion-grid>
-      
-    </ion-grid>
+  <ion-row class="ion-margin row-popups popup-edicion" >
+    <ion-col [size]="12" class="ion-no-padding ion-no-margin">
+      <p class="text-popup-edicion ion-no-padding">Únicamente podrás editar el nombre de tu grupo.</p>
+    </ion-col>
+  </ion-row>
+  <form [formGroup]="groupForm">
+    <ion-row justify-content-center>
+      <ion-col align-self-center class="desenfoque" style="border-radius: 0.5rem" [size]="12">
+        <ion-row>
+          <p class="text-white ion-no-margin ion-no-padding">Nombre grupo: </p>
+          <ion-col [size]="12">
+            <ion-item class="item" lines="full">
+              <ion-input class=" form-control text-white" placeholder="La Escaloneta Group" type="text" required formControlName="nameGroup"
+                         (input)="onNameInput()"></ion-input>
+              <ion-icon *ngIf="nameHasError('required')" name="close-circle" color="danger"></ion-icon>
+              <ion-icon *ngIf="nameHasError('minlength')" name="close-circle" color="danger"></ion-icon>
+              <ion-icon *ngIf="nameIsValid()" name="checkmark-circle" color="tertiary"></ion-icon>
+              <ion-icon *ngIf="nameIsInvalid() && !nameHasError('required') && !nameHasError('minlength')"
+                        name="close-circle" color="danger"></ion-icon>
+            </ion-item>
+            <ion-row>
+              <ion-col class="display-flex">
+                <ion-text color="danger" class="margin-auto" style=" border-radius: 0.5rem; font-size: 1.1rem"
+                          *ngIf="nameHasError('required')">El nombre es obligatorio
+                </ion-text>
+                <ion-text color="danger" class="margin-auto" style="border-radius: 0.5rem; font-size: 1.1rem"
+                          *ngIf="nameHasError('minlength')">El nombre debe tener al menos 3 caracteres
+                </ion-text>
+              </ion-col>
+            </ion-row>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+    <ion-row class="display-flex">
+      <ion-col class="margin-auto" [size]="12">
+        <ion-button expand="block" color="primary" (click)="editGroup()"
+                    [disabled]="!groupForm.valid || !groupForm.dirty">Confirmar edición
+        </ion-button>
+      </ion-col>
+    </ion-row>
   </form>
 </ion-content>
 

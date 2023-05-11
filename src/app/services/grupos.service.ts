@@ -191,4 +191,13 @@ export class GruposService {
   }
 
 
+  editGroup(nameEdit:string, groupEdit :any) {
+    console.log(groupEdit);
+    const id = groupEdit.idgrupo;
+    const name = nameEdit;
+    this.json = {
+      name: name
+    };
+    return this.http.put(this._url + '/' +id , this.json);
+  }
 }

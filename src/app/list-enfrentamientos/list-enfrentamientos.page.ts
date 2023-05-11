@@ -362,7 +362,7 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
       } else {
         part[i].estadoFecha = 3;
       }
-      if(part[i].idEnfrentamiento===979200){
+      if(part[i].idEnfrentamiento===979194){
         console.log();
       }
       //30 minutos antes del arranco del partido para poder pronosticar
@@ -655,7 +655,7 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
                   partidos[i].golVisit = partidosApiFecha[j].goals.away;
                 }
               }
-              if(partidos[i].nameLocal.includes("Union") && partidos[i].nameVisit.includes("Lanus")){
+              if(partidos[i].nameLocal.includes("Lanus") && partidos[i].nameVisit.includes("Sol de Mayo")){
                 console.log(partidos[i]);
               }
               //PRONOSTICA EMPATE O GANA Y EL RESULTADO ES IDENTICO
