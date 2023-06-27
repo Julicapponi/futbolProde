@@ -86,7 +86,7 @@ export class ListUsersPage implements OnInit {
                 },
                 err => {
                   console.log(err);
-                  this.dialogError('No se ha podido eliminar este usuario');
+                  this.dialogError('No se pudo eliminar este usuario');
                 }
             );
           }

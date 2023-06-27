@@ -155,11 +155,13 @@ export class CompetenciaService {
         const id = compEditada.idcompetition;
         const nameEdit = compEditada.name;
         const anioComp = compEditada.anio;
+        const activa = compEditada.activa;
         //armo json para peticion
         this.json = {
             idcompetition: id,
             name: nameEdit,
-            anio: anioComp
+            anio: anioComp,
+            activa: activa
         };
         return this.http.put(this._url + '/' +id , this.json);
     }

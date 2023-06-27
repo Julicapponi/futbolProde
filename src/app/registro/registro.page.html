@@ -81,7 +81,7 @@
                 <ion-label>Correo electrónico</ion-label>
                 <ion-col [size]="12">
                   <ion-item class="item" lines="full">
-                    <ion-input type="email" placeholder="porejemplo@gmail.com" formControlName="email" (input)="onEmailInput()"></ion-input>
+                    <ion-input type="email" placeholder="ejemplo@example.com" formControlName="email" (input)="onEmailInput()"></ion-input>
                     <ion-icon name="checkmark-circle" color="tertiary" *ngIf="emailIsValid()"></ion-icon>
                     <ion-icon name="close-circle" color="danger" *ngIf="emailHasError('required')"></ion-icon>
                     <ion-icon name="close-circle" color="danger" *ngIf="emailHasError('email')"></ion-icon>

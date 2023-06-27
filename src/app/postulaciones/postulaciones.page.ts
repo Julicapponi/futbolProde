@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {GruposService} from "../services/grupos.service";
-import {AlertController, ModalController, NavParams} from "@ionic/angular";
+import {AlertController, ModalController, NavParams, ToastController} from "@ionic/angular";
 import {Postulacion} from "../class/Postulacion";
 
 @Component({
@@ -15,7 +15,7 @@ export class PostulacionesPage implements OnInit {
   postulacionesPendientesParaAceptar: any[];
   postulaciones: Postulacion[];
   
-  constructor(private router: Router, private modalCtrl: ModalController, private gruposService: GruposService, private activatedRoute: ActivatedRoute, public alertController: AlertController) {
+  constructor(private toast: ToastController, private router: Router, private modalCtrl: ModalController, private gruposService: GruposService, private activatedRoute: ActivatedRoute, public alertController: AlertController) {
         this.notificationPendienteParaGrupo();
       /*
       if(params != null && params.get('postulaciones') != null ){
@@ -54,6 +54,9 @@ export class PostulacionesPage implements OnInit {
                 this.isCargando = true;
                 await this.gruposService.addPostulante(idUser, idGrupo).subscribe(
                     res => {
+                        setTimeout(async () => {
+                            this.showToastMessage('Has ACEPTADO con exito la postulacion del usuario a tu grupo', 'primary', 'thumbs-up', 5000);
+                        }, 5000);
                         this.isCargando = false;
                         console.log(res);
                         this.router.navigate(['/partidosPage']);
@@ -67,8 +70,12 @@ export class PostulacionesPage implements OnInit {
                 this.isCargando = true;
                 await this.gruposService.rechazoPostulante(idUser, idGrupo).subscribe(
                     res => {
+                        setTimeout(async () => {
+                                this.showToastMessage('Has RECHAZADO con exito la postulacion del usuario a tu grupo', 'primary', 'thumbs-up', 5000);
+                        }, 5000);
                         this.isCargando = false;
                         console.log(res);
+                        this.router.navigate(['/partidosPage']);
                     }),
                     err => {
                     };
@@ -115,4 +122,18 @@ export class PostulacionesPage implements OnInit {
          */
   }
 
+    async showToastMessage(message:string, color: string, icon: string, duracion:number) {
+        const toast = await this.toast.create({
+            message: message,
+            duration: duracion,
+            icon: icon, //https://ionic.io/ionicons
+            cssClass: '',
+            position: "bottom",
+            translucent: true,
+            animated: true,
+            mode: "md",  // md or ios
+            color: color //"danger" ｜ "dark" ｜ "light" ｜ "medium" ｜ "primary" ｜ "secondary" ｜ "success" ｜ "tertiary" ｜ "warning" ｜ string & Record<never, never> ｜ undefined
+        });
+        await toast.present();
+    }
 }

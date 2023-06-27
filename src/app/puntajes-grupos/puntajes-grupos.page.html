@@ -32,12 +32,13 @@
       </ion-row>
     </ion-col>
   </ion-row>
+  <!--
   <ion-row *ngIf="sinPuntajes" >
     <ion-col [size]="12" class="display-flex">
       <p  class="text-white text-carga margin-auto"> Sin puntajes por el momento.</p>
     </ion-col>
   </ion-row>
-  
+  -->
   <ion-row *ngIf="isCargando">
     <ion-col [size]="1"></ion-col>
     <ion-col [size]="10">
@@ -76,19 +77,37 @@
       </ion-col>
     </ion-row>
   </div>
+
+  <div *ngIf="!isCargando && sinPuntajes">
+    <ion-row  *ngFor="let item of usuariosDelGrupo; let i = index">
+      <ion-col [size]="12">
+        <ion-item class="ion-no-padding ion-no-margin" [ngClass]="item.name.includes(nameUserLogueado) ? 'desenfoque-user' : ''">
+          <ion-col class="ion-no-padding display-flex" [size]="2">
+            <p class=" ion-no-padding margin-auto text-white"> {{ i + 1 }} </p>
+          </ion-col>
+          <ion-col class="ion-no-padding ion-no-margin" [size]="9">
+            <p class=" ion-no-padding ion-no-margin text-white"> {{item.name}} </p>
+          </ion-col>
+          <ion-col class="ion-no-padding ion-no-margin display-flex" [size]="1">
+            <p class="ion-no-padding ion-no-margin text-white margin-auto"> 0 </p>
+          </ion-col>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </div>
   
   <div *ngIf="!isCargando && clickEventCargaGeneral && !clickEventCargaJornada">
-    <ion-row  *ngFor="let itemPuntaje of listPuntajesTablaGeneral; let i = index">
+    <ion-row  *ngFor="let itemUser of listPuntajesTablaGeneral; let i = index">
       <ion-col [size]="12">
-          <ion-item class="ion-no-padding ion-no-margin" [ngClass]="itemPuntaje.name.includes(nameUserLogueado)?'desenfoque-user':''">
+          <ion-item class="ion-no-padding ion-no-margin"   [ngClass]="itemUser.name.includes(nameUserLogueado) ? 'desenfoque-user' : ''">
               <ion-col class="ion-no-padding display-flex" [size]="2">
                 <p class=" ion-no-padding margin-auto text-white" > {{ i + 1 }} </p>
               </ion-col>
-              <ion-col class="ion-no-padding ion-no-margin" [size]="8">
-                  <p class=" ion-no-padding ion-no-margin text-white" > {{itemPuntaje.name}} </p>
+              <ion-col class="ion-no-padding ion-no-margin" [size]="9" (click)="verPronosticosUsuario(itemUser.iduser)">
+                  <p class=" ion-no-padding ion-no-margin text-white" > {{itemUser.name}} </p>
               </ion-col>
-              <ion-col class="ion-no-padding ion-no-margin" [size]="2">
-                <p class="ion-no-padding ion-no-margin text-white" > {{itemPuntaje.puntos_acumulados}} </p>
+              <ion-col class="ion-no-padding ion-no-margin display-flex" [size]="1">
+                <p class="ion-no-padding ion-no-margin text-white margin-auto" > {{itemUser.puntos_acumulados}} </p>
               </ion-col>
           </ion-item>
       </ion-col>

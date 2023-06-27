@@ -74,6 +74,7 @@ export class LogueoPage implements OnInit {
             localStorage.setItem('name', res.user.name);
             localStorage.setItem('idUser', res.user.iduser);
             localStorage.setItem('userName', res.user.email);
+            localStorage.setItem('isAdmin', res.user.admin);
             this.isAdmin = res.user.admin;
             if(this.isAdmin == '1'){
               setTimeout(async () => {
@@ -86,7 +87,7 @@ export class LogueoPage implements OnInit {
               setTimeout(async () => {
                 this.isCargando = false;
                 this.isLogueando = false;
-                this.router.navigate(['/inicioPage']);
+                this.router.navigate(['/inicioPage'], { queryParams: { user: JSON.stringify(res.user) }});
               }, 1000);
   
             }
@@ -165,7 +166,7 @@ export class LogueoPage implements OnInit {
 // Validador de contraseña
   passwordValidator(control) {
     const password = control.value;
-    if (password && (!/[A-Z]/.test(password) || !/\d/.test(password) || password.length < 5)) {
+    if (password && (!/[A-Z]/.test(password) || !/\d/.test(password) || password.length < 8 || password.length > 20)) {
       return { 'invalidPassword': true };
     }
     return null;

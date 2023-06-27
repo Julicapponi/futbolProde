@@ -1,54 +1,164 @@
 <ion-header no-border>
-  <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-button (click)="volver()">
-        <ion-icon name="arrow-back-outline" ></ion-icon>
-        <ion-title class="text" style="font-size: 1rem">EDICIÓN DE USUARIO </ion-title>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-button (click)="volver()">
+                <ion-icon name="arrow-back-outline"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title class="text-white">Edición de usuario</ion-title>
+    </ion-toolbar>
 </ion-header>
 
-<ion-content class="bg-image no-scroll">
+<ion-content class="bg-image no-scroll desenfoque display-flex">
+    <ion-row>
+        <ion-col class="margin-auto">
+            <ion-row>
+                <ion-col [size]="12" class="display-flex " style="padding-top: 0.5rem">
+                    <p class="margin-auto"><img src="./assets/img/edit-user-simple.png" class="margin-auto" height="120px"
+                                                width="130px"></p>
+                </ion-col>
 
-    <ion-row>
-      <ion-col>
-        <ion-item>
-          <p class="text-white">Nombre:</p>
-          <ion-input class="text-white"[(ngModel)]="userEdit.name"></ion-input>
-        </ion-item>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>
-        <ion-item>
-          <p class="text-white">Usuario:</p>
-          <ion-input class="text-white"[(ngModel)]="userEdit.userName"></ion-input>
-        </ion-item>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>
-        <ion-item>
-          <p class="text-white">Email:</p>
-          <ion-input class="text-white"[(ngModel)]="userEdit.email"></ion-input>
-        </ion-item>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>
-        <ion-item>
-          <p class="text-white">Password:</p>
-          <ion-input class="text-white" type="password" name="password" id="password" [(ngModel)]="userEdit.password"></ion-input>
-        </ion-item>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col style="text-align: center">
-        <ion-button  color="tertiary" (click)="editarUser(userEdit)">
-          Confirmar
-        </ion-button>
-      </ion-col>
-    </ion-row>
+            </ion-row>
 
+            <ion-row class="form-style">
+                <ion-col [size]="12" class="ion-no-padding ion-no-margin">
+                    <form [formGroup]="userForm">
+                        <ion-row justify-content-center>
+                            <ion-col align-self-center class="desenfoque" style="border-radius: 0.5rem" [size]="12">
+                                <ion-row>
+                                    <ion-label>Nombre y apellido </ion-label>
+                                    <ion-col [size]="12">
+                                        <ion-item class="item" lines="full">
+                                            <ion-input [(ngModel)]="userEdit.name" class=" form-control text-input" placeholder="Juan Perez" type="text" required formControlName="name"
+                                                       (input)="onNameInput()"></ion-input>
+                                            <ion-icon *ngIf="nameHasError('required')" name="close-circle" color="danger"></ion-icon>
+                                            <ion-icon *ngIf="nameHasError('minlength')" name="close-circle" color="danger"></ion-icon>
+                                            <ion-icon *ngIf="nameIsValid()" name="checkmark-circle" color="tertiary"></ion-icon>
+                                            <ion-icon *ngIf="nameIsInvalid() && !nameHasError('required') && !nameHasError('minlength')"
+                                                      name="close-circle" color="danger"></ion-icon>
+                                        </ion-item>
+
+                                        <ion-row>
+                                            <ion-col class="display-flex">
+                                                <ion-text color="danger"  class="margin-auto" style=" border-radius: 0.5rem; font-size: 1.1rem"
+                                                          *ngIf="nameHasError('required')">El nombre es obligatorio
+                                                </ion-text>
+                                                <ion-text color="danger" class="margin-auto" style="border-radius: 0.5rem; font-size: 1.1rem"
+                                                          *ngIf="nameHasError('minlength')">El nombre debe tener al menos 2 caracteres
+                                                </ion-text>
+                                            </ion-col>
+                                        </ion-row>
+                                    </ion-col>
+                                </ion-row>
+
+
+                                <ion-row>
+                                    <ion-label>Usuario</ion-label>
+                                    <ion-col [size]="12">
+                                        <ion-item class="item" lines="full">
+                                            <ion-input [(ngModel)]="userEdit.userName" class="text-white form-control text-input" formControlName="username"
+                                                       placeholder="Julian97" type="text" required (input)="onUsernameInput()"></ion-input>
+                                            <ion-icon *ngIf="usernameHasError('required')" name="close-circle" color="danger"></ion-icon>
+                                            <ion-icon *ngIf="usernameHasError('invalidUsername')" name="close-circle" color="danger"></ion-icon>
+                                            <ion-icon *ngIf="usernameIsValid()" name="checkmark-circle" color="tertiary"></ion-icon>
+                                        </ion-item>
+                                        <ion-row>
+                                            <ion-col class="display-flex">
+                                                <ion-text color="danger" class="margin-auto" style=" border-radius: 0.5rem; font-size: 1.1rem"
+                                                          *ngIf="usernameHasError('required')">El nombre de usuario es obligatorio.
+                                                </ion-text>
+                                                <ion-text color="danger" class="margin-auto" style=" border-radius: 0.5rem; font-size: 1rem"
+                                                          *ngIf="usernameHasError('invalidUsername')">El nombre de usuario debe tener entre 4 y 20
+                                                    caracteres y no debe contener caracteres especiales.
+                                                </ion-text>
+                                            </ion-col>
+                                        </ion-row>
+                                    </ion-col>
+                                </ion-row>
+
+
+                                <ion-row>
+                                    <ion-label>Correo electrónico (No editable)</ion-label>
+                                    <ion-col [size]="12">
+                                        <ion-item class="item" lines="full">
+                                            <ion-input [(ngModel)]="userEdit.email" disabled="true" type="email" placeholder="ejemplo@example.com" formControlName="email" (input)="onEmailInput()"> </ion-input>
+                                            <ion-icon name="checkmark-circle" color="tertiary" *ngIf="emailIsValid()"></ion-icon>
+                                            <ion-icon name="close-circle" color="danger" *ngIf="emailHasError('required')"></ion-icon>
+                                            <ion-icon name="close-circle" color="danger" *ngIf="emailHasError('email')"></ion-icon>
+                                        </ion-item>
+                                        <ion-row>
+                                            <ion-col class="display-flex">
+                                                <ion-text color="danger" class="margin-auto" *ngIf="emailHasError('required')" style="font-size: 1.1rem">El correo
+                                                    electrónico
+                                                    es
+                                                    obligatorio
+                                                </ion-text>
+                                                <ion-text color="danger" class="margin-auto" *ngIf="emailHasError('email')" style="font-size: 1.1rem">Ingresa un correo
+                                                    electrónico
+                                                    válido
+                                                </ion-text>
+                                            </ion-col>
+                                        </ion-row>
+                                    </ion-col>
+                                </ion-row>
+
+
+                                <ion-row>
+                                    <ion-label>Contraseña</ion-label>
+                                    <ion-col [size]="12">
+                                        <ion-item class="item">
+                                            <ion-input [(ngModel)]="userEdit.password" class="text-white form-control text-input" formControlName="password"
+                                                       placeholder="*****" [type]="passwordVisible ? 'text' : 'password'" required (input)="onPasswordInput()"></ion-input>
+                                            <ion-icon *ngIf="passwordHasError('required')" name="close-circle" color="danger" slot="end"></ion-icon>
+                                            <ion-icon *ngIf="passwordHasError('invalidPassword')" name="close-circle" color="danger" slot="end"></ion-icon>
+                                            <ion-icon *ngIf="passwordIsValid()" name="checkmark-circle" color="tertiary" slot="end"></ion-icon>
+                                            <ion-icon name="eye" slot="end" color="light" *ngIf="!passwordVisible" (click)="passwordVisible = true"></ion-icon>
+                                            <ion-icon name="eye-off" slot="end" color="light" *ngIf="passwordVisible" (click)="passwordVisible = false"></ion-icon>
+                                        </ion-item>
+                                        <ion-row>
+                                            <ion-col class="display-flex">
+                                                <ion-text [(ngModel)]="userEdit.password" color="danger" class="margin-auto" style=" border-radius: 0.5rem;font-size: 1.1rem"
+                                                          *ngIf="passwordHasError('required')">Contraseña requerida
+                                                </ion-text>
+                                                <ion-text color="danger" class="margin-auto" style="border-radius: 0.5rem; font-size: 1rem"
+                                                          *ngIf="passwordHasError('invalidPassword')">La contraseña debe contener al menos una letra mayúscula, incluir al menos un número y debe tener una longitud mínima de 8 caracteres y una longitud máxima de 20 caracteres.
+                                                </ion-text>
+                                            </ion-col>
+                                        </ion-row>
+                                    </ion-col>
+                                </ion-row>
+
+                                <ion-row>
+                                    <ion-label>Confirmar contraseña</ion-label>
+                                    <ion-col [size]="12">
+                                        <ion-item class="item">
+                                            <ion-input  class="text-white form-control text-input" formControlName="confirmPassword"
+                                                       placeholder="*****" [type]="passwordRepeatVisible ? 'text' : 'password'" required (input)="onConfirmPasswordInput()"></ion-input>
+                                            <ion-icon *ngIf="confirmPasswordHasError('required')" name="close-circle" color="danger"></ion-icon>
+                                            <ion-icon *ngIf="confirmPasswordHasError('passwordMismatch')" name="close-circle" color="danger"></ion-icon>
+                                            <ion-icon *ngIf="confirmPasswordIsValid()" name="checkmark-circle" color="tertiary"></ion-icon>
+                                            <ion-icon name="eye" color="light" slot="end" *ngIf="!passwordRepeatVisible" (click)="passwordRepeatVisible = true"></ion-icon>
+                                            <ion-icon name="eye-off" color="light" slot="end" *ngIf="passwordRepeatVisible" (click)="passwordRepeatVisible = false"></ion-icon>
+                                        </ion-item>
+                                        <ion-row>
+                                            <ion-col class="display-flex">
+                                                <ion-text color="danger" class="margin-auto" style=" border-radius: 0.5rem;font-size: 1.1rem"
+                                                          *ngIf="confirmPasswordHasError('required')">Repetir contraseña requerida
+                                                </ion-text>
+                                                <ion-text color="danger" class="margin-auto" style="border-radius: 0.5rem;font-size: 1.1rem"
+                                                          *ngIf="confirmPasswordHasError('passwordMismatch')">Las contraseñas no coinciden
+                                                </ion-text>
+                                            </ion-col>
+                                        </ion-row>
+                                    </ion-col>
+                                </ion-row>
+                                <ion-button expand="block" color="primary" (click)="editarUser(userEdit)" [disabled]="!userForm.valid || !userForm.dirty">Editar usuario</ion-button>
+
+                            </ion-col>
+                        </ion-row>
+                    </form>
+                </ion-col>
+            </ion-row>
+        </ion-col>
+    </ion-row>
 </ion-content>

@@ -26,18 +26,17 @@ export class PartidosPage implements OnInit {
   constructor(public alertController: AlertController,private toast: ToastController,  private modalCtrl: ModalController, private router: Router, private authService: AuthService, private gruposService: GruposService, private resultService: ResultsService, private modalCrontroller: ModalController) {
    
   }
-  
-  
-  
-  ngOnInit() {
-      this.notificationPendienteParaGrupo();
-      this.getUserPorGrupo();
-  }
-  
-  ionViewDidEnter(){
-      this.notificationPendienteParaGrupo();
-      this.getUserPorGrupo();
-  }
+
+
+    ngOnInit() {
+        this.notificationPendienteParaGrupo();
+        this.getUserPorGrupo();
+    }
+    
+    ionViewWillEnter() {
+        this.notificationPendienteParaGrupo();
+        this.getUserPorGrupo();
+    }
   
   async getUserPorGrupo(): Promise<any> {
     return await new Promise(async resolve => {
@@ -100,6 +99,10 @@ export class PartidosPage implements OnInit {
             componentProps: {
                 grupo: grupo,
             },
+        });
+        profileModal.onDidDismiss().then(() => {
+            this.notificationPendienteParaGrupo();
+            this.getUserPorGrupo();
         });
         profileModal.present();
     }

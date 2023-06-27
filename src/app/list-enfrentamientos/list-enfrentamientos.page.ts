@@ -1,6 +1,6 @@
 import {AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {AlertController, MenuController, ToastController} from '@ionic/angular';
+import {AlertController, MenuController, NavParams, ToastController} from '@ionic/angular';
 import {AuthService} from '../services/auth.service';
 import {CompetenciaService} from '../services/competencia.service';
 import {DatePipe} from '@angular/common';
@@ -81,10 +81,33 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
   isVienePrimeraCarga: boolean;
   idCompetenciaSeleccionada: string;
   private isCargandoFiltro = false;
-  constructor(private toast: ToastController, private router: Router, private sharingService: SharingServiceService, private route: ActivatedRoute, private menuCtrl: MenuController,
+  noRealizaAccion=false;
+  vieneDePuntajesPorUsuario:boolean;
+  fechaSeleccionada: string;
+  id_usuario_a_consultar:string;
+  idcompetition_grupo_seleccionado:string;
+  constructor(private toast: ToastController, private router: Router,private sharingService: SharingServiceService, private route: ActivatedRoute, private menuCtrl: MenuController,
               private authService: AuthService, private resultService: ResultsService,
               private competenciaService: CompetenciaService, public alertController: AlertController,
               public datepipe: DatePipe, private comparteDatosService: ComparteDatosService, private cdr: ChangeDetectorRef) {
+    /*
+    this.route.params.subscribe(params => {
+      if(params != null && params.get('id_usuario') != null) {
+        this.id_usuario_a_consultar = params.get('id_usuario');
+      }
+      if(params != null && params.get('vieneDePuntajesPorUsuario') != null) {
+        this.vieneDePuntajesPorUsuario = params.get('vieneDePuntajesPorUsuario');
+      }
+      if(params != null && params.get('fechaSeleccionada') != null) {
+        this.fechaSeleccionada = params.get('fechaSeleccionada');
+      }
+      if(params != null && params.get('idcompetition_grupo_seleccionado') != null) {
+        this.idCompetencia = params.get('idcompetition_grupo_seleccionado');
+      }
+    });
+     */
+  
+
     this.isCargandoPartidos = true;
     this.fechaHoy = new Date();
     this.messageLoaderStatus = 'Cargando datos de los partidos, aguarde por favor... ';
@@ -96,21 +119,45 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
       this.filtrarPartidosPorFecha(this.fechaAVisualizarPorActualidad, true);
     }, 4000);
   }
+
+  ngOnInit() {
+    if (this.router.getCurrentNavigation()?.extras.state) {
+      // El componente se abrió desde un modal
+      const state = this.router.getCurrentNavigation().extras.state;
+      const vieneDePuntajesPorUsuario = state.vieneDePuntajesPorUsuario;
+      const idUsuario = state.id_usuario;
+      const fechaSeleccionada = state.fechaSeleccionada;
+      const idcompetitionGrupoSeleccionado = state.idcompetition_grupo_seleccionado;
+
+      // Utiliza los parámetros como sea necesario
+    } else {
+      // El componente se abrió desde la navegación regular
+      this.route.params.subscribe(params => {
+        const vieneDePuntajesPorUsuario = params.vieneDePuntajesPorUsuario;
+        const idUsuario = params.id_usuario;
+        const fechaSeleccionada = params.fechaSeleccionada;
+        const idcompetitionGrupoSeleccionado = params.idcompetition_grupo_seleccionado;
+
+        // Utiliza los parámetros como sea necesario
+      });
+    }
+  }
   
   // obtiene los enfrentamientos de la BD, que vienen desde inicio
   async obtenerPartidosYConcatenar() : Promise<any> {
     const promise = new Promise(async resolve => {
-    //this.partidosBD partidos que vienen de la bd, todos los de la competencia.
-    this.sharingService.obtenerPartidos.subscribe((data: Enfrentamiento[]) => {
-     this.partidosBD = data;
-    });
-
-      let idCompetencia = localStorage.getItem('idCompetenciaSeleccionada');
-      let idUser = localStorage.getItem('idUser');
+        //this.partidosBD partidos que vienen de la bd, todos los de la competencia.
+        this.sharingService.obtenerPartidos.subscribe((data: Enfrentamiento[]) => {
+          this.partidosBD = data;
+        });
+        this.idCompetencia = localStorage.getItem('idCompetenciaSeleccionada');
+        this.id_usuario_a_consultar = localStorage.getItem('idUser');
+    
+      
       this.partidosOrdenados = [];
       
       //OBTENGO UNICAMENTE LOS ENFRENTAMIENTOS QUE HAYAN SIDO PRONOSTICADOS POR EL USUARIO EN LA BD
-      this.competenciaService.getEnfrentamientosPronosticados(idCompetencia, idUser).subscribe(
+      this.competenciaService.getEnfrentamientosPronosticados(this.idCompetencia, this.id_usuario_a_consultar).subscribe(
           data => {
             this.partidosPronosticados = data;
             for (var i = 0; i < data.length; i++) {
@@ -338,7 +385,7 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
     //estadoFecha = 2 en curso
     //estadoFecha = 3 finalizado
     for (let i = 0; i <  part.length; i++) {
-      if(part[i].nameVisit.includes('Independiente')){
+      if(part[i].nameLocal.includes('Independiente') && part[i].nameVisit.includes('Tigre')){
         console.log();
       }
       console.log(part[i]);
@@ -394,9 +441,7 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
   ngOnDestroy(): void {
   }
 
-  ngOnInit() {
 
-  }
 
   volver() {
     this.list.pronosticos = [];
@@ -404,6 +449,7 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
   }
 
   async guardarPronosticosHechos(part: Enfrentamiento, isSuma: boolean, isLocal: boolean) {
+    this.noRealizaAccion = false;
     this.restarsumar_ocupado = true;
     console.log(part);
     if (part.golesLocalPronosticado != null || part.golesLocalPronosticado != undefined || part.golesVisitPronosticado != null || part.golesVisitPronosticado != undefined) {
@@ -418,6 +464,8 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
             if (part.golesLocalPronosticado != null || part.golesLocalPronosticado != undefined) {
               part.golesLocalPronosticado = part.golesLocalPronosticado - 1;
             }
+          } else {
+            this.noRealizaAccion = true;
           }
         }
       } else if (!isLocal) {
@@ -430,6 +478,8 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
             if (part.golesVisitPronosticado != null || part.golesVisitPronosticado != undefined) {
               part.golesVisitPronosticado = part.golesVisitPronosticado - 1;
             }
+          } else {
+            this.noRealizaAccion = true;
           }
         }
       }
@@ -439,7 +489,10 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
       part.golesVisitPronosticado = 0;
     }
     part.idCompetencia = this.idCompetenciaSeleccionada;
-     
+     if(this.noRealizaAccion){
+        this.restarsumar_ocupado = false;
+        return;
+     }
     await this.competenciaService.guardarPronosticos(part).subscribe(
         data => {
           if (data.cargoPronostico) {
@@ -449,7 +502,6 @@ export class ListEnfrentamientosPage implements OnInit, OnDestroy {
           }
           this.restarsumar_ocupado = false;
         });
-
   }
 
 

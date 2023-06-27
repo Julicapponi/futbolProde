@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {AlertController, MenuController} from '@ionic/angular';
+import {AlertController, MenuController, ToastController} from '@ionic/angular';
 import { CompetenciaService } from '../services/competencia.service';
 import {Comp} from "../class/Comp";
 import {Enfrentamiento} from "../class/Enfrentamiento";
@@ -13,6 +13,7 @@ import { SharingServiceService } from '../services/sharing-service.service';
 import {Grupo} from "../class/Grupo";
 import {ImageSlider} from "../class/ImageSlider";
 import {GruposService} from "../services/grupos.service";
+import {User} from "../class/User";
 
 @Component({
   selector: 'app-inicio-page',
@@ -43,14 +44,22 @@ export class InicioPagePage implements OnInit {
   idUser: string;
   postulacionesPendientesParaAceptar: Object[];
   cantidadNotificaciones: number;
+  user: User;
 
-  constructor(private gruposService: GruposService, private route: ActivatedRoute, private sharingService: SharingServiceService,
+  constructor(private toast: ToastController, private gruposService: GruposService, private route: ActivatedRoute, private sharingService: SharingServiceService,
               private router: Router, private menuCtrl: MenuController, private competenciaService: CompetenciaService, public alertController: AlertController, private comparteDatosService: ComparteDatosService ) {
     this.menuCtrl.enable(true);
     this.notificationPendienteParaGrupo();
   }
 
   ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      if (params.user) {
+        this.user = JSON.parse(params.user);
+      }
+    });
+    
+    this.menuCtrl.enable(true);
     this.notificationPendienteParaGrupo();
     this.images = [];
     let ob = { title: 'Enzo Fernandez al Chelsea, transferencia record', url: 'https://cloudfront-us-east-1.images.arcpublishing.com/infobae/57KCIDG42ZHB5CXCULFZ4SOZXE.jpg' };
@@ -70,6 +79,7 @@ export class InicioPagePage implements OnInit {
   }
   
   ionViewDidEnter(){
+    this.menuCtrl.enable(true);
     this.notificationPendienteParaGrupo();
   }
       
@@ -88,6 +98,7 @@ export class InicioPagePage implements OnInit {
 
   //accion desplegar menu
   toggleMenu(){
+    this.comparteDatosService.setUser(this.user);
     this.menuCtrl.toggle();
   }
 
@@ -115,6 +126,9 @@ export class InicioPagePage implements OnInit {
   }
 
   ngMode($event){
+    if(this.competenciasActivas.length==0){
+      this.showToastMessage('No hay competencias activas en este momento. Debes esperar hasta que se activen competencias.', 'primary', 'thumbs-down', 5000);
+    }
     this.idCompetenciaSeleccionada = $event.idcompetition;
     localStorage.setItem('idCompetenciaSeleccionada', this.idCompetenciaSeleccionada);
     this.anioCompetenciaSeleccionada = $event.anio;
@@ -213,4 +227,19 @@ export class InicioPagePage implements OnInit {
         this.router.navigate(['/tabla-posiciones']);
       }
     }
+
+  async showToastMessage(message:string, color: string, icon: string, duracion:number) {
+    const toast = await this.toast.create({
+      message: message,
+      duration: duracion,
+      icon: icon, //https://ionic.io/ionicons
+      cssClass: '',
+      position: "bottom",
+      translucent: true,
+      animated: true,
+      mode: "md",  // md or ios
+      color: color //"danger" ｜ "dark" ｜ "light" ｜ "medium" ｜ "primary" ｜ "secondary" ｜ "success" ｜ "tertiary" ｜ "warning" ｜ string & Record<never, never> ｜ undefined
+    });
+    await toast.present();
+  }
 }

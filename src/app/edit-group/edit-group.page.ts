@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {AlertController, ModalController, NavParams} from "@ionic/angular";
+import {AlertController, ModalController, NavParams, ToastController} from "@ionic/angular";
 import {ActivatedRoute, Router} from "@angular/router";
 import {AuthService} from "../services/auth.service";
 import {GruposService} from "../services/grupos.service";
@@ -18,7 +18,7 @@ export class EditGroupPage implements OnInit {
   grupoEdit: Grupo;
   public groupForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private activatedRoute: ActivatedRoute, private modalCtrl: ModalController, private params: NavParams, private router: Router, private groupService: GruposService, public alertController: AlertController) {
+  constructor(private toast: ToastController, private formBuilder: FormBuilder, private activatedRoute: ActivatedRoute, private modalCtrl: ModalController, private params: NavParams, private router: Router, private groupService: GruposService, public alertController: AlertController) {
     if(params != null && params.get('grupo') != null) {
       this.grupoEdit = <Grupo>params.get('grupo');
     }
@@ -65,11 +65,11 @@ export class EditGroupPage implements OnInit {
       this.groupService.editGroup(nameEdit,this.grupoEdit).subscribe(
           res => {
             console.log(res);
-            this.dialogSucess('Nombre de grupo editado con exito');
+            this.showToastMessage('Nombre de grupo editado con exito', 'primary', 'thumbs-up', 5000);
           },
           err => {
             console.log(err);
-            this.dialogError('No se ha podido confirmar la edicion de este grupo');
+            this.showToastMessage('No se ha podido confirmar la edicion de este grupo', 'danger', 'thumbs-down', 5000);
           }
       );
     }
@@ -92,6 +92,21 @@ export class EditGroupPage implements OnInit {
     });
   }
 
+  async showToastMessage(message:string, color: string, icon: string, duracion:number) {
+    const toast = await this.toast.create({
+      message: message,
+      duration: duracion,
+      icon: icon, //https://ionic.io/ionicons
+      cssClass: '',
+      position: "bottom",
+      translucent: true,
+      animated: true,
+      mode: "md",  // md or ios
+      color: color //"danger" ｜ "dark" ｜ "light" ｜ "medium" ｜ "primary" ｜ "secondary" ｜ "success" ｜ "tertiary" ｜ "warning" ｜ string & Record<never, never> ｜ undefined
+    });
+    await toast.present();
+  }
+  
   async dialogSucess(message: string) {
     await this.alertController.create({
       header: 'Genial!',

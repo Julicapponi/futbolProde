@@ -10,7 +10,7 @@ export class Competencia {
   code: string;
   flag: string;
   anio: string;
-  activa: boolean;
+  activa: number;
   cambioNombre = false;
   yaEdito = false;
   isAlta: boolean;

@@ -1,7 +1,7 @@
 <ion-row class="content-select">
   <ion-col class="ion-no-padding ion-no-margin display-flex" [size]="3">
     <ion-menu-toggle>
-      <ion-button fill="clear">
+      <ion-button fill="clear" (click)="toggleMenu()">
         <ion-icon class="margin-auto button-menu" name="menu-outline"></ion-icon>
       </ion-button>
     </ion-menu-toggle>
@@ -58,18 +58,21 @@
 
         <div class="contenido-options-inicio" (click)="irAResultadosFootball()">
           <p *ngIf="cantidadNotificaciones >0" class="text-grid-notificaciones ion-no-padding ion-no-margin primary"> {{cantidadNotificaciones }} <i  class="text-grid-notificaciones ion-no-padding ion-no-margin primary" *ngIf="cantidadNotificaciones>1">Notificaciones</i> <i  class="text-grid-notificaciones ion-no-padding ion-no-margin primary" *ngIf="cantidadNotificaciones==1">Notificación</i> </p>
-          <img  class="img-options-inicio" src="assets/img/group-team.png">
+          <img  class="img-options-inicio ion-padding" src="assets/img/group-team.png">
           <p class="text-grid-inicio">GRUPOS</p>
      
         </div>
       </ion-col>
+      <!--
       <ion-col class="container-options-inicio desenfoque" (click)="tablaDePosiciones()">
         <div style="margin:auto">
           <img class="img-options-inicio" src="assets/img/podium.png">
           <p class="text-grid-inicio">TABLA DE POSICIONES</p>
         </div>
       </ion-col>
+          -->
     </ion-row>
+    
 <!--
     <ion-row>
       <ion-col class="container-options-inicio desenfoque">

@@ -5,6 +5,7 @@ import {AlertController, MenuController, ToastController} from "@ionic/angular";
 import {AuthService} from "../services/auth.service";
 import {Competencia} from "../class/Competencia";
 import {NAVIGATE_LOGIN} from "../logueo/logueo.page";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-list-competencias-admin',
@@ -18,14 +19,15 @@ export class ListCompetenciasAdminPage implements OnInit {
   cambiaNomComp=false;
   toastButtons: { text: string }[];
   
-  constructor(private toast: ToastController, private activatedRoute: ActivatedRoute, private competenciaService: CompetenciaService,private router: Router, private menuCtrl: MenuController, private authService: AuthService, public alertController: AlertController, private competitionsService: CompetenciaService) {
+  constructor(private formBuilder: FormBuilder, private toast: ToastController, private activatedRoute: ActivatedRoute, private competenciaService: CompetenciaService,private router: Router, private menuCtrl: MenuController, private authService: AuthService, public alertController: AlertController, private competitionsService: CompetenciaService) {
     this.listaCompetenciasDadasDeAlta();
       
   }
 
   ngOnInit() {
+   
   }
-
+  
     listaCompetenciasDadasDeAlta(){
     this.isCargando = true;
     this.competenciaService.getCompetenciasAltas().subscribe(res => {
@@ -56,8 +58,8 @@ export class ListCompetenciasAdminPage implements OnInit {
         let message = '';
         let esActivarToggle: boolean;
         let valorAnterior = comp.activa; // Guardamos el valor anterior de activa
-
-        if(comp.activa){
+        //comp.activa = 1 significa activa, 0 no activa
+        if(comp.activa === 1){
             header = 'Desactivar competencia?';
             message = 'Se eliminarán los pronosticos realizados por el usuario y ya no visualizarán la competencia.';
             esActivarToggle = false;
@@ -102,6 +104,7 @@ export class ListCompetenciasAdminPage implements OnInit {
         if(esActivarToggle){
             this.competenciaService.habilitarCompetencia(comp.idcompetition).subscribe(res => {
                     setTimeout(async () => {
+                        comp.activa = 1
                         this.listaCompetenciasDadasDeAlta();
                     }, 1000);
                     console.log(res);
@@ -115,6 +118,7 @@ export class ListCompetenciasAdminPage implements OnInit {
             );
         } else {
             this.competenciaService.deshabilitarCompetencia(comp.idcompetition).subscribe(res => {
+                    comp.activa = 0
                     console.log(res);
                     this.showToastMessage('Competencia desactivada, los usuarios no podrán visualizarla y sus pronosticos han sido eliminados', 'success', 'thumbs-down', 1000,"bottom");
                     this.isCargando = false;
@@ -179,6 +183,13 @@ export class ListCompetenciasAdminPage implements OnInit {
 
     cambioNombre(competencia: Competencia) {
       competencia.cambioNombre = true;
+    }
+
+    validarNombre(competencia: any): boolean {
+        if (!competencia.name || competencia.name.length < 3) {
+            return false;
+        }
+        return true;
     }
 
     irCompetenciasDelMundo() {

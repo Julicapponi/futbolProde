@@ -34,21 +34,39 @@
   <ion-row *ngIf="!isCargando" >
     <ion-col [size]="12" class="desenfoque">
       <ion-list style="background-color: transparent">
+          <ion-item class="ion-no-margin ion-no-padding">
+              <ion-col class='col-grid ion-margin-end ion-no-padding' [size]="2">
+
+                  <p class="text-white text-competencias-title">Nombre</p>
+              </ion-col>
+              <ion-col class='col-grid  ion-no-padding' [size]="2">
+                  <p class="text-white text-competencias-title">Usuario</p>
+              </ion-col>
+              <ion-col class='margin-auto ion-no-padding' [size]="5">
+                  <p class="text-white text-competencias-title display-flex">Correo</p>
+              </ion-col>
+              <ion-col class='col-grid ion-no-margin ion-no-padding' [size]="2">
+              </ion-col>
+          </ion-item>
           <ion-row *ngFor="let user of listUsers | filter:filterTerm" class="row-list">
             <ion-item class="ion-no-margin ion-no-padding" *ngIf="user.admin == 0 || user.admin =='0'">
-                <ion-col class='col-grid ion-no-margin ion-no-padding' [size]="3">
+                <ion-col class='col-grid ion-margin-end ion-no-padding' [size]="2">
+                    
                   <p class="text-white text-competencias">{{user.name}}</p>
                 </ion-col>
-                <ion-col class='col-grid ion-no-margin ion-no-padding' [size]="6">
+                <ion-col class='col-grid ion-margin-end ion-no-padding' [size]="2">
+                    <p class="text-white text-competencias">{{user.userName}}</p>
+                </ion-col>
+                <ion-col class='col-grid ion-no-margin ion-no-padding' [size]="5">
                   <p class="text-white text-competencias">{{user.email}}</p>
                 </ion-col>
-                <ion-col class='col-grid ion-no-margin ion-no-padding' [size]="1.5">
-                  <ion-button color="warning" size="medium" fill="clear" (click)="editarUser(user)">
+                <ion-col class='col-grid ion-no-margin ion-no-padding' [size]="1">
+                  <ion-button color="warning" size="small" fill="clear" (click)="editarUser(user)">
                     <ion-icon name="pencil"></ion-icon>
                   </ion-button>
                 </ion-col>
-                <ion-col class='col-grid ion-no-margin ion-no-padding' [size]="1.5">
-                  <ion-button  color="danger" size="medium" fill="clear" (click)="borrarUser(user)">
+                <ion-col class='col-grid ion-no-margin ion-no-padding' [size]="1">
+                  <ion-button  color="danger" size="small" fill="clear" (click)="borrarUser(user)">
                     <ion-icon name="trash"></ion-icon>
                   </ion-button>
                 </ion-col>

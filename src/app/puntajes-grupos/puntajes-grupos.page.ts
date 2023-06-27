@@ -15,6 +15,9 @@ import {DatePipe} from "@angular/common";
 import {ComparteDatosService} from "../services/comparte-datos.service";
 
 import {Puntaje} from "../class/Puntaje";
+import {User} from "../class/User";
+import {EditUserPage} from "../edit-user/edit-user.page";
+import {ListEnfrentamientosPage} from "../list-enfrentamientos/list-enfrentamientos.page";
 
 @Component({
   selector: 'app-puntajes-grupos',
@@ -38,8 +41,11 @@ export class PuntajesGruposPage implements OnInit {
   listPuntajesFechas: Puntaje[];
   fechasCompetencia: string[] = [];
   listPuntajesFiltrados: Puntaje[];
+  usuariosDelGrupo: User[];
+  fechaSeleccionada: string;
+  idcompetition: number;
   
-  constructor(private toast: ToastController, private router: Router, private sharingService: SharingServiceService, private route: ActivatedRoute, private menuCtrl: MenuController,
+  constructor(private modalCtrl: ModalController, private toast: ToastController, private router: Router, private sharingService: SharingServiceService, private route: ActivatedRoute, private menuCtrl: MenuController,
               private authService: AuthService, private resultService: ResultsService,
               private competenciaService: CompetenciaService, public alertController: AlertController, public gruposService: GruposService,
               public datepipe: DatePipe, private comparteDatosService: ComparteDatosService, private cdr: ChangeDetectorRef) {
@@ -52,13 +58,23 @@ export class PuntajesGruposPage implements OnInit {
       this.nameGrupoSel = params['nameGrupo'];
       console.log(this.idGrupo); // aquí puedes ver el valor del parámetro recibido
     });
-    this.nameUserLogueado = localStorage.getItem('name');
+    this.nameUserLogueado = localStorage.getItem('name')
     this.getPuntajesFechasPorGrupo(this.idGrupo);
     this.getPuntajesGeneralPorGrupo(this.idGrupo);
     this.getCompetenciaDelGrupo(this.idGrupo);
   }
 
 
+  async usuariosPorGrupo(idGrupo: string) {
+    return await new Promise(async resolve => {
+      this.isCargando = true;
+      await this.gruposService.getUsersPorGroup(idGrupo).subscribe(async respuesta => {
+        this.usuariosDelGrupo = respuesta;
+        this.isCargando = false;
+      });
+    });
+  }
+  
   async getPuntajesFechasPorGrupo(idGrupo): Promise<any> {
     return await new Promise(async resolve => {
       this.isCargando = true;
@@ -67,9 +83,6 @@ export class PuntajesGruposPage implements OnInit {
         console.log(JSON.stringify(this.listPuntajesFechas));
         this.listPuntajesTablaPorFecha = this.listPuntajesFechas; // inicializar la variable con los mismos datos
         this.fechasCompetencia = this.crearArrayFechas(this.listPuntajesFechas);
-        if(respuesta.length === 0){
-          this.sinPuntajes = true;
-        }
         this.isCargando = false;
       });
     });
@@ -80,8 +93,11 @@ export class PuntajesGruposPage implements OnInit {
       this.idUserGreaGrupo = localStorage.getItem('idUser');
       this.isCargando = true;
       await this.gruposService.getPuntajesGeneralPorGrupo(this.idUserGreaGrupo, idGrupo).subscribe(async respuesta => {
-        this.listPuntajesTablaGeneral = respuesta;
-        if(respuesta.length === 0){
+        if(respuesta.length>0){
+          this.listPuntajesTablaGeneral = respuesta;
+  
+        } else {
+          this.usuariosPorGrupo(this.idGrupo);
           this.sinPuntajes = true;
         }
         this.isCargando = false;
@@ -98,6 +114,7 @@ export class PuntajesGruposPage implements OnInit {
         console.log(respuesta);
         this.nameCompetencia = respuesta[0].name;
         this.anioCompetencia = respuesta[0].anio;
+        this.idcompetition = respuesta[0].idcompetition
         this.isCargando = false;
       });
     });
@@ -108,6 +125,7 @@ export class PuntajesGruposPage implements OnInit {
   }
 
   cargaPuntajesGeneral() {
+    this.fechaSeleccionada = null;
     this.clickEventCargaGeneral = true;
     this.clickEventCargaJornada = false;
   }
@@ -134,6 +152,28 @@ export class PuntajesGruposPage implements OnInit {
 
 // Metodo para manejar el evento de selección de fecha
   fechaEvent(fecha: string) {
+    this.fechaSeleccionada = fecha;
     this.listPuntajesFiltrados = this.listPuntajesFechas.filter(puntaje => puntaje.fecha === fecha);
+  }
+
+
+  async verPronosticosUsuario(idUser: string) {
+    if(this.fechaSeleccionada!=undefined || this.fechaSeleccionada!=null){
+      const profileModal = await this.modalCtrl.create({
+        component: ListEnfrentamientosPage,
+        cssClass: 'modal_popup',
+        showBackdrop: true,
+        backdropDismiss: false,
+        componentProps: {
+          vieneDePuntajesPorUsuario: true,
+          id_usuario: idUser,
+          fechaSeleccionada: this.fechaSeleccionada,
+          idcompetition_grupo_seleccionado: this.idcompetition
+        },
+      });
+      profileModal.present();
+    }
+
+
   }
 }

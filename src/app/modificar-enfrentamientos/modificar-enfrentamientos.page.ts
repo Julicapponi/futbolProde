@@ -330,7 +330,7 @@ export class ModificarEnfrentamientosPage implements OnInit {
     isModifico(enfrent: Enfrentamiento, event) {
         if (enfrent.isComparado == 1) {
             event.preventDefault(); // detiene la propagación del evento click
-            this.showToastMessage('Este resultado ya calculó puntajes en los usuarios, ya no podés modificarlo.', 'warning', 'thumbs-down', 3000);
+            this.showToastMessage('El puntaje de este resultado ya ha sido calculado para los usuarios y no se puede modificar.\nSi permitimos modificaciones, podría haber discrepancias entre el puntaje que el usuario ya ha visualizado y el puntaje actualizado al revisarlo nuevamente.', 'warning', 'thumbs-down', 20000);
             return; // no hace nada si isComparado es igual a 1
         }
         for (let i = 0; i < this.partidosAVisualizar.length; i++) {

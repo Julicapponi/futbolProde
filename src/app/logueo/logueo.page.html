@@ -63,8 +63,7 @@
                             *ngIf="passwordHasError('required')">Contraseña requerida
                   </ion-text>
                   <ion-text color="danger" class="margin-auto"
-                            *ngIf="passwordHasError('invalidPassword')">La contraseña debe contener al menos una letra
-                    mayúscula, un número y tener al menos 5 caracteres
+                            *ngIf="passwordHasError('invalidPassword')">La contraseña debe contener al menos una letra mayúscula, incluir al menos un número y debe tener una longitud mínima de 8 caracteres y una longitud máxima de 20 caracteres.
                   </ion-text>
                 </ion-col>
               </ion-row>

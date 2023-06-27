@@ -13,6 +13,7 @@ import {ErrorTailorModule} from '@ngneat/error-tailor';
 import {Ng2SearchPipeModule} from "ng2-search-filter";
 import {MenuComponent} from "./menu/menu.component";
 import { ReporteGruposComponent } from './reporte-grupos/reporte-grupos.component';
+import {InAppBrowser} from "@ionic-native/in-app-browser/ngx";
 @NgModule({
     declarations: [AppComponent, MenuComponent, ReporteGruposComponent],
   entryComponents: [],
@@ -39,6 +40,7 @@ import { ReporteGruposComponent } from './reporte-grupos/reporte-grupos.componen
   ],
   providers: [
     AuthGuard,
+    InAppBrowser,
     {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
     {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true},
     DatePipe,

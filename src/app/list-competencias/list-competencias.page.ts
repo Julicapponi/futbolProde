@@ -19,7 +19,7 @@ export class ListCompetenciasPage implements OnInit {
     competenciasActivas: Competencia;
     competenciasDadasDeAlta=[];
     listAllCompetitions: any[];
-    isCargandoMasComp: boolean;
+    isCargandoMasComp= false;
     isAgregandoCompetencia = false;
     faltaCargarTodasLasCompetencias=true;
   constructor(private toast: ToastController, private activatedRoute: ActivatedRoute, private competenciaService: CompetenciaService,private router: Router, private menuCtrl: MenuController, private authService: AuthService, public alertController: AlertController, private competitionsService: CompetenciaService) { 
@@ -157,11 +157,11 @@ export class ListCompetenciasPage implements OnInit {
         this.router.navigate(['/list-competencias-admin']);
     }
 
-    verMas() {
-      this.isCargandoMasComp = true;
-        setTimeout(async () => {
+    async verMas() {
+       this.isCargandoMasComp = true;
+        await setTimeout(async () => {
             this.isCargandoMasComp = false;
-        }, 3000);
+        }, 5000);
       this.faltaCargarTodasLasCompetencias = false;
       this.listCompetitions = this.listAllCompetitions;
     }

@@ -24,3 +24,13 @@ text-align: center;
     margin: 1rem;
 }
 
+.name-profile-menu{
+    font-size: 1.1rem;
+    color: dimgray;
+    font-weight: 600;
+}
+
+.modal_popup{
+    height: 80%;
+    width: 95%;
+}

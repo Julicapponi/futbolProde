@@ -5,4 +5,5 @@ export class User {
   email: string;
   admin: string;
   password: string;
+  puntajeAcumulado: number;
 }

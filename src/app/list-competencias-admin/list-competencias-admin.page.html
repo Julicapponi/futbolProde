@@ -57,27 +57,43 @@
     </ion-row>
     <ion-col class="desenfoque" [size]="12" *ngIf="!isCargando">
       <!-- recorro la lista de competencias dadas de alta -->
-        <ion-item [ngClass]="competencia.yaEdito?'visualiza-editado':''" *ngFor="let competencia of competenciasAltas | filter:filterTerm" style="padding-bottom: 1rem ">
+      <ion-item class="ion-no-margin ion-no-padding" [ngClass]="competencia.yaEdito?'visualiza-editado':''"
+                *ngFor="let competencia of competenciasAltas | filter:filterTerm" style="padding-bottom: 1rem ">
+        <ion-grid>
+          <ion-row class="ion-no-margin ion-no-padding">
             <ion-col class='col-grid ion-no-margin ion-no-padding' [size]="6">
-              <ion-input (click)="cambioNombre(competencia)" [(ngModel)]="competencia.name" class="text-competencias text-white"></ion-input>
+              <ion-input (click)="cambioNombre(competencia)" [(ngModel)]="competencia.name" type="text"
+                         class="text-competencias text-white"></ion-input>
             </ion-col>
-          <ion-col [size]="2" class="ion-no-padding ion-no-padding">
-            <!-- boton estado competencia -->
-            <ion-toggle [checked]="competencia.activa==1" size="small" [disabled]="false" (click)="estadoCompetencia(competencia)"></ion-toggle>
-          </ion-col>
-          <ion-col [size]="2" class="ion-no-padding ion-no-padding">
-            <!-- boton edicion de competencia -->
-            <ion-button size="small" class="button-disable-comp" color="warning" [disabled]="!competencia.cambioNombre" (click)="editComp(competencia)">
-              <ion-icon name="pencil" size="medium"></ion-icon>
-            </ion-button>
-          </ion-col>
-          <ion-col [size]="2" class="ion-no-padding ion-no-padding">
-            <!-- Boton baja de competencia -->
-            <ion-button size="small" color="danger" (click)="deleteCompetition(competencia)">
-              <ion-icon name="trash" size="medium"></ion-icon>
-            </ion-button>
-          </ion-col>
-        </ion-item>
+            <ion-col [size]="2" class="ion-no-padding ion-no-padding">
+              <!-- boton estado competencia -->
+              <ion-toggle [checked]="competencia.activa==1" size="small" [disabled]="false"
+                          (click)="estadoCompetencia(competencia)"></ion-toggle>
+            </ion-col>
+            <ion-col [size]="2" class="ion-no-padding ion-no-padding">
+              <!-- boton edicion de competencia -->
+              <ion-button size="small" class="button-disable-comp" color="warning"
+                          [disabled]="!competencia.cambioNombre || !validarNombre(competencia)"
+                          (click)="editComp(competencia)">
+                <ion-icon name="pencil" size="medium"></ion-icon>
+              </ion-button>
+            </ion-col>
+            <ion-col [size]="2" class="ion-no-padding ion-no-padding">
+              <!-- Boton baja de competencia -->
+              <ion-button size="small" color="danger" (click)="deleteCompetition(competencia)">
+                <ion-icon name="trash" size="medium"></ion-icon>
+              </ion-button>
+            </ion-col>
+          </ion-row>
+          <ion-row class="ion-no-margin ion-no-padding">
+            <ion-col [size]="12" class="ion-no-margin ion-no-padding">
+              <ion-text color="danger" class="ion-no-margin ion-no-padding"
+                        *ngIf="!validarNombre(competencia)">El nombre es obligatorio y debe tener al menos 3 caracteres
+              </ion-text>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
     </ion-col>
   </ion-row>
   <ion-row  style="padding-top: 11rem" *ngIf="!isCargando && competenciasAltas.length===0" >

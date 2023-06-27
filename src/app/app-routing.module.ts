@@ -25,7 +25,6 @@ import {PuntajesGruposPage} from "./puntajes-grupos/puntajes-grupos.page";
 import {TablaPosicionesLigaPage} from "./tabla-posiciones-liga/tabla-posiciones-liga.page";
 import {ReporteGruposComponent} from "./reporte-grupos/reporte-grupos.component";
 
-
 const routes: Routes = [
   {path: 'home', loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)},
   {path: '', redirectTo: 'home', pathMatch: 'full'},

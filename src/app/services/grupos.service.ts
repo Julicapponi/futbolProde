@@ -7,6 +7,7 @@ import {Grupo} from "../class/Grupo";
 import {Puntaje} from "../class/Puntaje";
 import {Constantes} from "../Constantes";
 import {Competencia} from "../class/Competencia";
+import {User} from "../class/User";
 
 @Injectable({
   providedIn: 'root'
@@ -177,11 +178,16 @@ export class GruposService {
     return body || {};
   }
   
-  getUsersPorGroup(groupId){
+  getUsersPorGroup(groupId): Observable<User[]>{
     console.log('Buscando usuarios del grupo con id:', groupId);
-    return this.http.get<any>(this._url + '/listar/user/', groupId);
+    return this.http.get<User[]>(this._url + '/listar/user/'+ groupId+ '/').pipe(
+        timeout(100000),
+        catchError(this.handleError)
+    );
   }
-  
+
+
+
 
   reporteGrupos(): Observable<Grupo[]> {
     return this.http.get<Grupo[]>(this._url + '/reporte/').pipe(

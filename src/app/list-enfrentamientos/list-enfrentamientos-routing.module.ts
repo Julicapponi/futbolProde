@@ -18,5 +18,6 @@ const routes: Routes = [
     declarations: [
         AnimationProgressComponent
     ]
+  
 })
 export class ListEnfrentamientosPageRoutingModule {}

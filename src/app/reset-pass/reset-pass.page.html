@@ -5,7 +5,7 @@
         <ion-icon name="arrow-back-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title class="text-white">Resetear contraseña</ion-title>
+    <ion-title class="text-white">Recuperar contraseña</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -18,7 +18,7 @@
           <ion-col align-self-center class="desenfoque" style="border-radius: 0.5rem" [size]="12">
             <ion-row class="ion-no-padding ion-no-margin">
               <ion-col class="display-flex ion-no-padding">
-                <p class="text-white margin-auto">Vamos a necesitar tu correo electronico para poder enviarte el usuario y contraseña.</p>
+                <p class="text-white margin-auto">Necesitamos tu dirección de correo electrónico para poder enviarte el usuario y la contraseña.</p>
               </ion-col>
             </ion-row>
             <ion-row style="padding-top: 1rem">
@@ -46,7 +46,7 @@
               </ion-col>
             </ion-row>
             <ion-button expand="block" color="primary" (click)="resetearPass()" [disabled]="!userForm.valid || !userForm.dirty">Resetear contraseña</ion-button>
-
+            <p class="text-white margin-auto">Si deseas cambiar tu contraseña, primero debes iniciar sesión utilizando los datos que fueron enviados por correo electrónico. Una vez que hayas iniciado sesión, podrás modificarla según tus preferencias.</p>
           </ion-col>
         </ion-row>
       </form>
