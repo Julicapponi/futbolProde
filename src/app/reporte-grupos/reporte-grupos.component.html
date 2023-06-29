@@ -16,52 +16,49 @@
                 <ion-row>
                     
                     <ion-item class="ion-no-margin ion-no-padding">
-                        <ion-col [size]="2" class="display-flex">
-                            <p class="text-white margin-auto">Grupo</p>
+                        <ion-col [size]="3" class="display-flex">
+                            <p class="text-white margin-auto" style="font-weight: bold;">Grupo</p>
                         </ion-col>
                         <ion-col [size]="4">
                             <ion-row>
                                 <ion-col class="display-flex">
-                                    <p class="text-white margin-auto" >Aciertos</p>
+                                    <p class="text-white margin-auto" style="font-weight: bold;">Aciertos</p>
                                 </ion-col>
                             </ion-row>
                             <ion-row>
                                 <ion-col class="display-flex" >
-                                    <p class="text-white margin-auto">Exactos</p>
+                                    <p class="text-white margin-auto" >Exactos</p>
                                 </ion-col>
                                 <ion-col class="display-flex" >
-                                    <p class="text-white margin-auto">Parcial</p>
+                                    <p class="text-white margin-auto">Parciales</p>
                                 </ion-col>
                             </ion-row>
                         </ion-col>
                         <ion-col [size]="2" class="display-flex">
-                            <p class="text-white margin-auto">No aciertos</p>
+                            <p class="text-white margin-auto"  style="font-weight: bold;text-align: center">No aciertos</p>
                         </ion-col>
-                        <ion-col [size]="4" class="display-flex">
-                            <p class="text-white margin-auto">Total pronosticados</p>
+                        <ion-col [size]="3" class="display-flex">
+                            <p class="text-white margin-auto"  style="font-weight: bold; text-align: center">Cantidad total de pronosticados</p>
                         </ion-col>
                     </ion-item>
                 </ion-row>
                 
                 <ion-row *ngFor="let grupo of gruposReport; let i = index">
                     <ion-item class="ion-no-margin ion-no-padding">
-                        <ion-col [size]="0.5" class="display-flex">
-                            <p class="text-white margin-auto">{{i+1}}</p>
-                        </ion-col>
-                        <ion-col [size]="1.5" class="display-flex">
-                            <p class="text-white margin-auto">{{grupo.nameGrupo}}</p>
+                        <ion-col [size]="3" class="display-flex">
+                            <p class="text-white margin-auto" style="text-align: center;font-size: 0.9rem">{{grupo.nameGrupo}}</p>
                         </ion-col>
                         <ion-col [size]="2" class="display-flex">
-                            <p class="text-white margin-auto">{{grupo.aciertos_exactos}}</p>
+                            <p class="text-white margin-auto" style="color:seagreen; font-size: 1rem">{{grupo.aciertos_exactos}}</p>
                         </ion-col>
                         <ion-col [size]="2" class="display-flex">
-                            <p class="text-white margin-auto">{{grupo.aciertos_parciales}}</p>
+                            <p class="text-white margin-auto" style=" font-size: 0.9rem">{{grupo.aciertos_parciales}}</p>
                         </ion-col>
                         <ion-col [size]="2" class="display-flex">
-                            <p class="text-white margin-auto">{{grupo.no_aciertos}}</p>
+                            <p class="text-white margin-auto" style=" font-size: 0.9rem">{{grupo.no_aciertos}}</p>
                         </ion-col>
-                        <ion-col [size]="4" class="display-flex">
-                            <p class="text-white margin-auto">{{grupo.totalPartidosPronosticadosYCalculados}}</p>
+                        <ion-col [size]="3" class="display-flex">
+                            <p class="text-white margin-auto" style=" font-size: 0.9rem">{{grupo.totalPartidosPronosticadosYCalculados}}</p>
                         </ion-col>
                     </ion-item>
                 </ion-row>
@@ -74,8 +71,8 @@
     
     <ion-row class="ion-no-padding ion-no-margin desenfoque" *ngIf="!sinReportes" >
         <ion-col class="ion-no-padding ion-no-margin">
-            <h5 class="ion-no-margin text-grafico text-white " > Porcentaje de desempeño de aciertos de grupos</h5>
-            <p class="ion-no-margin ion-no-padding text-white " style="padding-left: 1rem">(Sobre el total de partidos que fueron pronosticados y calculados)</p>
+            <h5 class="ion-no-margin text-grafico text-white"> Desempeño de grupos</h5>
+            <p class="ion-no-margin ion-no-padding text-white " style="padding-left: 1rem">Sobre el total de partidos pronosticados y calculados en el grupo</p>
             <div class="display-flex" style="height: 300px;">
                 <canvas id="myChart" ></canvas>
             </div>

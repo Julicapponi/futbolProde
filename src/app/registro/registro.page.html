@@ -32,9 +32,9 @@
                     <ion-input class=" form-control text-input" placeholder="Julián Capponi" type="text" required formControlName="name"
                                (input)="onNameInput()"></ion-input>
                     <ion-icon *ngIf="nameHasError('required')" name="close-circle" color="danger"></ion-icon>
-                    <ion-icon *ngIf="nameHasError('minlength')" name="close-circle" color="danger"></ion-icon>
+                    <ion-icon *ngIf="nameHasError('invalidName')" name="close-circle" color="danger"></ion-icon>
                     <ion-icon *ngIf="nameIsValid()" name="checkmark-circle" color="tertiary"></ion-icon>
-                    <ion-icon *ngIf="nameIsInvalid() && !nameHasError('required') && !nameHasError('minlength')"
+                    <ion-icon *ngIf="nameIsInvalid() && !nameHasError('required') && !nameHasError('invalidName')"
                               name="close-circle" color="danger"></ion-icon>
                   </ion-item>
 
@@ -44,7 +44,7 @@
                                 *ngIf="nameHasError('required')">El nombre es obligatorio
                       </ion-text>
                       <ion-text color="danger" class="margin-auto" style="border-radius: 0.5rem; font-size: 1.1rem"
-                                *ngIf="nameHasError('minlength')">El nombre debe tener al menos 2 caracteres
+                                *ngIf="nameHasError('invalidName')">El nombre debe tener al menos 4 caracteres y como maximo 30 caracteres
                       </ion-text>
                     </ion-col>
                   </ion-row>

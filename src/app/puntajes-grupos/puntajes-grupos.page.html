@@ -27,8 +27,8 @@
   <ion-row style="margin-top: 1rem;">
     <ion-col size="12" class="display-flex" [size]="12">
       <ion-row class="margin-auto">
-        <ion-chip [disabled]="false" [ngClass]="clickEventCargaGeneral?'select':'unselect' " (click)="cargaPuntajesGeneral()">General</ion-chip>
-        <ion-chip [disabled]="false" [ngClass]="clickEventCargaJornada?'select':'unselect' " (click)="cargaPuntajesJornada()">Jornadas</ion-chip>
+        <ion-chip class="margin-auto"[disabled]="false" [ngClass]="clickEventCargaGeneral?'select':'unselect' " (click)="cargaPuntajesGeneral()">General</ion-chip>
+        <ion-chip class="margin-auto" [disabled]="false" [ngClass]="clickEventCargaJornada?'select':'unselect' " (click)="cargaPuntajesJornada()">Jornadas</ion-chip>
       </ion-row>
     </ion-col>
   </ion-row>
@@ -39,6 +39,7 @@
     </ion-col>
   </ion-row>
   -->
+
   <ion-row *ngIf="isCargando">
     <ion-col [size]="1"></ion-col>
     <ion-col [size]="10">
@@ -48,7 +49,13 @@
     </ion-col>
     <ion-col [size]="1"></ion-col>
   </ion-row>
-  <ion-row class="ion-margin">
+  <ion-row  *ngIf="clickEventCargaJornada" class="ion-no-padding ion-no-margin">
+    <ion-col [size]="12" class="display-flex ion-no-padding">
+      <p class="text-white margin-auto" style="font-size: 0.8rem">Las fechas sin puntajes no serán visibles</p>
+    </ion-col>
+  </ion-row>
+  
+  <ion-row class="ion-margin-start ion-margin-end">
     <ion-col [size]="12" class="display-flex ion-no-padding ion-select desenfoque" *ngIf="clickEventCargaJornada">
       <ion-row class="margin-auto ion-no-padding">
         <ion-select class="text-white ion-no-margin ion-no-padding" [value]="fechaAVisualizarPorActualidad" [(ngModel)]="fechaAVisualizarPorActualidad" (ngModelChange)="fechaEvent($event)" placeholder="Seleccione una fecha">
@@ -59,6 +66,8 @@
       </ion-row>
     </ion-col>
   </ion-row>
+ 
+
   <div *ngIf="!isCargando && clickEventCargaJornada">
     <ion-row *ngFor="let itemPuntaje of listPuntajesFiltrados; let i = index">
       <ion-col [size]="12">

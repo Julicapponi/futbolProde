@@ -37,7 +37,7 @@ export class RegistroPage implements OnInit {
 
   ngOnInit() {
     this.userForm = this.formBuilder.group({
-      name: ['', [Validators.required, Validators.minLength(2)]],
+      name: ['', [Validators.required, this.nameValidator]],
       username: ['', [Validators.required, this.usernameValidator]],
       email: ['', [Validators.required, Validators.email, this.emailValidator]],
       password: ['', [Validators.required, this.passwordValidator]],
@@ -78,6 +78,15 @@ export class RegistroPage implements OnInit {
     const usernameControl = this.userForm.controls['username'];
     return usernameControl.touched && usernameControl.valid;
   }
+  
+  nameValidator(control) {
+    const name = control.value;
+    if (name && (name.length < 4 || name.length > 20 || /[^a-zA-Z0-9_]/.test(name))) {
+      return { 'invalidName': true };
+    }
+    return null;
+  }
+    
   usernameValidator(control) {
     const username = control.value;
     if (username && (username.length < 4 || username.length > 20 || /[^a-zA-Z0-9_]/.test(username))) {
@@ -85,6 +94,7 @@ export class RegistroPage implements OnInit {
     }
     return null;
   }
+  
   usernameHasError(errorType: string) {
     const usernameControl = this.userForm.controls['username'];
     return usernameControl.touched && usernameControl.hasError(errorType);

@@ -119,7 +119,7 @@ export class ReporteGruposComponent implements OnInit {
         labels: this.gruposReport.map(grupo => grupo.nameGrupo + ' (' + grupo.totalPartidosPronosticadosYCalculados + ')'),
         datasets: [
           {
-            label: 'Aciertos exactos',
+            label: '% Aciertos exactos',
             data: this.gruposReport.map(grupo => grupo.aciertos_exactos1),
             backgroundColor: 'rgba(75,192,192,0.2)',
             borderColor: 'rgba(75,192,192,1)',
@@ -127,7 +127,7 @@ export class ReporteGruposComponent implements OnInit {
             stack: 'Stack 0'
           },
           {
-            label: 'Aciertos parcial',
+            label: '% Aciertos parcial',
             data: this.gruposReport.map(grupo => grupo.aciertos_parciales1),
             backgroundColor: 'rgba(255, 206, 86, 0.2)',
             borderColor: 'rgba(255, 206, 86, 1)',
@@ -135,7 +135,7 @@ export class ReporteGruposComponent implements OnInit {
             stack: 'Stack 1'
           },
           {
-            label: 'No Aciertos',
+            label: '% No Aciertos',
             data: this.gruposReport.map(grupo => grupo.no_aciertos1),
             backgroundColor: 'rgba(255, 99, 132, 0.2)',
             borderColor: 'rgba(255, 99, 132, 1)',
